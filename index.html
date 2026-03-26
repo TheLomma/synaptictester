@@ -5,924 +5,731 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synaptic Tester</title>
     <style>
-        :root {
-            --ease: all 0.2s ease-in-out;
-        }
-
+        :root { --ease: all 0.2s ease-in-out; }
         body[data-theme='light'] {
-            --page-bg: #f4f4f9;
-            --text-color: #333;
-            --text-color-light: #555;
-            --app-bg: white;
-            --app-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --tabs-bg: #e9ecef;
-            --tab-text: #495057;
-            --tab-active-text: #007bff;
-            --tab-active-bg: white;
-            --tab-active-border: #007bff;
-            --input-bg: white;
-            --input-border: #ced4da;
-            --display-bg: #e9ecef;
-            --display-text: #333;
-            --btn-primary-bg: #007bff;
-            --btn-primary-hover: #0056b3;
-            --btn-secondary-bg: #6c757d;
-            --btn-secondary-hover: #5a6268;
-            --btn-disabled-bg: #adb5bd;
-            --speech-settings-bg: #f9f9f9;
-            --speech-settings-border: #ddd;
-            --theme-toggle-bg: #e9ecef;
-            --theme-toggle-hover: #d1d9e0;
-            --theme-toggle-icon: '☀️';
+            --page-bg:#f4f4f9;--text-color:#333;--text-color-light:#555;--app-bg:white;
+            --app-shadow:0 4px 20px rgba(0,0,0,0.1);--tabs-bg:#e9ecef;--tab-text:#495057;
+            --tab-active-text:#007bff;--tab-active-bg:white;--tab-active-border:#007bff;
+            --input-bg:white;--input-border:#ced4da;--display-bg:#e9ecef;--display-text:#333;
+            --btn-primary-bg:#007bff;--btn-primary-hover:#0056b3;--btn-secondary-bg:#6c757d;
+            --btn-secondary-hover:#5a6268;--btn-disabled-bg:#adb5bd;
+            --speech-settings-bg:#f9f9f9;--speech-settings-border:#ddd;
+            --theme-toggle-bg:#e9ecef;--theme-toggle-hover:#d1d9e0;
         }
-
         body[data-theme='dark'] {
-            --page-bg: #1a1a1a;
-            --text-color: #e0e0e0;
-            --text-color-light: #aaa;
-            --app-bg: #2c2c2c;
-            --app-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            --tabs-bg: #222;
-            --tab-text: #bbb;
-            --tab-active-text: #4dabf7;
-            --tab-active-bg: #2c2c2c;
-            --tab-active-border: #4dabf7;
-            --input-bg: #333;
-            --input-border: #555;
-            --display-bg: #222;
-            --display-text: #e0e0e0;
-            --btn-primary-bg: #007bff;
-            --btn-primary-hover: #0056b3;
-            --btn-secondary-bg: #5a6268;
-            --btn-secondary-hover: #495057;
-            --btn-disabled-bg: #444;
-            --speech-settings-bg: #333;
-            --speech-settings-border: #444;
-            --theme-toggle-bg: #333;
-            --theme-toggle-hover: #444;
-            --theme-toggle-icon: '🌙';
+            --page-bg:#1a1a1a;--text-color:#e0e0e0;--text-color-light:#aaa;--app-bg:#2c2c2c;
+            --app-shadow:0 4px 20px rgba(0,0,0,0.25);--tabs-bg:#222;--tab-text:#bbb;
+            --tab-active-text:#4dabf7;--tab-active-bg:#2c2c2c;--tab-active-border:#4dabf7;
+            --input-bg:#333;--input-border:#555;--display-bg:#222;--display-text:#e0e0e0;
+            --btn-primary-bg:#007bff;--btn-primary-hover:#0056b3;--btn-secondary-bg:#5a6268;
+            --btn-secondary-hover:#495057;--btn-disabled-bg:#444;
+            --speech-settings-bg:#333;--speech-settings-border:#444;
+            --theme-toggle-bg:#333;--theme-toggle-hover:#444;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--page-bg);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding-top: 40px;
-            transition: var(--ease);
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            background-color:var(--page-bg);color:var(--text-color);display:flex;
+            justify-content:center;align-items:flex-start;min-height:100vh;margin:0;
+            padding-top:40px;transition:var(--ease);
         }
-
         .app-container {
-            background-color: var(--app-bg);
-            border-radius: 12px;
-            box-shadow: var(--app-shadow);
-            width: 90%;
-            max-width: 550px; /* Adjusted for wider game board */
-            overflow: hidden;
-            transition: var(--ease);
+            background-color:var(--app-bg);border-radius:12px;box-shadow:var(--app-shadow);
+            width:90%;max-width:560px;overflow:hidden;transition:var(--ease);
         }
-
         .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: var(--tabs-bg);
-            font-weight: bold;
-            font-size: 18px;
-            transition: var(--ease);
+            display:flex;justify-content:space-between;align-items:center;
+            padding:10px 20px;background-color:var(--tabs-bg);font-weight:bold;
+            font-size:18px;transition:var(--ease);
         }
-
         #theme-toggle {
-            background-color: var(--theme-toggle-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 20px;
-            cursor: pointer;
-            padding: 5px 10px;
-            font-size: 14px;
-            transition: var(--ease);
+            background-color:var(--theme-toggle-bg);border:1px solid var(--input-border);
+            border-radius:20px;cursor:pointer;padding:5px 10px;font-size:14px;
+            transition:var(--ease);color:var(--text-color);
         }
-        #theme-toggle:hover {
-            background-color: var(--theme-toggle-hover);
-        }
-        #theme-toggle::after {
-            content: var(--theme-toggle-icon);
-            padding-left: 5px;
-        }
-
-        .tabs {
-            display: flex;
-            background-color: var(--tabs-bg);
-            transition: var(--ease);
-        }
+        #theme-toggle:hover { background-color:var(--theme-toggle-hover); }
+        .tabs { display:flex;background-color:var(--tabs-bg);transition:var(--ease); }
         .tab-button {
-            padding: 15px 20px;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            color: var(--tab-text);
-            flex-grow: 1;
-            font-weight: 500;
-            border-bottom: 3px solid transparent;
-            transition: var(--ease);
+            padding:12px 10px;border:none;background-color:transparent;cursor:pointer;
+            font-size:14px;color:var(--tab-text);flex-grow:1;font-weight:500;
+            border-bottom:3px solid transparent;transition:var(--ease);
         }
         .tab-button.active {
-            background-color: var(--tab-active-bg);
-            color: var(--tab-active-text);
-            border-bottom-color: var(--tab-active-border);
-            font-weight: 600;
+            background-color:var(--tab-active-bg);color:var(--tab-active-text);
+            border-bottom-color:var(--tab-active-border);font-weight:600;
         }
-        .tab-content {
-            padding: 25px;
+        .tab-content { padding:25px; }
+        .tab-pane { display:none; }
+        .tab-pane.active { display:block; }
+        h2 { margin-top:0;color:var(--tab-active-text); }
+        .input-group { margin-bottom:20px; }
+        .input-group label { display:block;margin-bottom:8px;font-weight:600;color:var(--text-color-light); }
+        .input-group input[type="date"],.input-group input[type="number"],.input-group select {
+            width:calc(100% - 22px);padding:10px;border:1px solid var(--input-border);
+            border-radius:6px;font-size:16px;background-color:var(--input-bg);
+            color:var(--text-color);transition:var(--ease);
         }
-        .tab-pane {
-            display: none;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-        h2 {
-            margin-top: 0;
-            color: var(--tab-active-text);
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-color-light);
-        }
-        .input-group input[type="date"], .input-group input[type="number"], .input-group select {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            font-size: 16px;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            transition: var(--ease);
-        }
-        .input-group input[type="number"] {
-             width: 80%;
-             padding: 5px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-        .checkbox-group input {
-            margin-right: 10px;
-            width: 16px;
-            height: 16px;
-            accent-color: var(--tab-active-text);
-        }
-        .checkbox-group label {
-            cursor: pointer;
-        }
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
+        .input-group input[type="number"] { width:80%;padding:5px; }
+        .checkbox-group { display:flex;align-items:center;margin-bottom:20px;cursor:pointer; }
+        .checkbox-group input { margin-right:10px;width:16px;height:16px;accent-color:var(--tab-active-text); }
+        .checkbox-group label { cursor:pointer; }
+        .button-group { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px; }
         button {
-            padding: 12px 15px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            color: white;
+            padding:12px 15px;font-size:16px;font-weight:600;border:none;border-radius:6px;
+            cursor:pointer;transition:background-color 0.2s,transform 0.1s;color:white;
         }
-        button:disabled {
-            background-color: var(--btn-disabled-bg);
-            cursor: not-allowed;
-            color: #999;
-        }
-        button:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-        #btn-generate, #btn-next {
-            background-color: var(--btn-primary-bg);
-        }
-        #btn-reset {
-            background-color: var(--btn-secondary-bg);
-        }
-        #btn-generate:hover, #btn-next:hover:not(:disabled) {
-            background-color: var(--btn-primary-hover);
-        }
-        #btn-reset:hover {
-            background-color: var(--btn-secondary-hover);
-        }
+        button:disabled { background-color:var(--btn-disabled-bg);cursor:not-allowed;color:#999; }
+        button:active:not(:disabled) { transform:scale(0.98); }
+        #btn-generate,#btn-next { background-color:var(--btn-primary-bg); }
+        #btn-reset { background-color:var(--btn-secondary-bg); }
+        #btn-generate:hover,#btn-next:hover:not(:disabled) { background-color:var(--btn-primary-hover); }
+        #btn-reset:hover { background-color:var(--btn-secondary-hover); }
         #display-area {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: var(--display-bg);
-            border-radius: 6px;
-            min-height: 50px;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            color: var(--display-text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: var(--ease);
+            margin-top:25px;padding:20px;background-color:var(--display-bg);border-radius:6px;
+            min-height:50px;font-size:24px;font-weight:bold;text-align:center;
+            color:var(--display-text);display:flex;justify-content:center;align-items:center;
+            flex-direction:column;transition:var(--ease);
         }
         #speech-settings {
-            display: none;
-            border: 1px solid var(--speech-settings-border);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            background-color: var(--speech-settings-bg);
-            transition: var(--ease);
+            display:none;border:1px solid var(--speech-settings-border);padding:15px;
+            border-radius:6px;margin-top:10px;background-color:var(--speech-settings-bg);
+            transition:var(--ease);
         }
-        #speech-settings h4 {
-            margin-top: 0; margin-bottom: 15px; font-size: 16px;
-        }
-        #speech-settings .grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-        }
-        #speech-settings .input-group {
-            font-size: 14px; margin-bottom: 5px;
-        }
-
-        /* --- VIER GEWINNT STYLES --- */
+        #speech-settings h4 { margin-top:0;margin-bottom:15px;font-size:16px; }
+        #speech-settings .grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+        #speech-settings .input-group { font-size:14px;margin-bottom:5px; }
         .vier-gewinnt-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+            gap:15px;margin-bottom:20px;
         }
         #vier-gewinnt-status {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: var(--display-bg);
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            color: var(--display-text);
-            min-height: 2em;
+            margin:20px 0;padding:15px;background-color:var(--display-bg);border-radius:6px;
+            font-size:18px;font-weight:bold;text-align:center;color:var(--display-text);min-height:2em;
         }
         #vier-gewinnt-column-buttons {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 10px;
+            display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px;
         }
-        .column-btn {
-            background-color: var(--btn-secondary-bg);
-            aspect-ratio: 1;
-            font-size: 24px;
-            line-height: 1;
-        }
-        .column-btn:hover {
-            background-color: var(--btn-secondary-hover);
-        }
+        .column-btn { background-color:var(--btn-secondary-bg);aspect-ratio:1;font-size:14px;font-weight:700;line-height:1; }
+        .column-btn:hover { background-color:var(--btn-secondary-hover); }
         #vier-gewinnt-board {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            background-color: #007bff;
-            padding: 10px;
-            border-radius: 10px;
-            border: 5px solid #0056b3;
+            display:grid;grid-template-columns:repeat(7,1fr);gap:5px;
+            background-color:#007bff;padding:10px;border-radius:10px;border:5px solid #0056b3;
         }
         .cell {
-            aspect-ratio: 1;
-            background-color: var(--app-bg);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: translateZ(0);
+            aspect-ratio:1;background-color:var(--app-bg);border-radius:50%;
+            display:flex;justify-content:center;align-items:center;
         }
-        .cell .piece {
-            width: 85%;
-            height: 85%;
-            border-radius: 50%;
-            animation: drop 0.3s ease-out;
+        .cell .piece { width:85%;height:85%;border-radius:50%;animation:drop 0.3s ease-out; }
+        .cell .piece.player1 { background-color:#ffc107;box-shadow:inset 0 -4px 5px rgba(0,0,0,0.2); }
+        .cell .piece.player2 { background-color:#dc3545;box-shadow:inset 0 -4px 5px rgba(0,0,0,0.2); }
+        .cell.win .piece { animation:pulse 0.6s infinite; }
+        @keyframes drop { from{transform:translateY(-200px);opacity:0} to{transform:translateY(0);opacity:1} }
+        @keyframes pulse { 0%{transform:scale(0.9)} 50%{transform:scale(1.1)} 100%{transform:scale(0.9)} }
+        #pi-status {
+            margin:20px 0;padding:15px;background-color:var(--display-bg);border-radius:6px;
+            font-size:22px;font-weight:bold;text-align:center;color:var(--display-text);
+            min-height:2.5em;display:flex;align-items:center;justify-content:center;
         }
-        .cell .piece.player1 {
-            background-color: #ffc107; /* Gelb */
-            box-shadow: inset 0 -4px 5px rgba(0,0,0,0.2);
+        #pi-context-box {
+            display:none;margin-top:10px;padding:15px;background-color:var(--display-bg);
+            border-radius:6px;font-family:monospace;font-size:16px;line-height:2;
+            word-break:break-all;color:var(--display-text);
         }
-        .cell .piece.player2 {
-            background-color: #dc3545; /* Rot */
-            box-shadow: inset 0 -4px 5px rgba(0,0,0,0.2);
-        }
-        .cell.win .piece {
-            animation: pulse 0.6s infinite;
-        }
-
-        @keyframes drop {
-            from {
-                transform: translateY(-200px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.9); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(0.9); }
-        }
-
+        .btn-dark { background-color:#343a40;color:#ffffff; }
+        .btn-dark:hover { background-color:#23272b; }
     </style>
 </head>
 <body>
+<div class="app-container">
+    <div class="app-header">
+        <span>Synaptic Tester v1.3</span>
+        <button id="theme-toggle">Theme</button>
+    </div>
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event,'date-function')">Calendar Prodigy</button>
+        <button class="tab-button" onclick="openTab(event,'vier-gewinnt')">Vier Gewinnt</button>
+        <button class="tab-button" onclick="openTab(event,'pi-tab')">Pi</button>
+        <button class="tab-button" onclick="openTab(event,'cc-tab')">Kreditkarte</button>
+    </div>
 
-    <div class="app-container">
-        <div class="app-header">
-            <span>Synaptic Tester v1.2</span>
-            <button id="theme-toggle" title="Toggle Theme"></button>
-        </div>
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab(event, 'date-function')">Calendar Prodigy</button>
-            <button class="tab-button" onclick="openTab(event, 'vier-gewinnt')">Vier Gewinnt</button>
-        </div>
-
-        <div id="date-function" class="tab-content tab-pane active">
-            <h2>Zufälliges Datum</h2>
-            <div id="setup-view">
-                <div class="input-group">
-                    <label for="start-date">Anfangsdatum</label>
-                    <input type="date" id="start-date" value="1950-01-01">
-                </div>
-                <div class="input-group">
-                    <label for="end-date">Enddatum</label>
-                    <input type="date" id="end-date">
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="show-zodiac">
-                    <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
-                </div>
-                <div class="checkbox-group" style="margin-top: 20px;">
-                    <input type="checkbox" id="enable-speech">
-                    <label for="enable-speech">Sprachausgabe aktivieren</label>
-                </div>
-                <div id="speech-settings">
-                    <h4>Pausen für Sprachausgabe (Sekunden)</h4>
-                    <div class="grid">
-                        <div class="input-group">
-                            <label for="delay-initial">Start</label>
-                            <input type="number" id="delay-initial" value="5" min="0">
-                        </div>
-                        <div class="input-group">
-                            <label for="delay-year-month">nach Jahr</label>
-                            <input type="number" id="delay-year-month" value="10" min="0">
-                        </div>
-                        <div class="input-group">
-                            <label for="delay-month-day">nach Monat</label>
-                            <input type="number" id="delay-month-day" value="10" min="0">
-                        </div>
-                        <div class="input-group">
-                            <label for="delay-day-weekday">nach Tag</label>
-                            <input type="number" id="delay-day-weekday" value="10" min="0">
-                        </div>
-                        <div class="input-group">
-                            <label for="delay-weekday-days">nach Wochentag</label>
-                            <input type="number" id="delay-weekday-days" value="10" min="0">
-                        </div>
-                        <div class="input-group">
-                            <label for="delay-digit">zw. Ziffern</label>
-                            <input type="number" id="delay-digit" value="3" min="0">
-                        </div>
-                    </div>
-                </div>
-                 <button id="btn-generate" style="width: 100%; margin-top: 20px;">Zufälliges Datum generieren</button>
+    <div id="date-function" class="tab-content tab-pane active">
+        <h2>Zuf&auml;lliges Datum</h2>
+        <div id="setup-view">
+            <div class="input-group">
+                <label for="start-date">Anfangsdatum</label>
+                <input type="date" id="start-date" value="1950-01-01">
             </div>
-
-            <div id="result-view" style="display: none;">
-                <div id="display-area">Warte auf Eingabe...</div>
-                <div class="button-group">
-                    <button id="btn-next">Nächster Schritt</button>
-                    <button id="btn-reset">Zurücksetzen</button>
+            <div class="input-group">
+                <label for="end-date">Enddatum</label>
+                <input type="date" id="end-date">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="show-zodiac">
+                <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
+            </div>
+            <div class="checkbox-group" style="margin-top:20px;">
+                <input type="checkbox" id="enable-speech">
+                <label for="enable-speech">Sprachausgabe aktivieren</label>
+            </div>
+            <div id="speech-settings">
+                <h4>Pausen f&uuml;r Sprachausgabe (Sekunden)</h4>
+                <div class="grid">
+                    <div class="input-group"><label for="delay-initial">Start</label><input type="number" id="delay-initial" value="5" min="0"></div>
+                    <div class="input-group"><label for="delay-year-month">nach Jahr</label><input type="number" id="delay-year-month" value="10" min="0"></div>
+                    <div class="input-group"><label for="delay-month-day">nach Monat</label><input type="number" id="delay-month-day" value="10" min="0"></div>
+                    <div class="input-group"><label for="delay-day-weekday">nach Tag</label><input type="number" id="delay-day-weekday" value="10" min="0"></div>
+                    <div class="input-group"><label for="delay-weekday-days">nach Wochentag</label><input type="number" id="delay-weekday-days" value="10" min="0"></div>
+                    <div class="input-group"><label for="delay-digit">zw. Ziffern</label><input type="number" id="delay-digit" value="3" min="0"></div>
                 </div>
             </div>
+            <button id="btn-generate" style="width:100%;margin-top:20px;">Zuf&auml;lliges Datum generieren</button>
         </div>
-
-        <div id="vier-gewinnt" class="tab-content tab-pane">
-            <h2>Vier Gewinnt</h2>
-            <div class="vier-gewinnt-controls">
-                <div class="input-group">
-                    <label for="vier-gewinnt-starter">Wer beginnt?</label>
-                    <select id="vier-gewinnt-starter">
-                        <option value="user">Benutzer</option>
-                        <option value="app" selected>App</option>
-                    </select>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="vier-gewinnt-show-board">
-                    <label for="vier-gewinnt-show-board">Spielfeld anzeigen</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="vier-gewinnt-speech">
-                    <label for="vier-gewinnt-speech">Sprachausgabe für App</label>
-                </div>
+        <div id="result-view" style="display:none;">
+            <div id="display-area">Warte auf Eingabe...</div>
+            <div class="button-group">
+                <button id="btn-next">N&auml;chster Schritt</button>
+                <button id="btn-reset">Zur&uuml;cksetzen</button>
             </div>
-
-            <div id="vier-gewinnt-status">Wähle die Optionen und starte eine neue Runde.</div>
-            <div id="vier-gewinnt-column-buttons"></div>
-            <div id="vier-gewinnt-board"></div>
-
-            <button id="vier-gewinnt-reset" style="width: 100%; margin-top: 20px; background-color: #343a40; color: #ffffff;">Neues Spiel</button>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- THEME ---
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const body = document.body;
+    <div id="vier-gewinnt" class="tab-content tab-pane">
+        <h2>Vier Gewinnt</h2>
+        <div class="vier-gewinnt-controls">
+            <div class="input-group">
+                <label for="vier-gewinnt-starter">Wer beginnt?</label>
+                <select id="vier-gewinnt-starter">
+                    <option value="user">Benutzer</option>
+                    <option value="app" selected>App</option>
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="vier-gewinnt-show-board">
+                <label for="vier-gewinnt-show-board">Spielfeld anzeigen</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="vier-gewinnt-speech">
+                <label for="vier-gewinnt-speech">Sprachausgabe f&uuml;r App</label>
+            </div>
+        </div>
+        <div id="vier-gewinnt-status">W&auml;hle die Optionen und starte eine neue Runde.</div>
+        <div id="vier-gewinnt-column-buttons"></div>
+        <div id="vier-gewinnt-board"></div>
+        <button id="vier-gewinnt-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
+    </div>
 
-            function setAndStoreTheme(theme) {
-                body.setAttribute('data-theme', theme);
-                themeToggleBtn.textContent = theme === 'dark' ? 'Light' : 'Dark';
-                try {
-                    localStorage.setItem('synaptic-theme', theme);
-                } catch (e) {
-                    console.warn("LocalStorage is not available.");
-                }
-            }
+    <!-- TAB 4: KREDITKARTE -->
+    <div id="cc-tab" class="tab-content tab-pane">
+        <h2>Kreditkarte</h2>
 
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = body.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                setAndStoreTheme(newTheme);
-            });
-            
-            let storedTheme;
-            try {
-                 storedTheme = localStorage.getItem('synaptic-theme');
-            } catch (e) {
-                console.warn("LocalStorage is not available.");
-            }
-            setAndStoreTheme(storedTheme || 'dark');
+        <div class="input-group">
+            <label for="cc-delay">Pause zwischen Ziffern (Sekunden)</label>
+            <input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;">
+        </div>
 
-            // --- GENERAL ---
-            function speak(text, lang = 'de-DE') {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel(); 
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = lang;
-                    window.speechSynthesis.speak(utterance);
-                }
-            }
+        <button id="cc-main-btn" style="width:100%;background-color:var(--btn-primary-bg);">Karte generieren</button>
+        <button id="cc-reset-btn" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
 
+        <div id="cc-status" style="margin:20px 0;padding:15px;background-color:var(--display-bg);border-radius:6px;font-size:16px;font-weight:bold;text-align:center;color:var(--display-text);min-height:2em;display:flex;align-items:center;justify-content:center;">Bereit.</div>
 
-            // --- CALENDAR PRODIGY LOGIC ---
-            const today = new Date();
-            const todayString = today.toISOString().split('T')[0];
-            document.getElementById('end-date').value = todayString;
-            
-            let currentStep = 0;
-            let randomDate = null;
-            let speechTimeouts = [];
-            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        <div id="cc-answer-box" style="display:none;margin:10px 0;padding:20px;background-color:var(--display-bg);border-radius:6px;text-align:center;">
+            <div style="font-size:13px;color:var(--text-color-light);margin-bottom:6px;">Fehlende Ziffer</div>
+            <div id="cc-answer" style="font-size:64px;font-weight:900;color:#dc3545;"></div>
+        </div>
 
-            const btnGenerate = document.getElementById('btn-generate');
-            const btnNext = document.getElementById('btn-next');
-            const btnReset = document.getElementById('btn-reset');
-            const displayArea = document.getElementById('display-area');
-            const setupView = document.getElementById('setup-view');
-            const resultView = document.getElementById('result-view');
-            const enableSpeechCheck = document.getElementById('enable-speech');
-            const speechSettings = document.getElementById('speech-settings');
+        <div class="checkbox-group" style="margin-top:10px;">
+            <input type="checkbox" id="cc-show-number">
+            <label for="cc-show-number">Nummer anzeigen</label>
+        </div>
+        <div id="cc-number-box" style="display:none;margin-top:5px;padding:15px;background-color:var(--display-bg);border-radius:6px;font-family:monospace;font-size:20px;letter-spacing:3px;text-align:center;color:var(--display-text);word-break:break-all;"></div>
+    </div>
 
-            btnGenerate.addEventListener('click', generateRandomDate);
-            btnNext.addEventListener('click', showNextStep);
-            btnReset.addEventListener('click', resetApp);
-            enableSpeechCheck.addEventListener('change', () => {
-                speechSettings.style.display = enableSpeechCheck.checked ? 'block' : 'none';
-                if (!enableSpeechCheck.checked) {
-                    clearAllTimeouts();
-                }
-            });
+    <div id="pi-tab" class="tab-content tab-pane">
+        <h2>Pi &ndash; Ziffernfolge</h2>
+        <div class="input-group">
+            <label for="pi-direction">Leserichtung</label>
+            <select id="pi-direction">
+                <option value="random" selected>Zuf&auml;llig</option>
+                <option value="forward">Vorw&auml;rts</option>
+                <option value="backward">R&uuml;ckw&auml;rts</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="pi-digit-delay">Pause zwischen Ziffern (Sekunden)</label>
+            <input type="number" id="pi-digit-delay" value="5" min="1" max="30" style="width:80px;">
+        </div>
+        <button id="pi-start" style="width:100%;background-color:var(--btn-primary-bg);">Ziffernfolge w&auml;hlen &amp; starten</button>
+        <button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
+        <div id="pi-status">Bereit.</div>
+        <div class="checkbox-group" style="margin-top:10px;">
+            <input type="checkbox" id="pi-show-context">
+            <label for="pi-show-context">Zahlen anzeigen</label>
+        </div>
+        <div id="pi-context-box"></div>
+    </div>
 
-            function generateRandomDate() {
-                const startDateStr = document.getElementById('start-date').value;
-                const endDateStr = document.getElementById('end-date').value;
-                if (!startDateStr || !endDateStr) {
-                    alert('Bitte geben Sie ein Anfangs- und Enddatum an.');
-                    return;
-                }
-                const startDate = new Date(startDateStr);
-                const endDate = new Date(endDateStr);
-                if (startDate >= endDate) {
-                    alert('Das Anfangsdatum muss vor dem Enddatum liegen.');
-                    return;
-                }
-                const startMillis = startDate.getTime();
-                const endMillis = endDate.getTime();
-                randomDate = new Date(startMillis + Math.random() * (endMillis - startMillis));
-                
-                currentStep = 0;
-                setupView.style.display = 'none';
-                resultView.style.display = 'block';
-                btnNext.disabled = false;
+</div>
 
-                if (enableSpeechCheck.checked) {
-                    startSpeechSequence();
-                } else {
-                    displayArea.innerHTML = `Bereit!<br><small style="font-size: 14px; font-weight: normal; color: var(--text-color-light);">Klicke auf "Nächster Schritt"</small>`;
-                    btnNext.textContent = 'Nächster Schritt';
-                }
-            }
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
-            function startSpeechSequence() {
-                btnNext.disabled = true;
-                displayArea.textContent = 'Sprachausgabe startet...';
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    function setAndStoreTheme(theme) {
+        body.setAttribute('data-theme', theme);
+        themeToggleBtn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        try { localStorage.setItem('synaptic-theme', theme); } catch(e){}
+    }
+    themeToggleBtn.addEventListener('click', () => {
+        setAndStoreTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+    let storedTheme; try { storedTheme = localStorage.getItem('synaptic-theme'); } catch(e){}
+    setAndStoreTheme(storedTheme || 'dark');
 
-                const delays = {
-                    initial: parseInt(document.getElementById('delay-initial').value) * 1000,
-                    yearMonth: parseInt(document.getElementById('delay-year-month').value) * 1000,
-                    monthDay: parseInt(document.getElementById('delay-month-day').value) * 1000,
-                    dayWeekday: parseInt(document.getElementById('delay-day-weekday').value) * 1000,
-                    weekdayDays: parseInt(document.getElementById('delay-weekday-days').value) * 1000,
-                    digit: parseInt(document.getElementById('delay-digit').value) * 1000
-                };
-
-                const year = randomDate.getFullYear().toString();
-                const month = randomDate.toLocaleString('de-DE', { month: 'long' });
-                const day = randomDate.getDate().toString();
-                const weekday = randomDate.toLocaleString('de-DE', { weekday: 'long' });
-                const timeDiff = todayDateOnly.getTime() - new Date(randomDate.getFullYear(), randomDate.getMonth(), randomDate.getDate()).getTime();
-                const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-                const dayDiffStr = dayDiff.toString();
-                const zodiac = getZodiacSign(randomDate);
-                const showZodiac = document.getElementById('show-zodiac').checked;
-
-                let cumulativeDelay = 0;
-                clearAllTimeouts();
-
-                const sequence = [
-                    { delay: delays.initial, text: year, html: year },
-                    { delay: delays.yearMonth, text: month, html: month },
-                    { delay: delays.monthDay, text: day, html: day },
-                    { delay: delays.dayWeekday, text: weekday, html: weekday },
-                    { delay: delays.weekdayDays, text: ``, html: `${dayDiff}<br><small style='font-size:14px; color: var(--text-color-light);'>Tage vergangen</small>` }
-                ];
-
-                sequence.forEach(step => {
-                    cumulativeDelay += step.delay;
-                    speechTimeouts.push(setTimeout(() => {
-                        displayArea.innerHTML = step.html;
-                        if(step.text && enableSpeechCheck.checked) speak(step.text);
-                    }, cumulativeDelay));
-                });
-                
-                let digitDelay = cumulativeDelay;
-                dayDiffStr.split('').forEach(digit => {
-                    digitDelay += delays.digit;
-                    speechTimeouts.push(setTimeout(() => { if(enableSpeechCheck.checked) speak(digit); }, digitDelay));
-                });
-                cumulativeDelay = digitDelay;
-
-                if (showZodiac) {
-                     cumulativeDelay += (delays.weekdayDays > delays.digit * dayDiffStr.length) ? delays.weekdayDays : delays.digit * dayDiffStr.length + 2000;
-                     speechTimeouts.push(setTimeout(() => {
-                        displayArea.textContent = zodiac;
-                        if(enableSpeechCheck.checked) speak(zodiac);
-                     }, cumulativeDelay));
-                }
-                
-                speechTimeouts.push(setTimeout(endSequence, cumulativeDelay + 2000));
-            }
-            
-            function showNextStep() {
-                currentStep++;
-                const showZodiac = document.getElementById('show-zodiac').checked;
-                let isLastStep = false;
-                let content = '';
-                let subtext = '';
-
-                switch(currentStep) {
-                    case 1: content = randomDate.getFullYear(); break;
-                    case 2: content = randomDate.toLocaleString('de-DE', { month: 'long' }); break;
-                    case 3: content = randomDate.getDate(); break;
-                    case 4: content = randomDate.toLocaleString('de-DE', { weekday: 'long' }); break;
-                    case 5: 
-                        const timeDiff = todayDateOnly.getTime() - new Date(randomDate.getFullYear(), randomDate.getMonth(), randomDate.getDate()).getTime();
-                        const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-                        content = dayDiff;
-                        subtext = 'Tage vergangen';
-                        if (!showZodiac) isLastStep = true;
-                        break;
-                    case 6:
-                        if (showZodiac) { content = getZodiacSign(randomDate); isLastStep = true; } 
-                        else { endSequence(); return; }
-                        break;
-                    default: endSequence(); return;
-                }
-                displayArea.innerHTML = `${content}<br><small style='font-size:14px; font-weight:normal; color: var(--text-color-light);'>${subtext}</small>`;
-
-                if (isLastStep) {
-                    btnNext.textContent = "Fertig";
-                    btnNext.disabled = true;
-                }
-            }
-            
-            function endSequence() {
-                 displayArea.innerHTML = 'Sequenz beendet.<br><small style="font-size: 14px; font-weight: normal; color: var(--text-color-light);">Auf "Zurücksetzen" klicken.</small>';
-                 btnNext.disabled = true;
-                 btnNext.textContent = 'Nächster Schritt';
-            }
-
-            function clearAllTimeouts() {
-                speechTimeouts.forEach(timeout => clearTimeout(timeout));
-                speechTimeouts = [];
-                window.speechSynthesis.cancel();
-            }
-
-            function resetApp() {
-                clearAllTimeouts();
-                currentStep = 0;
-                randomDate = null;
-                setupView.style.display = 'block';
-                resultView.style.display = 'none';
-                displayArea.textContent = 'Warte auf Eingabe...';
-                btnNext.disabled = false;
-                btnNext.textContent = "Nächster Schritt";
-            }
-
-            function getZodiacSign(date) {
-                const day = date.getDate();
-                const month = date.getMonth() + 1;
-                if ((month == 1 && day >= 21) || (month == 2 && day <= 19)) return "Wassermann";
-                if ((month == 2 && day >= 20) || (month == 3 && day <= 20)) return "Fische";
-                if ((month == 3 && day >= 21) || (month == 4 && day <= 20)) return "Widder";
-                if ((month == 4 && day >= 21) || (month == 5 && day <= 20)) return "Stier";
-                if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) return "Zwillinge";
-                if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) return "Krebs";
-                if ((month == 7 && day >= 23) || (month == 8 && day <= 23)) return "Löwe";
-                if ((month == 8 && day >= 24) || (month == 9 && day <= 23)) return "Jungfrau";
-                if ((month == 9 && day >= 24) || (month == 10 && day <= 23)) return "Waage";
-                if ((month == 10 && day >= 24) || (month == 11 && day <= 22)) return "Skorpion";
-                if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) return "Schütze";
-                if ((month == 12 && day >= 22) || (month == 1 && day <= 20)) return "Steinbock";
-            }
-
-            // --- VIER GEWINNT LOGIC ---
-            const ROWS = 6;
-            const COLS = 7;
-            const PLAYER1 = 'user';
-            const PLAYER2 = 'app';
-
-            let board = [];
-            let lastWinDirection = '';
-            let currentPlayer;
-            let gameOver = false;
-            let lastMove = null;
-
-            const boardElement = document.getElementById('vier-gewinnt-board');
-            const columnButtonsElement = document.getElementById('vier-gewinnt-column-buttons');
-            const statusElement = document.getElementById('vier-gewinnt-status');
-            const resetBtn = document.getElementById('vier-gewinnt-reset');
-            const starterSelect = document.getElementById('vier-gewinnt-starter');
-            const showBoardCheck = document.getElementById('vier-gewinnt-show-board');
-            const speechCheck = document.getElementById('vier-gewinnt-speech');
-            
-            resetBtn.addEventListener('click', initVierGewinnt);
-            showBoardCheck.addEventListener('change', () => {
-                boardElement.style.display = showBoardCheck.checked ? 'grid' : 'none';
-            });
-
-            function initVierGewinnt() {
-                gameOver = false;
-                lastMove = null;
-                currentPlayer = starterSelect.value;
-                board = Array(ROWS).fill(null).map(() => Array(COLS).fill(null));
-                
-                renderBoard();
-                renderColumnButtons();
-
-                statusElement.textContent = `Spiel gestartet. ${currentPlayer === PLAYER1 ? 'Du bist' : 'Die App ist'} am Zug.`;
-
-                if (currentPlayer === PLAYER2) {
-                    disableColumnButtons(true);
-                    setTimeout(appMove, 1000);
-                } else {
-                    disableColumnButtons(false);
-                }
-            }
-
-            function renderBoard() {
-                boardElement.innerHTML = '';
-                boardElement.style.display = showBoardCheck.checked ? 'grid' : 'none';
-                for (let r = 0; r < ROWS; r++) {
-                    for (let c = 0; c < COLS; c++) {
-                        const cell = document.createElement('div');
-                        cell.classList.add('cell');
-                        cell.dataset.row = r;
-                        cell.dataset.col = c;
-                        if (board[r][c]) {
-                            const piece = document.createElement('div');
-                            piece.classList.add('piece', board[r][c] === PLAYER1 ? 'player1' : 'player2');
-                            // Do not add 'drop' animation on re-render
-                            cell.appendChild(piece);
-                        }
-                        boardElement.appendChild(cell);
-                    }
-                }
-            }
-            
-            function renderColumnButtons() {
-                columnButtonsElement.innerHTML = '';
-                for (let c = 0; c < COLS; c++) {
-                    const btn = document.createElement('button');
-                    btn.classList.add('column-btn');
-                    btn.dataset.col = c;
-                    btn.textContent = '↓ ' + (c + 1);
-                    btn.addEventListener('click', handleColumnClick);
-                    columnButtonsElement.appendChild(btn);
-                }
-            }
-
-            function handleColumnClick(event) {
-                if (gameOver || currentPlayer !== PLAYER1) return;
-                const col = parseInt(event.target.dataset.col);
-                const row = findLowestEmptyRow(col);
-
-                if (row !== -1) {
-                    dropPiece(row, col, PLAYER1);
-                }
-            }
-
-            function dropPiece(row, col, player) {
-                board[row][col] = player;
-                lastMove = { row, col, player };
-                
-                // UI Update
-                const cell = boardElement.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
-                const piece = document.createElement('div');
-                piece.classList.add('piece', player === PLAYER1 ? 'player1' : 'player2');
-                cell.appendChild(piece);
-                
-                if (checkWin(player)) {
-                    endGame(player);
-                    return;
-                }
-                
-                if (isBoardFull()) {
-                    endGame(null); // Unentschieden
-                    return;
-                }
-
-                switchPlayer();
-            }
-            
-            function findLowestEmptyRow(col) {
-                for (let r = ROWS - 1; r >= 0; r--) {
-                    if (board[r][col] === null) {
-                        return r;
-                    }
-                }
-                return -1; // Spalte ist voll
-            }
-
-            function switchPlayer() {
-                currentPlayer = (currentPlayer === PLAYER1) ? PLAYER2 : PLAYER1;
-                statusElement.textContent = `${currentPlayer === PLAYER1 ? 'Du bist' : 'Die App ist'} am Zug.`;
-                
-                if (currentPlayer === PLAYER2) {
-                    disableColumnButtons(true);
-                    setTimeout(appMove, 1200); // Kurze Pause bevor die App zieht
-                } else {
-                    disableColumnButtons(false);
-                }
-            }
-
-            function appMove() {
-                if (gameOver) return;
-                let availableCols = [];
-                for (let c = 0; c < COLS; c++) {
-                    if (board[0][c] === null) {
-                        availableCols.push(c);
-                    }
-                }
-
-                if (availableCols.length > 0) {
-                    const col = availableCols[Math.floor(Math.random() * availableCols.length)];
-                    const row = findLowestEmptyRow(col);
-                    if (speechCheck.checked) {
-                        speak(`Ich setze in Spalte ${col + 1}.`);
-                    }
-                    dropPiece(row, col, PLAYER2);
-                }
-            }
-
-            function checkWin(player) {
-                const checkLine = (a, b, c, d) => {
-                    return (a !== null && a === b && a === c && a === d);
-                };
-
-                // Horizontal
-                for (let r = 0; r < ROWS; r++) {
-                    for (let c = 0; c <= COLS - 4; c++) {
-                        if (checkLine(board[r][c], board[r][c+1], board[r][c+2], board[r][c+3]) && board[r][c] === player) {
-                            lastWinDirection = 'Horizontal.';
-                            highlightWinningCells([[r,c],[r,c+1],[r,c+2],[r,c+3]]);
-                            return true;
-                        }
-                    }
-                }
-                // Vertical
-                for (let c = 0; c < COLS; c++) {
-                    for (let r = 0; r <= ROWS - 4; r++) {
-                        if (checkLine(board[r][c], board[r+1][c], board[r+2][c], board[r+3][c]) && board[r][c] === player) {
-                            lastWinDirection = 'Vertikal.';
-                            highlightWinningCells([[r,c],[r+1,c],[r+2,c],[r+3,c]]);
-                            return true;
-                        }
-                    }
-                }
-                // Diagonal (down-right)
-                for (let r = 0; r <= ROWS - 4; r++) {
-                    for (let c = 0; c <= COLS - 4; c++) {
-                        if (checkLine(board[r][c], board[r+1][c+1], board[r+2][c+2], board[r+3][c+3]) && board[r][c] === player) {
-                            lastWinDirection = 'Diagonal.';
-                            highlightWinningCells([[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);
-                            return true;
-                        }
-                    }
-                }
-                // Diagonal (up-right)
-                for (let r = 3; r < ROWS; r++) {
-                    for (let c = 0; c <= COLS - 4; c++) {
-                        if (checkLine(board[r][c], board[r-1][c+1], board[r-2][c+2], board[r-3][c+3]) && board[r][c] === player) {
-                            lastWinDirection = 'Diagonal.';
-                            highlightWinningCells([[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-
-            function highlightWinningCells(cells) {
-                 cells.forEach(([r, c]) => {
-                    const cell = boardElement.querySelector(`.cell[data-row='${r}'][data-col='${c}']`);
-                    if(cell) cell.classList.add('win');
-                });
-            }
-            
-            function isBoardFull() {
-                return board[0].every(cell => cell !== null);
-            }
-
-            function endGame(winner) {
-                gameOver = true;
-                disableColumnButtons(true);
-                let message = '';
-                if (winner) {
-                    const winnerName = winner === PLAYER1 ? 'Du hast' : 'Die App hat';
-                    message = `${winnerName} gewonnen! ${lastWinDirection}`;
-                    statusElement.textContent = message;
-                    if (speechCheck.checked) {
-                        speak(message);
-                    }
-                } else {
-                    message = 'Unentschieden!';
-                    statusElement.textContent = message;
-                    if (speechCheck.checked) speak(message);
-                }
-            }
-            
-            function disableColumnButtons(disabled) {
-                 const buttons = columnButtonsElement.querySelectorAll('.column-btn');
-                 buttons.forEach(btn => btn.disabled = disabled);
-            }
-            
-            initVierGewinnt(); // Initialize on load
-        });
-
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-pane");
-            for (i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) tablinks[i].className = tablinks[i].className.replace(" active", "");
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'de-DE';
+            window.speechSynthesis.speak(u);
         }
-    </script>
+    }
+
+    // CALENDAR PRODIGY
+    const today = new Date();
+    document.getElementById('end-date').value = today.toISOString().split('T')[0];
+    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let currentStep = 0, randomDate = null, speechTimeouts = [];
+    const btnGenerate = document.getElementById('btn-generate');
+    const btnNext = document.getElementById('btn-next');
+    const btnReset = document.getElementById('btn-reset');
+    const displayArea = document.getElementById('display-area');
+    const setupView = document.getElementById('setup-view');
+    const resultView = document.getElementById('result-view');
+    const enableSpeechCheck = document.getElementById('enable-speech');
+    const speechSettings = document.getElementById('speech-settings');
+
+    btnGenerate.addEventListener('click', generateRandomDate);
+    btnNext.addEventListener('click', showNextStep);
+    btnReset.addEventListener('click', resetApp);
+    enableSpeechCheck.addEventListener('change', () => {
+        speechSettings.style.display = enableSpeechCheck.checked ? 'block' : 'none';
+        if (!enableSpeechCheck.checked) clearAllTimeouts();
+    });
+
+    function generateRandomDate() {
+        const s = new Date(document.getElementById('start-date').value);
+        const e = new Date(document.getElementById('end-date').value);
+        if (!s || !e || s >= e) { alert('Bitte g\u00fcltige Daten eingeben.'); return; }
+        randomDate = new Date(s.getTime() + Math.random() * (e.getTime() - s.getTime()));
+        currentStep = 0;
+        setupView.style.display = 'none';
+        resultView.style.display = 'block';
+        btnNext.disabled = false;
+        if (enableSpeechCheck.checked) startSpeechSequence();
+        else displayArea.innerHTML = 'Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-color-light);">Klicke auf N\u00e4chster Schritt</small>';
+    }
+
+    function startSpeechSequence() {
+        btnNext.disabled = true;
+        displayArea.textContent = 'Sprachausgabe startet...';
+        const d = {
+            initial: parseInt(document.getElementById('delay-initial').value)*1000,
+            yearMonth: parseInt(document.getElementById('delay-year-month').value)*1000,
+            monthDay: parseInt(document.getElementById('delay-month-day').value)*1000,
+            dayWeekday: parseInt(document.getElementById('delay-day-weekday').value)*1000,
+            weekdayDays: parseInt(document.getElementById('delay-weekday-days').value)*1000,
+            digit: parseInt(document.getElementById('delay-digit').value)*1000
+        };
+        const year = randomDate.getFullYear().toString();
+        const month = randomDate.toLocaleString('de-DE',{month:'long'});
+        const day = randomDate.getDate().toString();
+        const weekday = randomDate.toLocaleString('de-DE',{weekday:'long'});
+        const timeDiff = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
+        const dayDiff = Math.floor(timeDiff/(1000*3600*24));
+        const dayDiffStr = dayDiff.toString();
+        const showZodiac = document.getElementById('show-zodiac').checked;
+        clearAllTimeouts();
+        let delay = 0;
+        [[d.initial,year,year],[d.yearMonth,month,month],[d.monthDay,day,day],[d.dayWeekday,weekday,weekday],
+         [d.weekdayDays,'',`${dayDiff}<br><small style='font-size:14px;color:var(--text-color-light);'>Tage vergangen</small>`]
+        ].forEach(([wait,txt,html]) => {
+            delay += wait;
+            speechTimeouts.push(setTimeout(() => { displayArea.innerHTML = html; if(txt) speak(txt); }, delay));
+        });
+        dayDiffStr.split('').forEach(digit => {
+            delay += d.digit;
+            speechTimeouts.push(setTimeout(() => { speak(digit); }, delay));
+        });
+        if (showZodiac) {
+            delay += Math.max(d.weekdayDays, d.digit * dayDiffStr.length + 2000);
+            const z = getZodiacSign(randomDate);
+            speechTimeouts.push(setTimeout(() => { displayArea.textContent = z; speak(z); }, delay));
+        }
+        speechTimeouts.push(setTimeout(endSequence, delay + 2000));
+    }
+
+    function showNextStep() {
+        currentStep++;
+        const showZodiac = document.getElementById('show-zodiac').checked;
+        let content='', subtext='', isLast=false;
+        switch(currentStep) {
+            case 1: content = randomDate.getFullYear(); break;
+            case 2: content = randomDate.toLocaleString('de-DE',{month:'long'}); break;
+            case 3: content = randomDate.getDate(); break;
+            case 4: content = randomDate.toLocaleString('de-DE',{weekday:'long'}); break;
+            case 5:
+                const td = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
+                content = Math.floor(td/(1000*3600*24)); subtext='Tage vergangen';
+                if(!showZodiac) isLast=true; break;
+            case 6:
+                if(showZodiac){content=getZodiacSign(randomDate);isLast=true;}else{endSequence();return;} break;
+            default: endSequence(); return;
+        }
+        displayArea.innerHTML = `${content}<br><small style='font-size:14px;font-weight:normal;color:var(--text-color-light);'>${subtext}</small>`;
+        if(isLast){btnNext.textContent='Fertig';btnNext.disabled=true;}
+    }
+
+    function endSequence() {
+        displayArea.innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-color-light);">Auf Zur\u00fccksetzen klicken.</small>';
+        btnNext.disabled=true; btnNext.textContent='N\u00e4chster Schritt';
+    }
+    function clearAllTimeouts() { speechTimeouts.forEach(t=>clearTimeout(t)); speechTimeouts=[]; window.speechSynthesis.cancel(); }
+    function resetApp() {
+        clearAllTimeouts(); currentStep=0; randomDate=null;
+        setupView.style.display='block'; resultView.style.display='none';
+        displayArea.textContent='Warte auf Eingabe...'; btnNext.disabled=false; btnNext.textContent='N\u00e4chster Schritt';
+    }
+    function getZodiacSign(date) {
+        const day=date.getDate(), m=date.getMonth()+1;
+        if((m==1&&day>=21)||(m==2&&day<=19)) return'Wassermann';
+        if((m==2&&day>=20)||(m==3&&day<=20)) return'Fische';
+        if((m==3&&day>=21)||(m==4&&day<=20)) return'Widder';
+        if((m==4&&day>=21)||(m==5&&day<=20)) return'Stier';
+        if((m==5&&day>=21)||(m==6&&day<=21)) return'Zwillinge';
+        if((m==6&&day>=22)||(m==7&&day<=22)) return'Krebs';
+        if((m==7&&day>=23)||(m==8&&day<=23)) return'L\u00f6we';
+        if((m==8&&day>=24)||(m==9&&day<=23)) return'Jungfrau';
+        if((m==9&&day>=24)||(m==10&&day<=23)) return'Waage';
+        if((m==10&&day>=24)||(m==11&&day<=22)) return'Skorpion';
+        if((m==11&&day>=23)||(m==12&&day<=21)) return'Sch\u00fctze';
+        return'Steinbock';
+    }
+
+    // VIER GEWINNT
+    const ROWS=6, COLS=7, PLAYER1='user', PLAYER2='app';
+    let board=[], lastWinDirection='', currentPlayer, gameOver=false;
+    const boardEl = document.getElementById('vier-gewinnt-board');
+    const colBtnsEl = document.getElementById('vier-gewinnt-column-buttons');
+    const vgStatus = document.getElementById('vier-gewinnt-status');
+    const vgResetBtn = document.getElementById('vier-gewinnt-reset');
+    const starterSel = document.getElementById('vier-gewinnt-starter');
+    const showBoardChk = document.getElementById('vier-gewinnt-show-board');
+    const vgSpeechChk = document.getElementById('vier-gewinnt-speech');
+
+    vgResetBtn.addEventListener('click', initVierGewinnt);
+    showBoardChk.addEventListener('change', () => { boardEl.style.display = showBoardChk.checked ? 'grid' : 'none'; });
+
+    function initVierGewinnt() {
+        gameOver=false; currentPlayer=starterSel.value;
+        board=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
+        renderBoard(); renderColumnButtons();
+        vgStatus.textContent=`Spiel gestartet. ${currentPlayer===PLAYER1?'Du bist':'Die App ist'} am Zug.`;
+        if(currentPlayer===PLAYER2){disableColBtns(true);setTimeout(appMove,1000);}
+        else disableColBtns(false);
+    }
+    function renderBoard() {
+        boardEl.innerHTML='';
+        boardEl.style.display=showBoardChk.checked?'grid':'none';
+        for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+            const cell=document.createElement('div'); cell.classList.add('cell');
+            cell.dataset.row=r; cell.dataset.col=c;
+            if(board[r][c]){const p=document.createElement('div');p.classList.add('piece',board[r][c]===PLAYER1?'player1':'player2');cell.appendChild(p);}
+            boardEl.appendChild(cell);
+        }
+    }
+    function renderColumnButtons() {
+        colBtnsEl.innerHTML='';
+        for(let c=0;c<COLS;c++){
+            const btn=document.createElement('button'); btn.classList.add('column-btn');
+            btn.dataset.col=c; btn.textContent='\u2193 '+(c+1);
+            btn.addEventListener('click',handleColClick); colBtnsEl.appendChild(btn);
+        }
+    }
+    function handleColClick(e) {
+        if(gameOver||currentPlayer!==PLAYER1) return;
+        const col=parseInt(e.target.dataset.col), row=findLowestRow(col);
+        if(row!==-1) dropPiece(row,col,PLAYER1);
+    }
+    function dropPiece(row,col,player) {
+        board[row][col]=player;
+        const cell=boardEl.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
+        const piece=document.createElement('div'); piece.classList.add('piece',player===PLAYER1?'player1':'player2');
+        cell.appendChild(piece);
+        if(checkWin(player)){endGame(player);return;}
+        if(isBoardFull()){endGame(null);return;}
+        switchPlayer();
+    }
+    function findLowestRow(col) {
+        for(let r=ROWS-1;r>=0;r--) if(board[r][col]===null) return r;
+        return -1;
+    }
+    function switchPlayer() {
+        currentPlayer=currentPlayer===PLAYER1?PLAYER2:PLAYER1;
+        vgStatus.textContent=`${currentPlayer===PLAYER1?'Du bist':'Die App ist'} am Zug.`;
+        if(currentPlayer===PLAYER2){disableColBtns(true);setTimeout(appMove,1200);}
+        else disableColBtns(false);
+    }
+    function appMove() {
+        if(gameOver) return;
+        const avail=[]; for(let c=0;c<COLS;c++) if(board[0][c]===null) avail.push(c);
+        if(avail.length>0){
+            const col=avail[Math.floor(Math.random()*avail.length)], row=findLowestRow(col);
+            if(vgSpeechChk.checked) speak(`Ich setze in Spalte ${col+1}.`);
+            dropPiece(row,col,PLAYER2);
+        }
+    }
+    function checkWin(player) {
+        const ok=(a,b,c,d)=>a!==null&&a===b&&a===c&&a===d;
+        for(let r=0;r<ROWS;r++) for(let c=0;c<=COLS-4;c++)
+            if(ok(board[r][c],board[r][c+1],board[r][c+2],board[r][c+3])&&board[r][c]===player)
+                {lastWinDirection='Horizontal.';highlightWin([[r,c],[r,c+1],[r,c+2],[r,c+3]]);return true;}
+        for(let c=0;c<COLS;c++) for(let r=0;r<=ROWS-4;r++)
+            if(ok(board[r][c],board[r+1][c],board[r+2][c],board[r+3][c])&&board[r][c]===player)
+                {lastWinDirection='Vertikal.';highlightWin([[r,c],[r+1,c],[r+2,c],[r+3,c]]);return true;}
+        for(let r=0;r<=ROWS-4;r++) for(let c=0;c<=COLS-4;c++)
+            if(ok(board[r][c],board[r+1][c+1],board[r+2][c+2],board[r+3][c+3])&&board[r][c]===player)
+                {lastWinDirection='Diagonal.';highlightWin([[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);return true;}
+        for(let r=3;r<ROWS;r++) for(let c=0;c<=COLS-4;c++)
+            if(ok(board[r][c],board[r-1][c+1],board[r-2][c+2],board[r-3][c+3])&&board[r][c]===player)
+                {lastWinDirection='Diagonal.';highlightWin([[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);return true;}
+        return false;
+    }
+    function highlightWin(cells) { cells.forEach(([r,c])=>{const el=boardEl.querySelector(`.cell[data-row='${r}'][data-col='${c}']`);if(el)el.classList.add('win');}); }
+    function isBoardFull() { return board[0].every(c=>c!==null); }
+    function endGame(winner) {
+        gameOver=true; disableColBtns(true);
+        let msg='';
+        if(winner){
+            msg=`${winner===PLAYER1?'Du hast':'Die App hat'} gewonnen! ${lastWinDirection}`;
+            vgStatus.textContent=msg;
+            if(vgSpeechChk.checked) speak(msg);
+        } else { msg='Unentschieden!'; vgStatus.textContent=msg; if(vgSpeechChk.checked) speak(msg); }
+    }
+    function disableColBtns(disabled) { colBtnsEl.querySelectorAll('.column-btn').forEach(b=>b.disabled=disabled); }
+    initVierGewinnt();
+
+    // PI
+    const PI_DIGITS='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632788659361533818279682303019520353018529689957736225994138912497217752834791315155748572424541506959508295331168617278558890750983817546374649393192550604009277016711390098488240128583616035637076601047101819429555961989467678374494482553797747268471040475346462080466842590694912933136770289891521047521620569660240580381501935112533824300355876402474964732639141992726042699227967823547816360093417216412199245863150302861829745557067498385054945885869269956909272107975093029553211653449872027559602364806654991198818347977535663698074265425278625518184175746728909777727938000816470600161452491921732172147723501414419735685481613611573525521334757418494684385233239073941433345477624168625189835694855620992192221842725502542568876717904946016534668049886272327917860857843838279679766814541009538837863609506800642251252051173929848960841284886269456042419652850222106611863067442786220391949450471237137869609563643719172874677646575739624138908658326459958133904780275901';
+
+    let piTimeouts=[], piRunning=false, piStartIdx=0, piDirection='forward';
+    const SEQ_LEN=5, PAUSE_AFTER=5000;
+    let DIG_INT=5000;
+    const piStartBtn=document.getElementById('pi-start');
+    const piStopBtn=document.getElementById('pi-stop');
+    const piStatusEl=document.getElementById('pi-status');
+    const piShowCtx=document.getElementById('pi-show-context');
+    const piCtxBox=document.getElementById('pi-context-box');
+    const piDirSel=document.getElementById('pi-direction');
+
+    piShowCtx.addEventListener('change',()=>{ piCtxBox.style.display=piShowCtx.checked?'block':'none'; });
+    piStartBtn.addEventListener('click',startPi);
+    piStopBtn.addEventListener('click',stopPi);
+
+    function startPi() {
+        stopPi();
+        const maxStart=PI_DIGITS.length-SEQ_LEN-10;
+        piStartIdx=10+Math.floor(Math.random()*(maxStart-10));
+        const dirVal=piDirSel.value;
+        piDirection=dirVal==='random'?(Math.random()<0.5?'forward':'backward'):dirVal;
+        const seq=PI_DIGITS.slice(piStartIdx,piStartIdx+SEQ_LEN).split('');
+        const readSeq=piDirection==='backward'?[...seq].reverse():seq;
+        piRunning=true;
+        piStartBtn.style.display='none'; piStopBtn.style.display='block';
+        renderPiContext(piStartIdx,false);
+        let delay=0;
+        readSeq.forEach(digit=>{
+            piTimeouts.push(setTimeout(()=>{ piStatusEl.textContent=digit; speak(digit); },delay));
+            delay+=2000;
+        });
+        piTimeouts.push(setTimeout(()=>{
+            const dirText=piDirection==='forward'?'Vorw\u00e4rts':'R\u00fcckw\u00e4rts';
+            piStatusEl.textContent=dirText; speak(dirText);
+            renderPiContext(piStartIdx,true);
+        },delay+PAUSE_AFTER));
+        let nextIdx=piDirection==='forward'?piStartIdx+SEQ_LEN:piStartIdx-1;
+        let contDelay=delay+PAUSE_AFTER+DIG_INT;
+        for(let i=0;i<20;i++){
+            const idx=nextIdx;
+            if(idx<0||idx>=PI_DIGITS.length) break;
+            const digit=PI_DIGITS[idx];
+            piTimeouts.push(setTimeout(()=>{ if(!piRunning)return; piStatusEl.textContent=digit; speak(digit); },contDelay));
+            nextIdx=piDirection==='forward'?nextIdx+1:nextIdx-1;
+            contDelay+=DIG_INT;
+        }
+    }
+    function stopPi() {
+        piRunning=false; piTimeouts.forEach(t=>clearTimeout(t)); piTimeouts=[];
+        window.speechSynthesis.cancel();
+        piStatusEl.textContent='Bereit.';
+        piStartBtn.style.display='block'; piStopBtn.style.display='none';
+    }
+    function renderPiContext(startIdx, highlight) {
+        const from=Math.max(0,startIdx-10), to=Math.min(PI_DIGITS.length,startIdx+SEQ_LEN+10);
+        const chunk=PI_DIGITS.slice(from,to);
+        let html=`<div style="font-size:12px;color:var(--text-color-light);margin-bottom:6px;">Position ${startIdx+1}\u2013${startIdx+SEQ_LEN} (von 10.000)</div>`;
+        for(let i=0;i<chunk.length;i++){
+            const absIdx=from+i, inSeq=absIdx>=startIdx&&absIdx<startIdx+SEQ_LEN;
+            html+=inSeq&&highlight?`<span style="color:#dc3545;font-weight:bold;">${chunk[i]}</span>`:chunk[i];
+        }
+        piCtxBox.innerHTML=html;
+    }
+
+    // KREDITKARTE
+    (function(){
+        const CARD_TYPES = [
+            {name:'Visa', prefix:['4'], len:16},
+            {name:'Mastercard', prefix:['51','52','53','54','55'], len:16},
+            {name:'Amex', prefix:['34','37'], len:15},
+            {name:'Discover', prefix:['6011'], len:16}
+        ];
+
+        let ccNumber = '';      // full valid number
+        let ccMasked = '';      // with one digit removed
+        let ccMissingIdx = -1;
+        let ccMissingDigit = '';
+        let ccPhase = 0;        // 0=ready, 1=generated, 2=reading, 3=revealed
+        let ccTimeouts = [];
+
+        const mainBtn = document.getElementById('cc-main-btn');
+        const resetBtn = document.getElementById('cc-reset-btn');
+        const statusEl = document.getElementById('cc-status');
+        const answerBox = document.getElementById('cc-answer-box');
+        const answerEl = document.getElementById('cc-answer');
+        const showNumChk = document.getElementById('cc-show-number');
+        const numberBox = document.getElementById('cc-number-box');
+
+        showNumChk.addEventListener('change', () => {
+            numberBox.style.display = showNumChk.checked ? 'block' : 'none';
+        });
+        mainBtn.addEventListener('click', handleMainBtn);
+        resetBtn.addEventListener('click', resetCC);
+
+        function luhn(digits) {
+            let sum = 0;
+            let odd = true;
+            for (let i = digits.length - 1; i >= 0; i--) {
+                let d = parseInt(digits[i]);
+                if (!odd) { d *= 2; if (d > 9) d -= 9; }
+                sum += d;
+                odd = !odd;
+            }
+            return sum % 10 === 0;
+        }
+
+        function generateCard() {
+            const type = CARD_TYPES[Math.floor(Math.random() * CARD_TYPES.length)];
+            const prefix = type.prefix[Math.floor(Math.random() * type.prefix.length)];
+            const len = type.len;
+            let digits = prefix.split('');
+            while (digits.length < len - 1) digits.push(String(Math.floor(Math.random()*10)));
+            // calc check digit
+            for (let check = 0; check <= 9; check++) {
+                const candidate = digits.concat([String(check)]);
+                if (luhn(candidate)) { digits = candidate; break; }
+            }
+            return { number: digits.join(''), type: type.name };
+        }
+
+        function formatCard(num, missingIdx) {
+            // group into blocks of 4 (or 4-6-5 for Amex 15)
+            let html = '';
+            for (let i = 0; i < num.length; i++) {
+                if (i > 0 && i % 4 === 0) html += ' ';
+                if (i === missingIdx) {
+                    html += `<span style="color:#dc3545;font-weight:bold;">?</span>`;
+                } else {
+                    html += num[i];
+                }
+            }
+            return html;
+        }
+
+        function handleMainBtn() {
+            if (ccPhase === 0) {
+                // Generate
+                const card = generateCard();
+                ccNumber = card.number;
+                ccMissingIdx = Math.floor(Math.random() * ccNumber.length);
+                ccMissingDigit = ccNumber[ccMissingIdx];
+                ccPhase = 1;
+                answerBox.style.display = 'none';
+                numberBox.innerHTML = formatCard(ccNumber, ccMissingIdx);
+                if (showNumChk.checked) numberBox.style.display = 'block';
+                statusEl.textContent = `${card.type} \u2013 Bereit zum Vorlesen. Welche Ziffer fehlt?`;
+                mainBtn.textContent = 'Vorlesen starten';
+            } else if (ccPhase === 1) {
+                // Start reading
+                ccPhase = 2;
+                mainBtn.disabled = true;
+                const delay = (parseInt(document.getElementById('cc-delay').value) || 3) * 1000;
+                // build full sequence with null at missing position
+                const fullSeq = ccNumber.split('');
+                let d = 0;
+                ccTimeouts = [];
+                statusEl.textContent = 'Lese vor...';
+                fullSeq.forEach((digit, i) => {
+                    ccTimeouts.push(setTimeout(() => {
+                        if (i === ccMissingIdx) {
+                            statusEl.textContent = '?';
+                            beep();
+                        } else {
+                            statusEl.textContent = digit;
+                            speak(digit);
+                        }
+                        if (i === fullSeq.length - 1) {
+                            ccTimeouts.push(setTimeout(() => {
+                                statusEl.textContent = 'Welche Ziffer fehlt?';
+                                mainBtn.textContent = 'L\u00f6sung anzeigen';
+                                mainBtn.disabled = false;
+                                ccPhase = 3;
+                            }, delay));
+                        }
+                    }, d));
+                    d += delay;
+                });
+            } else if (ccPhase === 3) {
+                // Reveal
+                answerEl.textContent = ccMissingDigit;
+                answerBox.style.display = 'block';
+                statusEl.textContent = `Die fehlende Ziffer war die ${ccMissingIdx+1}. Stelle.`;
+                speak(ccMissingDigit);
+                mainBtn.disabled = true;
+                mainBtn.textContent = 'Karte generieren';
+            }
+        }
+
+        function resetCC() {
+            ccTimeouts.forEach(t => clearTimeout(t)); ccTimeouts = [];
+            window.speechSynthesis.cancel();
+            ccPhase = 0;
+            ccNumber = ''; ccMissingIdx = -1; ccMissingDigit = '';
+            statusEl.textContent = 'Bereit.';
+            mainBtn.textContent = 'Karte generieren';
+            mainBtn.disabled = false;
+            answerBox.style.display = 'none';
+            numberBox.innerHTML = '';
+            if (!showNumChk.checked) numberBox.style.display = 'none';
+        }
+    })();
+
+});
+
+function openTab(evt,tabName) {
+    document.querySelectorAll('.tab-pane').forEach(p=>p.style.display='none');
+    document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(tabName).style.display='block';
+    evt.currentTarget.classList.add('active');
+}
+</script>
 </body>
 </html>
