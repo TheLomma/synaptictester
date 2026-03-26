@@ -495,7 +495,7 @@
 <body>
 <div class="app-container">
     <div class="app-header">
-        <span>Synaptic Tester v1.9</span>
+        <span>Synaptic Tester v2.0</span>
         <button id="theme-toggle">Theme</button>
     </div>
     <div class="tabs">
@@ -826,8 +826,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getStepOrder() {
         const fmt = getDateFormat();
-        if (fmt === 'YMD') return ['year','month','day','weekday','days'];
-        return ['day','month','year','weekday','days']; // DMY
+        if (fmt === 'YMD') { const showZ=document.getElementById('show-zodiac').checked; return showZ?['year','month','day','weekday','days','zodiac']:['year','month','day','weekday','days']; }
+        const showZ=document.getElementById('show-zodiac').checked; return showZ?['day','month','year','weekday','days','zodiac']:['day','month','year','weekday','days'];
     }
 
     function showNextStep() {
@@ -841,11 +841,11 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'month': content = randomDate.toLocaleString('de-DE',{month:'long'}); break;
             case 'day': content = randomDate.getDate(); break;
             case 'weekday': content = randomDate.toLocaleString('de-DE',{weekday:'long'}); break;
-            case 5:
+            case 'days':
                 const td = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
                 content = Math.floor(td/(1000*3600*24)); subtext='Tage vergangen';
                 if(!showZodiac) isLast=true; break;
-            case 6:
+            case 'zodiac':
                 if(showZodiac){content=getZodiacSign(randomDate);isLast=true;}else{endSequence();return;} break;
             default: endSequence(); return;
         }
@@ -1259,7 +1259,16 @@ document.addEventListener('DOMContentLoaded', () => {
                       }
                   }
                   readNextCC(0);
-                  /* legacy removed */ if(false) { fullSeq.forEach((digit, i) => { if(false) {
+              } else if (ccPhase === 3) {
+                  answerEl.textContent = ccMissingDigit;
+                  answerBox.style.display = 'block';
+                  statusEl.textContent = `Die fehlende Ziffer war die ${ccMissingIdx+1}. Stelle.`;
+                  speak(ccMissingDigit);
+                  mainBtn.disabled = true;
+                  mainBtn.textContent = 'Karte generieren';
+              }
+          }
+          if(false) { if(false) {
                     ccTimeouts.push(setTimeout(() => {
                         if (i === ccMissingIdx) {
                             statusEl.textContent = '?';
@@ -1320,3 +1329,4 @@ function openTab(evt, tabName) {
 </script>
 </body>
 </html>
+
