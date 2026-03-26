@@ -495,7 +495,7 @@
 <body>
 <div class="app-container">
     <div class="app-header">
-        <span>Synaptic Tester v1.7</span>
+        <span>Synaptic Tester v1.8</span>
         <button id="theme-toggle">Theme</button>
     </div>
     <div class="tabs">
@@ -556,18 +556,25 @@
                     <option value="app" selected>App</option>
                 </select>
             </div>
+            <div class="input-group">
+                <label for="vier-gewinnt-num-players">Anzahl App-Spieler</label>
+                <select id="vier-gewinnt-num-players">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="vier-gewinnt-show-board">
-                <label for="vier-gewinnt-show-board">Spielfeld anzeigen</label>
+                <label for="vier-gewinnt-show-board">Spielfelder anzeigen</label>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="vier-gewinnt-speech">
                 <label for="vier-gewinnt-speech">Sprachausgabe f&uuml;r App</label>
             </div>
         </div>
-        <div id="vier-gewinnt-status">W&auml;hle die Optionen und starte eine neue Runde.</div>
-        <div id="vier-gewinnt-column-buttons"></div>
-        <div id="vier-gewinnt-board"></div>
+        <div id="vg-games-container"></div>
         <button id="vier-gewinnt-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
     </div>
 
@@ -794,108 +801,201 @@ document.addEventListener('DOMContentLoaded', () => {
         return'Steinbock';
     }
 
-    // VIER GEWINNT
+    // VIER GEWINNT — Multi-Board
     const ROWS=6, COLS=7, PLAYER1='user', PLAYER2='app';
-    let board=[], lastWinDirection='', currentPlayer, gameOver=false, moveCount=0;
-    const boardEl = document.getElementById('vier-gewinnt-board');
-    const colBtnsEl = document.getElementById('vier-gewinnt-column-buttons');
-    const vgStatus = document.getElementById('vier-gewinnt-status');
     const vgResetBtn = document.getElementById('vier-gewinnt-reset');
     const starterSel = document.getElementById('vier-gewinnt-starter');
     const showBoardChk = document.getElementById('vier-gewinnt-show-board');
     const vgSpeechChk = document.getElementById('vier-gewinnt-speech');
+    const numPlayersSel = document.getElementById('vier-gewinnt-num-players');
+    const gamesContainer = document.getElementById('vg-games-container');
 
-    vgResetBtn.addEventListener('click', initVierGewinnt);
-    showBoardChk.addEventListener('change', () => { boardEl.style.display = showBoardChk.checked ? 'grid' : 'none'; });
+    // Each game: { board, gameOver, moveCount, currentPlayer, boardEl, colBtnsEl, statusEl, appIdx }
+    let games = [];
 
-    function initVierGewinnt() {
-        gameOver=false; moveCount=0; currentPlayer=starterSel.value;
-        board=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
-        renderBoard(); renderColumnButtons();
-        vgStatus.textContent=`Spiel gestartet. ${currentPlayer===PLAYER1?'Du bist':'Die App ist'} am Zug.`;
-        if(currentPlayer===PLAYER2){disableColBtns(true);setTimeout(appMove,1000);}
-        else disableColBtns(false);
-    }
-    function renderBoard() {
-        boardEl.innerHTML='';
-        boardEl.style.display=showBoardChk.checked?'grid':'none';
-        for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
-            const cell=document.createElement('div'); cell.classList.add('cell');
-            cell.dataset.row=r; cell.dataset.col=c;
-            if(board[r][c]){const p=document.createElement('div');p.classList.add('piece',board[r][c]===PLAYER1?'player1':'player2');cell.appendChild(p);}
-            boardEl.appendChild(cell);
+    vgResetBtn.addEventListener('click', initAllGames);
+    showBoardChk.addEventListener('change', () => {
+        games.forEach(g => { g.boardEl.style.display = showBoardChk.checked ? 'grid' : 'none'; });
+    });
+
+    const APP_COLORS = [
+        { name: 'App 1', piece: 'player2', label: '#ff6b6b' },
+        { name: 'App 2', piece: 'player3', label: '#a9e34b' },
+        { name: 'App 3', piece: 'player4', label: '#f783ac' },
+        { name: 'App 4', piece: 'player5', label: '#ffd43b' },
+    ];
+
+    function initAllGames() {
+        const numPlayers = parseInt(numPlayersSel.value);
+        gamesContainer.innerHTML = '';
+        games = [];
+        for (let i = 0; i < numPlayers; i++) {
+            const appColor = APP_COLORS[i];
+            // Wrapper
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';
+
+            // Title
+            const title = document.createElement('div');
+            title.style.cssText = `font-size:14px;font-weight:700;color:${appColor.label};margin-bottom:10px;letter-spacing:-0.2px;`;
+            title.textContent = `Spielfeld gegen ${appColor.name}`;
+            wrapper.appendChild(title);
+
+            // Status
+            const statusEl = document.createElement('div');
+            statusEl.style.cssText = 'margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';
+            statusEl.textContent = 'Startet...';
+            wrapper.appendChild(statusEl);
+
+            // Column buttons
+            const colBtnsEl = document.createElement('div');
+            colBtnsEl.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';
+            wrapper.appendChild(colBtnsEl);
+
+            // Board
+            const boardEl = document.createElement('div');
+            boardEl.style.cssText = `display:${showBoardChk.checked?'grid':'none'};grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;`;
+            wrapper.appendChild(boardEl);
+
+            gamesContainer.appendChild(wrapper);
+
+            const game = {
+                board: Array(ROWS).fill(null).map(()=>Array(COLS).fill(null)),
+                gameOver: false,
+                moveCount: 0,
+                currentPlayer: starterSel.value,
+                boardEl, colBtnsEl, statusEl,
+                appIdx: i,
+                appColor,
+            };
+            games.push(game);
+            renderBoard(game);
+            renderColBtns(game);
+            updateStatus(game);
+            if (game.currentPlayer === PLAYER2) {
+                disableColBtns(game, true);
+                setTimeout(() => appMove(game), 1000 + i * 300);
+            }
         }
     }
-    function renderColumnButtons() {
-        colBtnsEl.innerHTML='';
-        for(let c=0;c<COLS;c++){
-            const btn=document.createElement('button'); btn.classList.add('column-btn');
-            btn.dataset.col=c; btn.textContent='\u2193 '+(c+1);
-            btn.addEventListener('click',handleColClick); colBtnsEl.appendChild(btn);
+
+    function renderBoard(game) {
+        game.boardEl.innerHTML = '';
+        for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+            const cell = document.createElement('div');
+            cell.style.cssText = 'aspect-ratio:1;background:rgba(0,0,0,0.35);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.07);';
+            cell.dataset.row = r; cell.dataset.col = c;
+            if (game.board[r][c]) {
+                const p = document.createElement('div');
+                const isUser = game.board[r][c] === PLAYER1;
+                p.style.cssText = `width:85%;height:85%;border-radius:50%;background:${isUser
+                    ? 'radial-gradient(circle at 35% 35%,#ffe066,#f59f00)'
+                    : `radial-gradient(circle at 35% 35%,${game.appColor.label}cc,${game.appColor.label}88)`
+                };box-shadow:0 2px 8px rgba(0,0,0,0.4);animation:drop 0.3s ease;`;
+                cell.appendChild(p);
+            }
+            game.boardEl.appendChild(cell);
         }
     }
-    function handleColClick(e) {
-        if(gameOver||currentPlayer!==PLAYER1) return;
-        const col=parseInt(e.target.dataset.col), row=findLowestRow(col);
-        if(row!==-1) dropPiece(row,col,PLAYER1);
+
+    function renderColBtns(game) {
+        game.colBtnsEl.innerHTML = '';
+        for (let c = 0; c < COLS; c++) {
+            const btn = document.createElement('button');
+            btn.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:white;cursor:pointer;padding:2px;';
+            btn.textContent = '↓' + (c + 1);
+            btn.dataset.col = c;
+            btn.addEventListener('click', (e) => handleColClick(e, game));
+            game.colBtnsEl.appendChild(btn);
+        }
     }
-    function dropPiece(row,col,player) {
-        board[row][col]=player; moveCount++;
-        const cell=boardEl.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
-        const piece=document.createElement('div'); piece.classList.add('piece',player===PLAYER1?'player1':'player2');
-        cell.appendChild(piece);
-        if(checkWin(player)){endGame(player);return;}
-        if(isBoardFull()){endGame(null);return;}
-        switchPlayer();
+
+    function updateStatus(game) {
+        if (game.gameOver) return;
+        game.statusEl.textContent = game.currentPlayer === PLAYER1 ? 'Dein Zug' : `${game.appColor.name} denkt...`;
     }
-    function findLowestRow(col) {
-        for(let r=ROWS-1;r>=0;r--) if(board[r][col]===null) return r;
+
+    function handleColClick(e, game) {
+        if (game.gameOver || game.currentPlayer !== PLAYER1) return;
+        const col = parseInt(e.target.dataset.col);
+        const row = findLowestRow(game, col);
+        if (row !== -1) dropPiece(game, row, col, PLAYER1);
+    }
+
+    function dropPiece(game, row, col, player) {
+        game.board[row][col] = player;
+        game.moveCount++;
+        renderBoard(game);
+        if (checkWin(game, player)) { endGame(game, player); return; }
+        if (isBoardFull(game)) { endGame(game, null); return; }
+        game.currentPlayer = game.currentPlayer === PLAYER1 ? PLAYER2 : PLAYER1;
+        updateStatus(game);
+        if (game.currentPlayer === PLAYER2) {
+            disableColBtns(game, true);
+            setTimeout(() => appMove(game), 900);
+        } else {
+            disableColBtns(game, false);
+        }
+    }
+
+    function findLowestRow(game, col) {
+        for (let r = ROWS - 1; r >= 0; r--) if (game.board[r][col] === null) return r;
         return -1;
     }
-    function switchPlayer() {
-        currentPlayer=currentPlayer===PLAYER1?PLAYER2:PLAYER1;
-        vgStatus.textContent=`${currentPlayer===PLAYER1?'Du bist':'Die App ist'} am Zug.`;
-        if(currentPlayer===PLAYER2){disableColBtns(true);setTimeout(appMove,1200);}
-        else disableColBtns(false);
-    }
-    function appMove() {
-        if(gameOver) return;
-        const avail=[]; for(let c=0;c<COLS;c++) if(board[0][c]===null) avail.push(c);
-        if(avail.length>0){
-            const col=avail[Math.floor(Math.random()*avail.length)], row=findLowestRow(col);
-            if(vgSpeechChk.checked) speak(`Ich setze in Spalte ${col+1}.`);
-            dropPiece(row,col,PLAYER2);
+
+    function appMove(game) {
+        if (game.gameOver) return;
+        const avail = [];
+        for (let c = 0; c < COLS; c++) if (game.board[0][c] === null) avail.push(c);
+        if (avail.length > 0) {
+            const col = avail[Math.floor(Math.random() * avail.length)];
+            const row = findLowestRow(game, col);
+            if (vgSpeechChk.checked) speak(`${game.appColor.name} setzt in Spalte ${col + 1}.`);
+            dropPiece(game, row, col, PLAYER2);
         }
     }
-    function checkWin(player) {
-        const ok=(a,b,c,d)=>a!==null&&a===b&&a===c&&a===d;
-        for(let r=0;r<ROWS;r++) for(let c=0;c<=COLS-4;c++)
-            if(ok(board[r][c],board[r][c+1],board[r][c+2],board[r][c+3])&&board[r][c]===player)
-                {lastWinDirection='Horizontal.';highlightWin([[r,c],[r,c+1],[r,c+2],[r,c+3]]);return true;}
-        for(let c=0;c<COLS;c++) for(let r=0;r<=ROWS-4;r++)
-            if(ok(board[r][c],board[r+1][c],board[r+2][c],board[r+3][c])&&board[r][c]===player)
-                {lastWinDirection='Vertikal.';highlightWin([[r,c],[r+1,c],[r+2,c],[r+3,c]]);return true;}
-        for(let r=0;r<=ROWS-4;r++) for(let c=0;c<=COLS-4;c++)
-            if(ok(board[r][c],board[r+1][c+1],board[r+2][c+2],board[r+3][c+3])&&board[r][c]===player)
-                {lastWinDirection='Diagonal.';highlightWin([[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);return true;}
-        for(let r=3;r<ROWS;r++) for(let c=0;c<=COLS-4;c++)
-            if(ok(board[r][c],board[r-1][c+1],board[r-2][c+2],board[r-3][c+3])&&board[r][c]===player)
-                {lastWinDirection='Diagonal.';highlightWin([[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);return true;}
+
+    function checkWin(game, player) {
+        const b = game.board;
+        const ok = (a,b2,c,d) => a !== null && a === b2 && a === c && a === d && a === player;
+        for (let r = 0; r < ROWS; r++) for (let c = 0; c <= COLS-4; c++)
+            if (ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])) { highlightWin(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]); game.lastWinDir='Horizontal'; return true; }
+        for (let c = 0; c < COLS; c++) for (let r = 0; r <= ROWS-4; r++)
+            if (ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])) { highlightWin(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]); game.lastWinDir='Vertikal'; return true; }
+        for (let r = 0; r <= ROWS-4; r++) for (let c = 0; c <= COLS-4; c++)
+            if (ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])) { highlightWin(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]); game.lastWinDir='Diagonal'; return true; }
+        for (let r = 3; r < ROWS; r++) for (let c = 0; c <= COLS-4; c++)
+            if (ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])) { highlightWin(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]); game.lastWinDir='Diagonal'; return true; }
         return false;
     }
-    function highlightWin(cells) { cells.forEach(([r,c])=>{const el=boardEl.querySelector(`.cell[data-row='${r}'][data-col='${c}']`);if(el)el.classList.add('win');}); }
-    function isBoardFull() { return board[0].every(c=>c!==null); }
-    function endGame(winner) {
-        gameOver=true; disableColBtns(true);
-        let msg='';
-        if(winner){
-            msg=`${winner===PLAYER1?'Du hast':'Die App hat'} gewonnen! ${lastWinDirection} (${moveCount} Züge)`;
-            vgStatus.textContent=msg;
-            if(vgSpeechChk.checked) speak(msg);
-        } else { msg=`Unentschieden! (${moveCount} Züge)`; vgStatus.textContent=msg; if(vgSpeechChk.checked) speak(msg); }
+
+    function highlightWin(game, cells) {
+        const allCells = game.boardEl.querySelectorAll('[data-row]');
+        cells.forEach(([r,c]) => {
+            const el = game.boardEl.querySelector(`[data-row='${r}'][data-col='${c}']`);
+            if (el) el.style.boxShadow = '0 0 0 3px rgba(255,255,255,0.8)';
+        });
     }
-    function disableColBtns(disabled) { colBtnsEl.querySelectorAll('.column-btn').forEach(b=>b.disabled=disabled); }
-    initVierGewinnt();
+
+    function isBoardFull(game) { return game.board[0].every(c => c !== null); }
+
+    function endGame(game, winner) {
+        game.gameOver = true;
+        disableColBtns(game, true);
+        let msg = '';
+        if (winner === PLAYER1) msg = `Du hast gewonnen! ${game.lastWinDir||''} (${game.moveCount} Züge)`;
+        else if (winner === PLAYER2) msg = `${game.appColor.name} hat gewonnen! ${game.lastWinDir||''} (${game.moveCount} Züge)`;
+        else msg = `Unentschieden! (${game.moveCount} Züge)`;
+        game.statusEl.textContent = msg;
+        game.statusEl.style.color = winner === PLAYER1 ? '#51cf66' : winner === PLAYER2 ? game.appColor.label : 'rgba(255,255,255,0.7)';
+        if (vgSpeechChk.checked) speak(msg);
+    }
+
+    function disableColBtns(game, disabled) {
+        game.colBtnsEl.querySelectorAll('button').forEach(b => b.disabled = disabled);
+    }
+
+    initAllGames();
 
     // PI
     const PI_DIGITS='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632788659361533818279682303019520353018529689957736225994138912497217752834791315155748572424541506959508295331168617278558890750983817546374649393192550604009277016711390098488240128583616035637076601047101819429555961989467678374494482553797747268471040475346462080466842590694912933136770289891521047521620569660240580381501935112533824300355876402474964732639141992726042699227967823547816360093417216412199245863150302861829745557067498385054945885869269956909272107975093029553211653449872027559602364806654991198818347977535663698074265425278625518184175746728909777727938000816470600161452491921732172147723501414419735685481613611573525521334757418494684385233239073941433345477624168625189835694855620992192221842725502542568876717904946016534668049886272327917860857843838279679766814541009538837863609506800642251252051173929848960841284886269456042419652850222106611863067442786220391949450471237137869609563643719172874677646575739624138908658326459958133904780275901';
