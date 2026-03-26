@@ -10,6 +10,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
+            --mode-label: 'Dunkel';
             --ease: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --glass-bg: rgba(0,0,0,0.45);
             --glass-border: rgba(255,255,255,0.10);
@@ -28,7 +29,38 @@
             --tab-active: rgba(255,255,255,0.12);
         }
 
+        body.light-mode {
+            --glass-bg: rgba(255,255,255,0.12);
+            --glass-border: rgba(255,255,255,0.15);
+            --glass-shadow: 0 8px 40px rgba(0,0,0,0.4);
+            --glass-btn: rgba(255,255,255,0.10);
+            --glass-btn-hover: rgba(255,255,255,0.18);
+            --glass-input: rgba(255,255,255,0.08);
+            --glass-display: rgba(255,255,255,0.08);
+            --text: rgba(255,255,255,0.95);
+            --text-light: rgba(255,255,255,0.55);
+            --tab-active: rgba(255,255,255,0.15);
+        }
+        body.light-mode {
+            background:
+                radial-gradient(ellipse at 20% 20%, #1a3a6e 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 10%, #2a1a5e 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, #0a2a4a 0%, transparent 50%),
+                linear-gradient(135deg, #0f1f3d 0%, #1a1030 50%, #0f1f3d 100%);
+        }
+        body.light-mode .input-group select option { background: #f0f4ff; color: #111; }
+        body.light-mode .app-header { background: rgba(255,255,255,0.4); border-bottom-color: rgba(0,0,0,0.08); }
+        body.light-mode .tabs { background: rgba(255,255,255,0.4); border-bottom-color: rgba(0,0,0,0.08); }
+        body.light-mode .tab-button { color: rgba(0,0,0,0.45); }
+        body.light-mode .tab-button.active { background: rgba(0,0,0,0.08); color: rgba(0,0,0,0.88); border-color: rgba(0,0,0,0.12); box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+        body.light-mode #vier-gewinnt-board { background: rgba(30,80,200,0.08); border-color: rgba(77,171,247,0.3); }
+        body.light-mode .cell { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
+        body.light-mode .column-btn { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.15); color: #111; }
+        body.light-mode .column-btn:hover { background: rgba(0,0,0,0.15); }
         body {
+
+            flex-direction: column;
+            align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
             min-height: 100vh;
             display: flex;
@@ -74,6 +106,8 @@
         }
 
         #theme-toggle {
+            min-width: 80px;
+            text-align: center;
             background: var(--glass-btn);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
@@ -577,10 +611,21 @@
 
 </div>
 
+<div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
+    <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'">Synaptic kaufen</a>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    document.getElementById('theme-toggle').style.display = 'none';
+    const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.textContent = 'Dunkel';
+        let isLight = false;
+        themeBtn.addEventListener('click', () => {
+            isLight = !isLight;
+            document.body.classList.toggle('light-mode', isLight);
+            themeBtn.textContent = isLight ? 'Hell' : 'Dunkel';
+        });
 
     function speak(text) {
         if ('speechSynthesis' in window) {
@@ -714,7 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // VIER GEWINNT
     const ROWS=6, COLS=7, PLAYER1='user', PLAYER2='app';
-    let board=[], lastWinDirection='', currentPlayer, gameOver=false;
+    let board=[], lastWinDirection='', currentPlayer, gameOver=false, moveCount=0;
     const boardEl = document.getElementById('vier-gewinnt-board');
     const colBtnsEl = document.getElementById('vier-gewinnt-column-buttons');
     const vgStatus = document.getElementById('vier-gewinnt-status');
@@ -727,7 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showBoardChk.addEventListener('change', () => { boardEl.style.display = showBoardChk.checked ? 'grid' : 'none'; });
 
     function initVierGewinnt() {
-        gameOver=false; currentPlayer=starterSel.value;
+        gameOver=false; moveCount=0; currentPlayer=starterSel.value;
         board=Array(ROWS).fill(null).map(()=>Array(COLS).fill(null));
         renderBoard(); renderColumnButtons();
         vgStatus.textContent=`Spiel gestartet. ${currentPlayer===PLAYER1?'Du bist':'Die App ist'} am Zug.`;
@@ -758,7 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(row!==-1) dropPiece(row,col,PLAYER1);
     }
     function dropPiece(row,col,player) {
-        board[row][col]=player;
+        board[row][col]=player; moveCount++;
         const cell=boardEl.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
         const piece=document.createElement('div'); piece.classList.add('piece',player===PLAYER1?'player1':'player2');
         cell.appendChild(piece);
@@ -807,10 +852,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOver=true; disableColBtns(true);
         let msg='';
         if(winner){
-            msg=`${winner===PLAYER1?'Du hast':'Die App hat'} gewonnen! ${lastWinDirection}`;
+            msg=`${winner===PLAYER1?'Du hast':'Die App hat'} gewonnen! ${lastWinDirection} (${moveCount} Züge)`;
             vgStatus.textContent=msg;
             if(vgSpeechChk.checked) speak(msg);
-        } else { msg='Unentschieden!'; vgStatus.textContent=msg; if(vgSpeechChk.checked) speak(msg); }
+        } else { msg=`Unentschieden! (${moveCount} Züge)`; vgStatus.textContent=msg; if(vgSpeechChk.checked) speak(msg); }
     }
     function disableColBtns(disabled) { colBtnsEl.querySelectorAll('.column-btn').forEach(b=>b.disabled=disabled); }
     initVierGewinnt();
