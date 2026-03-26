@@ -495,7 +495,7 @@
 <body>
 <div class="app-container">
     <div class="app-header">
-        <span>Synaptic Tester v1.8</span>
+        <span>Synaptic Tester v1.9</span>
         <button id="theme-toggle">Theme</button>
     </div>
     <div class="tabs">
@@ -514,11 +514,18 @@
             </div>
             <div class="input-group">
                 <label for="end-date">Enddatum</label>
-                <input type="date" id="end-date">
+                <input type="date" id="end-date" value="2026-03-26">
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="show-zodiac">
                 <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
+            </div>
+            <div class="input-group">
+                <label for="date-format">Datumsformat <span style="font-weight:400;color:var(--text-light);">(bitte w&auml;hlen)</span></label>
+                <select id="date-format">
+                    <option value="DMY" selected>TT / MM / JJJJ</option>
+                    <option value="YMD">JJJJ / MM / TT</option>
+                </select>
             </div>
             <div class="checkbox-group" style="margin-top:20px;">
                 <input type="checkbox" id="enable-speech">
@@ -546,7 +553,7 @@
         </div>
     </div>
 
-    <div id="vier-gewinnt" class="tab-content tab-pane">
+    <div id="vier-gewinnt" class="tab-content tab-pane" style="display:none;">
         <h2>Vier Gewinnt</h2>
         <div class="vier-gewinnt-controls">
             <div class="input-group">
@@ -579,7 +586,7 @@
     </div>
 
     <!-- TAB 4: KREDITKARTE -->
-    <div id="cc-tab" class="tab-content tab-pane">
+    <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
         <h2>Kreditkarte</h2>
 
         <div class="input-group">
@@ -604,7 +611,7 @@
         <div id="cc-number-box" style="display:none;margin-top:5px;padding:15px;background-color:var(--display-bg);border-radius:6px;font-family:monospace;font-size:20px;letter-spacing:3px;text-align:center;color:white;word-break:break-all;"></div>
     </div>
 
-    <div id="pi-tab" class="tab-content tab-pane">
+    <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
         <h2>Pi &ndash; Ziffernfolge</h2>
         <div class="input-group">
             <label for="pi-direction">Leserichtung</label>
@@ -640,6 +647,14 @@
 </div>
 
 <script>
+// Set yesterday as default end date immediately
+(function() {
+    const t = new Date();
+    const y = new Date(t.getFullYear(), t.getMonth(), t.getDate() - 1);
+    const yStr = y.getFullYear() + '-' + String(y.getMonth()+1).padStart(2,'0') + '-' + String(y.getDate()).padStart(2,'0');
+    document.getElementById('end-date').value = yStr;
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const themeBtn = document.getElementById('theme-toggle');
@@ -659,14 +674,39 @@ document.addEventListener('DOMContentLoaded', () => {
         volLabel.textContent = Math.round(globalVolume * 100) + '%';
     });
 
-    function speak(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'de-DE';
-            u.volume = globalVolume;
-            window.speechSynthesis.speak(u);
-        }
+    // iOS-kompatible Sprachwarteschlange
+    let speechQueue = [];
+    let isSpeaking = false;
+
+    function speak(text, onDone) {
+        speechQueue.push({ text, onDone });
+        if (!isSpeaking) processQueue();
+    }
+
+    function processQueue() {
+        if (speechQueue.length === 0) { isSpeaking = false; return; }
+        isSpeaking = true;
+        const { text, onDone } = speechQueue.shift();
+        if (!('speechSynthesis' in window)) { if (onDone) onDone(); processQueue(); return; }
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'de-DE';
+        u.volume = globalVolume;
+        u.onend = () => { if (onDone) onDone(); processQueue(); };
+        u.onerror = () => { if (onDone) onDone(); processQueue(); };
+        window.speechSynthesis.speak(u);
+    }
+
+    function clearSpeechQueue() {
+        speechQueue = [];
+        isSpeaking = false;
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function speakWithPause(text, pauseMs, onDone) {
+        speak(text, () => {
+            setTimeout(() => { if (onDone) onDone(); }, pauseMs);
+        });
     }
 
     // Haptic pulse on all buttons
@@ -682,7 +722,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // CALENDAR PRODIGY
     const today = new Date();
-    document.getElementById('end-date').value = today.toISOString().split('T')[0];
+    const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+    const yy = yesterday.getFullYear();
+    const mm = String(yesterday.getMonth() + 1).padStart(2, '0');
+    const dd = String(yesterday.getDate()).padStart(2, '0');
+    document.getElementById('end-date').value = `${yy}-${mm}-${dd}`;
     const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     let currentStep = 0, randomDate = null, speechTimeouts = [];
     const btnGenerate = document.getElementById('btn-generate');
@@ -718,6 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startSpeechSequence() {
         btnNext.disabled = true;
         displayArea.textContent = 'Sprachausgabe startet...';
+        clearSpeechQueue();
         const d = {
             initial: parseInt(document.getElementById('delay-initial').value)*1000,
             yearMonth: parseInt(document.getElementById('delay-year-month').value)*1000,
@@ -734,35 +779,68 @@ document.addEventListener('DOMContentLoaded', () => {
         const dayDiff = Math.floor(timeDiff/(1000*3600*24));
         const dayDiffStr = dayDiff.toString();
         const showZodiac = document.getElementById('show-zodiac').checked;
-        clearAllTimeouts();
-        let delay = 0;
-        [[d.initial,year,year],[d.yearMonth,month,month],[d.monthDay,day,day],[d.dayWeekday,weekday,weekday],
-         [d.weekdayDays,'',`${dayDiff}<br><small style='font-size:14px;color:var(--text-color-light);'>Tage vergangen</small>`]
-        ].forEach(([wait,txt,html]) => {
-            delay += wait;
-            speechTimeouts.push(setTimeout(() => { displayArea.innerHTML = html; if(txt) speak(txt); }, delay));
-        });
-        dayDiffStr.split('').forEach(digit => {
-            delay += d.digit;
-            speechTimeouts.push(setTimeout(() => { speak(digit); }, delay));
-        });
-        if (showZodiac) {
-            delay += Math.max(d.weekdayDays, d.digit * dayDiffStr.length + 2000);
-            const z = getZodiacSign(randomDate);
-            speechTimeouts.push(setTimeout(() => { displayArea.textContent = z; speak(z); }, delay));
+        const fmt = getDateFormat();
+        const dateSteps = fmt === 'YMD'
+            ? [[year, d.initial],[month, d.yearMonth],[day, d.monthDay]]
+            : [[day, d.initial],[month, d.yearMonth],[year, d.monthDay]];
+
+        function runStep(steps, idx, afterDone) {
+            if (idx >= steps.length) { afterDone(); return; }
+            const [txt, pause] = steps[idx];
+            displayArea.innerHTML = txt;
+            speakWithPause(txt, pause, () => runStep(steps, idx+1, afterDone));
         }
-        speechTimeouts.push(setTimeout(endSequence, delay + 2000));
+
+        // Start with initial pause then run date steps
+        setTimeout(() => {
+            runStep(dateSteps, 0, () => {
+                // Weekday
+                displayArea.innerHTML = weekday;
+                speakWithPause(weekday, d.dayWeekday, () => {
+                    // Days passed
+                    displayArea.innerHTML = `${dayDiff}<br><small style='font-size:14px;color:var(--text-color-light);'>Tage vergangen</small>`;
+                    // Speak each digit of dayDiff with pause
+                    const digits = dayDiffStr.split('');
+                    function speakDigit(i) {
+                        if (i >= digits.length) {
+                            if (showZodiac) {
+                                setTimeout(() => {
+                                    const z = getZodiacSign(randomDate);
+                                    displayArea.textContent = z;
+                                    speakWithPause(z, 1000, endSequence);
+                                }, d.weekdayDays);
+                            } else {
+                                setTimeout(endSequence, d.weekdayDays);
+                            }
+                            return;
+                        }
+                        speakWithPause(digits[i], d.digit, () => speakDigit(i+1));
+                    }
+                    speakDigit(0);
+                });
+            });
+        }, d.initial);
+    }
+
+    function getDateFormat() { return document.getElementById('date-format').value; }
+
+    function getStepOrder() {
+        const fmt = getDateFormat();
+        if (fmt === 'YMD') return ['year','month','day','weekday','days'];
+        return ['day','month','year','weekday','days']; // DMY
     }
 
     function showNextStep() {
         currentStep++;
         const showZodiac = document.getElementById('show-zodiac').checked;
+        const steps = getStepOrder();
         let content='', subtext='', isLast=false;
-        switch(currentStep) {
-            case 1: content = randomDate.getFullYear(); break;
-            case 2: content = randomDate.toLocaleString('de-DE',{month:'long'}); break;
-            case 3: content = randomDate.getDate(); break;
-            case 4: content = randomDate.toLocaleString('de-DE',{weekday:'long'}); break;
+        const stepName = steps[currentStep - 1];
+        switch(stepName) {
+            case 'year': content = randomDate.getFullYear(); break;
+            case 'month': content = randomDate.toLocaleString('de-DE',{month:'long'}); break;
+            case 'day': content = randomDate.getDate(); break;
+            case 'weekday': content = randomDate.toLocaleString('de-DE',{weekday:'long'}); break;
             case 5:
                 const td = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
                 content = Math.floor(td/(1000*3600*24)); subtext='Tage vergangen';
@@ -779,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayArea.innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-color-light);">Auf Zur\u00fccksetzen klicken.</small>';
         btnNext.disabled=true; btnNext.textContent='N\u00e4chster Schritt';
     }
-    function clearAllTimeouts() { speechTimeouts.forEach(t=>clearTimeout(t)); speechTimeouts=[]; window.speechSynthesis.cancel(); }
+    function clearAllTimeouts() { speechTimeouts.forEach(t=>clearTimeout(t)); speechTimeouts=[]; clearSpeechQueue(); }
     function resetApp() {
         clearAllTimeouts(); currentStep=0; randomDate=null;
         setupView.style.display='block'; resultView.style.display='none';
@@ -1025,32 +1103,41 @@ document.addEventListener('DOMContentLoaded', () => {
         piRunning=true;
         piStartBtn.style.display='none'; piStopBtn.style.display='block';
         renderPiContext(piStartIdx,false);
-        let delay=0;
-        readSeq.forEach(digit=>{
-            piTimeouts.push(setTimeout(()=>{ piStatusEl.textContent=digit; speak(digit); },delay));
-            delay+=2000;
-        });
-        piTimeouts.push(setTimeout(()=>{
-            const dirText=piDirection==='forward'?'Vorw\u00e4rts':'R\u00fcckw\u00e4rts';
-            piStatusEl.textContent=dirText; speak(dirText);
-            renderPiContext(piStartIdx,true);
-        },delay+PAUSE_AFTER));
-        let nextIdx=piDirection==='forward'?piStartIdx+SEQ_LEN:piStartIdx-1;
-        let contDelay=delay+PAUSE_AFTER+DIG_INT;
-        for(let i=0;i<20;i++){
-            const idx=nextIdx;
-            if(idx<0||idx>=PI_DIGITS.length) break;
-            const digit=PI_DIGITS[idx];
-            piTimeouts.push(setTimeout(()=>{ if(!piRunning)return; piStatusEl.textContent=digit; speak(digit); },contDelay));
-            nextIdx=piDirection==='forward'?nextIdx+1:nextIdx-1;
-            contDelay+=DIG_INT;
+        DIG_INT = parseInt(document.getElementById('pi-digit-delay').value)*1000 || 5000;
+
+        // iOS-safe: use onend queue
+        function speakSeq(digits, idx, onAllDone) {
+            if (idx >= digits.length) { onAllDone(); return; }
+            piStatusEl.textContent = digits[idx];
+            speakWithPause(digits[idx], DIG_INT, () => speakSeq(digits, idx+1, onAllDone));
         }
+
+        speakSeq(readSeq, 0, () => {
+            const dirText = piDirection==='forward' ? 'Vorw\u00e4rts' : 'R\u00fcckw\u00e4rts';
+            piStatusEl.textContent = dirText;
+            speak(dirText, () => {
+                renderPiContext(piStartIdx, true);
+                // Continue reading subsequent digits
+                let nextIdx = piDirection==='forward' ? piStartIdx+SEQ_LEN : piStartIdx-1;
+                function readNext() {
+                    if (!piRunning) return;
+                    if (nextIdx < 0 || nextIdx >= PI_DIGITS.length) { stopPi(); return; }
+                    const digit = PI_DIGITS[nextIdx];
+                    piStatusEl.textContent = digit;
+                    nextIdx = piDirection==='forward' ? nextIdx+1 : nextIdx-1;
+                    speakWithPause(digit, DIG_INT, readNext);
+                }
+                readNext();
+            });
+        });
     }
+
     function stopPi() {
-        piRunning=false; piTimeouts.forEach(t=>clearTimeout(t)); piTimeouts=[];
-        window.speechSynthesis.cancel();
-        piStatusEl.textContent='Bereit.';
+        piRunning=false;
+        piTimeouts.forEach(t=>clearTimeout(t)); piTimeouts=[];
+        clearSpeechQueue();
         piStartBtn.style.display='block'; piStopBtn.style.display='none';
+        piStatusEl.textContent='Gestoppt.';
     }
     function renderPiContext(startIdx, highlight) {
         const from=Math.max(0,startIdx-10), to=Math.min(PI_DIGITS.length,startIdx+SEQ_LEN+10);
@@ -1156,7 +1243,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 let d = 0;
                 ccTimeouts = [];
                 statusEl.textContent = 'Lese vor...';
-                fullSeq.forEach((digit, i) => {
+                clearSpeechQueue();
+                  function readNextCC(i) {
+                      if (i >= fullSeq.length) {
+                          statusEl.textContent = 'Welche Ziffer fehlt?';
+                          mainBtn.textContent = 'L\u00f6sung anzeigen';
+                          mainBtn.disabled = false; ccPhase = 3; return;
+                      }
+                      if (i === ccMissingIdx) {
+                          statusEl.textContent = '?'; beep();
+                          setTimeout(() => readNextCC(i+1), delay);
+                      } else {
+                          statusEl.textContent = fullSeq[i];
+                          speakWithPause(fullSeq[i], delay, () => readNextCC(i+1));
+                      }
+                  }
+                  readNextCC(0);
+                  /* legacy removed */ if(false) { fullSeq.forEach((digit, i) => { if(false) {
                     ccTimeouts.push(setTimeout(() => {
                         if (i === ccMissingIdx) {
                             statusEl.textContent = '?';
@@ -1203,11 +1306,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function openTab(evt,tabName) {
-    document.querySelectorAll('.tab-pane').forEach(p=>p.style.display='none');
-    document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
-    document.getElementById(tabName).style.display='block';
-    evt.currentTarget.classList.add('active');
+
+
+</script>
+<script>
+function openTab(evt, tabName) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById(tabName);
+    if (target) target.style.display = 'block';
+    if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
 }
 </script>
 </body>
