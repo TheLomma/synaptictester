@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synaptic Tester</title>
+    <title>Synaptic Tester v1.1</title>
     <style>
         :root {
             --ease: all 0.2s ease-in-out;
@@ -103,14 +103,16 @@
             border-radius: 20px;
             cursor: pointer;
             padding: 5px 10px;
-            font-size: 18px;
+            font-size: 14px;
             transition: var(--ease);
-            width: 44px;
+            width: 40px; /* Fixed width for icon */
             text-align: center;
-            color: var(--text-color);
         }
         #theme-toggle:hover {
             background-color: var(--theme-toggle-hover);
+        }
+        #theme-toggle::after {
+            content: var(--theme-toggle-icon);
         }
 
         .tabs {
@@ -158,8 +160,7 @@
             font-weight: 600;
             color: var(--text-color-light);
         }
-        .input-group input[type="date"],
-        .input-group input[type="number"] {
+        .input-group input[type="date"], .input-group input[type="number"] {
             width: calc(100% - 22px);
             padding: 10px;
             border: 1px solid var(--input-border);
@@ -170,9 +171,10 @@
             transition: var(--ease);
         }
         .input-group input[type="number"] {
-            width: 80%;
-            padding: 5px;
+             width: 80%;
+             padding: 5px;
         }
+
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -229,8 +231,8 @@
             padding: 20px;
             background-color: var(--display-bg);
             border-radius: 6px;
-            min-height: 60px;
-            font-size: 28px;
+            min-height: 50px;
+            font-size: 24px;
             font-weight: bold;
             text-align: center;
             color: var(--display-text);
@@ -250,325 +252,337 @@
             transition: var(--ease);
         }
         #speech-settings h4 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 16px;
-            color: var(--tab-active-text);
+            margin-top: 0; margin-bottom: 15px; font-size: 16px;
         }
         #speech-settings .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
         }
         #speech-settings .input-group {
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 14px; margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="app-header">
-        <span>Synaptic Tester v1.0</span>
-        <button id="theme-toggle" title="Theme umschalten">🌙</button>
-    </div>
+    <div class="app-container">
+        <div class="app-header">
+            <span>Synaptic Tester v1.1</span>
+            <button id="theme-toggle" title="Toggle Theme"></button>
+        </div>
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'date-function')">Calendar Prodigy</button>
+            <button class="tab-button" onclick="openTab(event, 'placeholder1')">Weitere Funktion...</button>
+        </div>
 
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab(event, 'date-function')">Calendar Prodigy</button>
-        <button class="tab-button" onclick="openTab(event, 'placeholder1')">Weitere Funktion...</button>
-    </div>
-
-    <!-- TAB: Calendar Prodigy -->
-    <div id="date-function" class="tab-content tab-pane active">
-        <h2>Zufälliges Datum</h2>
-        <div id="setup-view">
-            <div class="input-group">
-                <label for="start-date">Anfangsdatum</label>
-                <input type="date" id="start-date" value="1950-01-01">
-            </div>
-            <div class="input-group">
-                <label for="end-date">Enddatum</label>
-                <input type="date" id="end-date">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="show-zodiac">
-                <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
-            </div>
-            <div class="checkbox-group" style="margin-top: 10px;">
-                <input type="checkbox" id="enable-speech">
-                <label for="enable-speech">Sprachausgabe aktivieren</label>
-            </div>
-            <div id="speech-settings">
-                <h4>Pausen für Sprachausgabe (Sekunden)</h4>
-                <div class="grid">
-                    <div class="input-group">
-                        <label for="delay-initial">Start</label>
-                        <input type="number" id="delay-initial" value="5" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="delay-year-month">nach Jahr</label>
-                        <input type="number" id="delay-year-month" value="10" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="delay-month-day">nach Monat</label>
-                        <input type="number" id="delay-month-day" value="10" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="delay-day-weekday">nach Tag</label>
-                        <input type="number" id="delay-day-weekday" value="10" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="delay-weekday-days">nach Wochentag</label>
-                        <input type="number" id="delay-weekday-days" value="10" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="delay-digit">zw. Ziffern</label>
-                        <input type="number" id="delay-digit" value="3" min="0">
+        <div id="date-function" class="tab-content tab-pane active">
+            <h2>Zufälliges Datum</h2>
+            <div id="setup-view">
+                <div class="input-group">
+                    <label for="start-date">Anfangsdatum</label>
+                    <input type="date" id="start-date" value="1950-01-01">
+                </div>
+                <div class="input-group">
+                    <label for="end-date">Enddatum</label>
+                    <input type="date" id="end-date">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="show-zodiac">
+                    <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
+                </div>
+                <div class="checkbox-group" style="margin-top: 20px;">
+                    <input type="checkbox" id="enable-speech">
+                    <label for="enable-speech">Sprachausgabe aktivieren</label>
+                </div>
+                <div id="speech-settings">
+                    <h4>Pausen für Sprachausgabe (Sekunden)</h4>
+                    <div class="grid">
+                        <div class="input-group">
+                            <label for="delay-initial">Start</label>
+                            <input type="number" id="delay-initial" value="5" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="delay-year-month">nach Jahr</label>
+                            <input type="number" id="delay-year-month" value="10" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="delay-month-day">nach Monat</label>
+                            <input type="number" id="delay-month-day" value="10" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="delay-day-weekday">nach Tag</label>
+                            <input type="number" id="delay-day-weekday" value="10" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="delay-weekday-days">nach Wochentag</label>
+                            <input type="number" id="delay-weekday-days" value="10" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="delay-digit">zw. Ziffern</label>
+                            <input type="number" id="delay-digit" value="3" min="0">
+                        </div>
                     </div>
                 </div>
+                 <button id="btn-generate" style="width: 100%; margin-top: 20px;">Zufälliges Datum generieren</button>
             </div>
-            <button id="btn-generate" style="width: 100%; margin-top: 20px;">Zufälliges Datum generieren</button>
+
+            <div id="result-view" style="display: none;">
+                <div id="display-area">Warte auf Eingabe...</div>
+                <div class="button-group">
+                    <button id="btn-next">Nächster Schritt</button>
+                    <button id="btn-reset">Zurücksetzen</button>
+                </div>
+            </div>
         </div>
 
-        <div id="result-view" style="display: none;">
-            <div id="display-area">Warte auf Eingabe...</div>
-            <div class="button-group">
-                <button id="btn-next">Nächster Schritt</button>
-                <button id="btn-reset">Zurücksetzen</button>
-            </div>
+        <div id="placeholder1" class="tab-content tab-pane">
+            <h2>Weitere Funktion</h2>
+            <p>Dieser Bereich ist für zukünftige Funktionen reserviert.</p>
         </div>
     </div>
 
-    <!-- TAB: Placeholder -->
-    <div id="placeholder1" class="tab-content tab-pane">
-        <h2>Weitere Funktion</h2>
-        <p style="color: var(--text-color-light);">Dieser Bereich ist für zukünftige Funktionen reserviert.</p>
-    </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- THEME ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+            function setAndStoreTheme(theme) {
+                body.setAttribute('data-theme', theme);
+                try {
+                    localStorage.setItem('synaptic-theme', theme);
+                } catch (e) {
+                    console.warn("LocalStorage is not available.");
+                }
+            }
 
-    // ── THEME ──────────────────────────────────────────────
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    function applyTheme(theme) {
-        body.setAttribute('data-theme', theme);
-        themeToggleBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
-        try { localStorage.setItem('synaptic-theme', theme); } catch(e) {}
-    }
-
-    themeToggleBtn.addEventListener('click', () => {
-        applyTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
-
-    let savedTheme;
-    try { savedTheme = localStorage.getItem('synaptic-theme'); } catch(e) {}
-    applyTheme(savedTheme || 'dark');
-
-
-    // ── STATE ──────────────────────────────────────────────
-    const today = new Date();
-    document.getElementById('end-date').value = today.toISOString().split('T')[0];
-
-    let currentStep    = 0;
-    let randomDate     = null;
-    let speechTimeouts = [];
-    const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-    // ── DOM REFS ───────────────────────────────────────────
-    const btnGenerate      = document.getElementById('btn-generate');
-    const btnNext          = document.getElementById('btn-next');
-    const btnReset         = document.getElementById('btn-reset');
-    const displayArea      = document.getElementById('display-area');
-    const setupView        = document.getElementById('setup-view');
-    const resultView       = document.getElementById('result-view');
-    const enableSpeechChk  = document.getElementById('enable-speech');
-    const speechSettings   = document.getElementById('speech-settings');
-
-    // ── EVENT LISTENERS ────────────────────────────────────
-    btnGenerate.addEventListener('click', generateRandomDate);
-    btnNext.addEventListener('click', showNextStep);
-    btnReset.addEventListener('click', resetApp);
-    enableSpeechChk.addEventListener('change', () => {
-        speechSettings.style.display = enableSpeechChk.checked ? 'block' : 'none';
-        if (!enableSpeechChk.checked) clearAllTimeouts();
-    });
-
-    // ── HELPERS ────────────────────────────────────────────
-    function speak(text) {
-        if (!('speechSynthesis' in window) || !enableSpeechChk.checked) return;
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'de-DE';
-        window.speechSynthesis.speak(u);
-    }
-
-    function getDelay(id) {
-        return parseInt(document.getElementById(id).value || 0) * 1000;
-    }
-
-    function daysBetween(date) {
-        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        return Math.floor((todayOnly - d) / 86400000);
-    }
-
-    function getZodiacSign(date) {
-        const d = date.getDate(), m = date.getMonth() + 1;
-        if ((m==1&&d>=21)||(m==2&&d<=19)) return 'Wassermann';
-        if ((m==2&&d>=20)||(m==3&&d<=20)) return 'Fische';
-        if ((m==3&&d>=21)||(m==4&&d<=20)) return 'Widder';
-        if ((m==4&&d>=21)||(m==5&&d<=20)) return 'Stier';
-        if ((m==5&&d>=21)||(m==6&&d<=21)) return 'Zwillinge';
-        if ((m==6&&d>=22)||(m==7&&d<=22)) return 'Krebs';
-        if ((m==7&&d>=23)||(m==8&&d<=23)) return 'Löwe';
-        if ((m==8&&d>=24)||(m==9&&d<=23)) return 'Jungfrau';
-        if ((m==9&&d>=24)||(m==10&&d<=23)) return 'Waage';
-        if ((m==10&&d>=24)||(m==11&&d<=22)) return 'Skorpion';
-        if ((m==11&&d>=23)||(m==12&&d<=21)) return 'Schütze';
-        return 'Steinbock';
-    }
-
-    function clearAllTimeouts() {
-        speechTimeouts.forEach(clearTimeout);
-        speechTimeouts = [];
-        window.speechSynthesis.cancel();
-    }
-
-    function setDisplay(main, sub) {
-        displayArea.innerHTML = `${main}${sub ? '<br><small style="font-size:15px;font-weight:normal;color:var(--text-color-light);">' + sub + '</small>' : ''}`;
-    }
-
-    // ── GENERATE DATE ──────────────────────────────────────
-    function generateRandomDate() {
-        const s = new Date(document.getElementById('start-date').value);
-        const e = new Date(document.getElementById('end-date').value);
-        if (!s || !e || isNaN(s) || isNaN(e)) { alert('Bitte Datumsbereich angeben.'); return; }
-        if (s >= e) { alert('Anfangsdatum muss vor dem Enddatum liegen.'); return; }
-
-        randomDate = new Date(s.getTime() + Math.random() * (e.getTime() - s.getTime()));
-        currentStep = 0;
-        setupView.style.display = 'none';
-        resultView.style.display = 'block';
-        btnNext.disabled = false;
-        btnNext.textContent = 'Nächster Schritt';
-
-        if (enableSpeechChk.checked) {
-            startSpeechSequence();
-        } else {
-            setDisplay('Bereit!', 'Klicke auf "Nächster Schritt"');
-        }
-    }
-
-    // ── SPEECH SEQUENCE ────────────────────────────────────
-    function startSpeechSequence() {
-        clearAllTimeouts();
-        btnNext.disabled = true;
-        displayArea.textContent = 'Sprachausgabe startet...';
-
-        const dl = {
-            initial:    getDelay('delay-initial'),
-            yearMonth:  getDelay('delay-year-month'),
-            monthDay:   getDelay('delay-month-day'),
-            dayWeekday: getDelay('delay-day-weekday'),
-            weekdayDays:getDelay('delay-weekday-days'),
-            digit:      getDelay('delay-digit'),
-        };
-
-        const year    = randomDate.getFullYear().toString();
-        const month   = randomDate.toLocaleString('de-DE', { month: 'long' });
-        const day     = randomDate.getDate().toString();
-        const weekday = randomDate.toLocaleString('de-DE', { weekday: 'long' });
-        const diff    = daysBetween(randomDate);
-        const diffStr = diff.toString();
-        const zodiac  = getZodiacSign(randomDate);
-        const showZod = document.getElementById('show-zodiac').checked;
-
-        let t = 0;
-
-        t += dl.initial;
-        speechTimeouts.push(setTimeout(() => { setDisplay(year); speak(year); }, t));
-
-        t += dl.yearMonth;
-        speechTimeouts.push(setTimeout(() => { setDisplay(month); speak(month); }, t));
-
-        t += dl.monthDay;
-        speechTimeouts.push(setTimeout(() => { setDisplay(day); speak(day); }, t));
-
-        t += dl.dayWeekday;
-        speechTimeouts.push(setTimeout(() => { setDisplay(weekday); speak(weekday); }, t));
-
-        t += dl.weekdayDays;
-        speechTimeouts.push(setTimeout(() => {
-            setDisplay(diff, 'Tage vergangen');
-            diffStr.split('').forEach((digit, i) => {
-                speechTimeouts.push(setTimeout(() => speak(digit), (i + 1) * dl.digit));
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setAndStoreTheme(newTheme);
             });
-        }, t));
+            
+            let storedTheme;
+            try {
+                 storedTheme = localStorage.getItem('synaptic-theme');
+            } catch (e) {
+                console.warn("LocalStorage is not available.");
+            }
+            setAndStoreTheme(storedTheme || 'dark');
 
-        t += Math.max(dl.weekdayDays, diffStr.length * dl.digit) + 1000;
 
-        if (showZod) {
-            speechTimeouts.push(setTimeout(() => { setDisplay(zodiac); speak(zodiac); }, t));
-            t += 3000;
+            // --- APP LOGIC ---
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0];
+            document.getElementById('end-date').value = todayString;
+            
+            let currentStep = 0;
+            let randomDate = null;
+            let speechTimeouts = [];
+            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            const btnGenerate = document.getElementById('btn-generate');
+            const btnNext = document.getElementById('btn-next');
+            const btnReset = document.getElementById('btn-reset');
+            const displayArea = document.getElementById('display-area');
+            const setupView = document.getElementById('setup-view');
+            const resultView = document.getElementById('result-view');
+            const enableSpeechCheck = document.getElementById('enable-speech');
+            const speechSettings = document.getElementById('speech-settings');
+
+            btnGenerate.addEventListener('click', generateRandomDate);
+            btnNext.addEventListener('click', showNextStep);
+            btnReset.addEventListener('click', resetApp);
+            enableSpeechCheck.addEventListener('change', () => {
+                speechSettings.style.display = enableSpeechCheck.checked ? 'block' : 'none';
+                if (!enableSpeechCheck.checked) {
+                    clearAllTimeouts();
+                }
+            });
+            
+            function speak(text) {
+                if ('speechSynthesis' in window && enableSpeechCheck.checked) {
+                    window.speechSynthesis.cancel(); 
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'de-DE';
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function generateRandomDate() {
+                const startDateStr = document.getElementById('start-date').value;
+                const endDateStr = document.getElementById('end-date').value;
+                if (!startDateStr || !endDateStr) {
+                    alert('Bitte geben Sie ein Anfangs- und Enddatum an.');
+                    return;
+                }
+                const startDate = new Date(startDateStr);
+                const endDate = new Date(endDateStr);
+                if (startDate >= endDate) {
+                    alert('Das Anfangsdatum muss vor dem Enddatum liegen.');
+                    return;
+                }
+                const startMillis = startDate.getTime();
+                const endMillis = endDate.getTime();
+                randomDate = new Date(startMillis + Math.random() * (endMillis - startMillis));
+                
+                currentStep = 0;
+                setupView.style.display = 'none';
+                resultView.style.display = 'block';
+                btnNext.disabled = false;
+
+                if (enableSpeechCheck.checked) {
+                    startSpeechSequence();
+                } else {
+                    displayArea.innerHTML = `Bereit!<br><small style="font-size: 14px; font-weight: normal; color: var(--text-color-light);">Klicke auf "Nächster Schritt"</small>`;
+                    btnNext.textContent = 'Nächster Schritt';
+                }
+            }
+
+            function startSpeechSequence() {
+                btnNext.disabled = true;
+                displayArea.textContent = 'Sprachausgabe startet...';
+
+                const delays = {
+                    initial: parseInt(document.getElementById('delay-initial').value) * 1000,
+                    yearMonth: parseInt(document.getElementById('delay-year-month').value) * 1000,
+                    monthDay: parseInt(document.getElementById('delay-month-day').value) * 1000,
+                    dayWeekday: parseInt(document.getElementById('delay-day-weekday').value) * 1000,
+                    weekdayDays: parseInt(document.getElementById('delay-weekday-days').value) * 1000,
+                    digit: parseInt(document.getElementById('delay-digit').value) * 1000
+                };
+
+                const year = randomDate.getFullYear().toString();
+                const month = randomDate.toLocaleString('de-DE', { month: 'long' });
+                const day = randomDate.getDate().toString();
+                const weekday = randomDate.toLocaleString('de-DE', { weekday: 'long' });
+                const timeDiff = todayDateOnly.getTime() - new Date(randomDate.getFullYear(), randomDate.getMonth(), randomDate.getDate()).getTime();
+                const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                const dayDiffStr = dayDiff.toString();
+                const zodiac = getZodiacSign(randomDate);
+                const showZodiac = document.getElementById('show-zodiac').checked;
+
+                let cumulativeDelay = 0;
+                clearAllTimeouts();
+
+                const sequence = [
+                    { delay: delays.initial, text: year, html: year },
+                    { delay: delays.yearMonth, text: month, html: month },
+                    { delay: delays.monthDay, text: day, html: day },
+                    { delay: delays.dayWeekday, text: weekday, html: weekday },
+                    { delay: delays.weekdayDays, text: ``, html: `${dayDiff}<br><small style='font-size:14px; color: var(--text-color-light);'>Tage vergangen</small>` }
+                ];
+
+                sequence.forEach(step => {
+                    cumulativeDelay += step.delay;
+                    speechTimeouts.push(setTimeout(() => {
+                        displayArea.innerHTML = step.html;
+                        if(step.text) speak(step.text);
+                    }, cumulativeDelay));
+                });
+                
+                // Digits for dayDiff
+                let digitDelay = cumulativeDelay;
+                dayDiffStr.split('').forEach(digit => {
+                    digitDelay += delays.digit;
+                    speechTimeouts.push(setTimeout(() => speak(digit), digitDelay));
+                });
+                cumulativeDelay = digitDelay;
+
+                if (showZodiac) {
+                     cumulativeDelay += (delays.weekdayDays > delays.digit * dayDiffStr.length) ? delays.weekdayDays : delays.digit * dayDiffStr.length + 2000;
+                     speechTimeouts.push(setTimeout(() => {
+                        displayArea.textContent = zodiac;
+                        speak(zodiac);
+                     }, cumulativeDelay));
+                }
+                
+                speechTimeouts.push(setTimeout(endSequence, cumulativeDelay + 2000));
+            }
+            
+            function showNextStep() {
+                currentStep++;
+                const showZodiac = document.getElementById('show-zodiac').checked;
+                let isLastStep = false;
+                let content = '';
+                let subtext = '';
+
+                switch(currentStep) {
+                    case 1: content = randomDate.getFullYear(); break;
+                    case 2: content = randomDate.toLocaleString('de-DE', { month: 'long' }); break;
+                    case 3: content = randomDate.getDate(); break;
+                    case 4: content = randomDate.toLocaleString('de-DE', { weekday: 'long' }); break;
+                    case 5: 
+                        const timeDiff = todayDateOnly.getTime() - new Date(randomDate.getFullYear(), randomDate.getMonth(), randomDate.getDate()).getTime();
+                        const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+                        content = dayDiff;
+                        subtext = 'Tage vergangen';
+                        if (!showZodiac) isLastStep = true;
+                        break;
+                    case 6:
+                        if (showZodiac) { content = getZodiacSign(randomDate); isLastStep = true; } 
+                        else { endSequence(); return; }
+                        break;
+                    default: endSequence(); return;
+                }
+                displayArea.innerHTML = `${content}<br><small style='font-size:14px; font-weight:normal; color: var(--text-color-light);'>${subtext}</small>`;
+
+                if (isLastStep) {
+                    btnNext.textContent = "Fertig";
+                    btnNext.disabled = true;
+                }
+            }
+            
+            function endSequence() {
+                 displayArea.innerHTML = 'Sequenz beendet.<br><small style="font-size: 14px; font-weight: normal; color: var(--text-color-light);">Auf "Zurücksetzen" klicken.</small>';
+                 btnNext.disabled = true;
+                 btnNext.textContent = 'Nächster Schritt';
+            }
+
+            function clearAllTimeouts() {
+                speechTimeouts.forEach(timeout => clearTimeout(timeout));
+                speechTimeouts = [];
+                window.speechSynthesis.cancel();
+            }
+
+            function resetApp() {
+                clearAllTimeouts();
+                currentStep = 0;
+                randomDate = null;
+                setupView.style.display = 'block';
+                resultView.style.display = 'none';
+                displayArea.textContent = 'Warte auf Eingabe...';
+                btnNext.disabled = false;
+                btnNext.textContent = "Nächster Schritt";
+            }
+
+            function getZodiacSign(date) {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                if ((month == 1 && day >= 21) || (month == 2 && day <= 19)) return "Wassermann";
+                if ((month == 2 && day >= 20) || (month == 3 && day <= 20)) return "Fische";
+                if ((month == 3 && day >= 21) || (month == 4 && day <= 20)) return "Widder";
+                if ((month == 4 && day >= 21) || (month == 5 && day <= 20)) return "Stier";
+                if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) return "Zwillinge";
+                if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) return "Krebs";
+                if ((month == 7 && day >= 23) || (month == 8 && day <= 23)) return "Löwe";
+                if ((month == 8 && day >= 24) || (month == 9 && day <= 23)) return "Jungfrau";
+                if ((month == 9 && day >= 24) || (month == 10 && day <= 23)) return "Waage";
+                if ((month == 10 && day >= 24) || (month == 11 && day <= 22)) return "Skorpion";
+                if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) return "Schütze";
+                if ((month == 12 && day >= 22) || (month == 1 && day <= 20)) return "Steinbock";
+            }
+        });
+
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-pane");
+            for (i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) tablinks[i].className = tablinks[i].className.replace(" active", "");
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
         }
-
-        speechTimeouts.push(setTimeout(endSequence, t));
-    }
-
-    // ── MANUAL SEQUENCE ────────────────────────────────────
-    function showNextStep() {
-        currentStep++;
-        const showZod = document.getElementById('show-zodiac').checked;
-        let last = false;
-
-        switch (currentStep) {
-            case 1: setDisplay(randomDate.getFullYear()); break;
-            case 2: setDisplay(randomDate.toLocaleString('de-DE', { month: 'long' })); break;
-            case 3: setDisplay(randomDate.getDate()); break;
-            case 4: setDisplay(randomDate.toLocaleString('de-DE', { weekday: 'long' })); break;
-            case 5:
-                setDisplay(daysBetween(randomDate), 'Tage vergangen');
-                if (!showZod) last = true;
-                break;
-            case 6:
-                if (showZod) { setDisplay(getZodiacSign(randomDate)); last = true; }
-                else { endSequence(); return; }
-                break;
-            default: endSequence(); return;
-        }
-        if (last) { btnNext.textContent = 'Fertig'; btnNext.disabled = true; }
-    }
-
-    // ── END ────────────────────────────────────────────────
-    function endSequence() {
-        setDisplay('✓ Sequenz beendet', 'Auf "Zurücksetzen" klicken');
-        btnNext.disabled = true;
-        btnNext.textContent = 'Nächster Schritt';
-    }
-
-    function resetApp() {
-        clearAllTimeouts();
-        currentStep = 0;
-        randomDate  = null;
-        setupView.style.display  = 'block';
-        resultView.style.display = 'none';
-        btnNext.disabled = false;
-        btnNext.textContent = 'Nächster Schritt';
-        setDisplay('Warte auf Eingabe...');
-    }
-});
-
-// ── TAB NAVIGATION ─────────────────────────────────────
-function openTab(evt, tabName) {
-    document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
-    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabName).style.display = 'block';
-    evt.currentTarget.classList.add('active');
-}
-</script>
+    </script>
 
 </body>
 </html>
