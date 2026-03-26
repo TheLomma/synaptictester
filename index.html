@@ -151,6 +151,10 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
     </div>
     <div id="vg-container"></div>
     <button id="vg-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
+    <div id="vg-last-move-box" style="display:none;margin-top:14px;padding:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.13);border-radius:18px;text-align:center;">
+      <div id="vg-last-move-text" style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;"></div>
+      <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Klicke auf eine Spalte, um deinen Zug zu machen.</div>
+    </div>
   </div>
   <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
     <h2>Pi &ndash; Ziffernfolge</h2>
@@ -216,21 +220,139 @@ function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;if((m==1&&d>=21
 var ROWS=6,COLS=7,P1='user',P2='app';
 var vgGames=[];
 var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
+var vgTurnQueue=[];  // globale Zugreihenfolge: [{gameIdx, player},...]
+var vgTurnIndex=0;  // aktueller Schritt in der Queue
 document.getElementById('vg-reset').addEventListener('click',vgInit);
 document.getElementById('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=document.getElementById('vg-show-board').checked?'grid':'none';});});
-function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent='Spielfeld gegen '+ac.name;wrap.appendChild(title);var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent='Startet...';wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,current:document.getElementById('vg-starter').value,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,ac:ac};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);vgUpdateStatus(game);if(game.current===P2){vgDisable(game,true);setTimeout((function(g){return function(){vgAppMove(g);};})(game),1000+i*300);}}}
+function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';
+var starter=document.getElementById('vg-starter').value;
+// Baue Zugreihenfolge: abwechselnd App[i] -> Nutzer für jedes Spielfeld, dann nächste App
+for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent='Spielfeld gegen '+ac.name;wrap.appendChild(title);
+var counterEl=document.createElement('div');counterEl.style.cssText='font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;text-align:center;';counterEl.textContent='0 Züge';wrap.appendChild(counterEl);
+var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent='Startet...';wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,current:starter,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);}
+// Erstelle globale Zugreihenfolge
+vgBuildTurnQueue();
+vgExecuteTurn();}
 function vgRenderBoard(game){game.boardEl.innerHTML='';for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){var cell=document.createElement('div');cell.style.cssText='aspect-ratio:1;background:rgba(0,0,0,0.35);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.07);';cell.dataset.r=r;cell.dataset.c=c;if(game.board[r][c]){var p=document.createElement('div');var isU=game.board[r][c]===P1;p.style.cssText='width:85%;height:85%;border-radius:50%;background:'+(isU?'radial-gradient(circle at 35% 35%,#ffe066,#f59f00)':'radial-gradient(circle at 35% 35%,'+game.ac.label+'cc,'+game.ac.label+'88)')+';box-shadow:0 2px 8px rgba(0,0,0,0.4);animation:drop 0.3s ease;';cell.appendChild(p);}game.boardEl.appendChild(cell);}}
 function vgRenderColBtns(game){game.colBtns.innerHTML='';for(var c=0;c<COLS;c++){var btn=document.createElement('button');btn.style.cssText='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:white;cursor:pointer;padding:2px;';btn.textContent='\u2193'+(c+1);btn.dataset.col=c;btn.addEventListener('click',(function(g){return function(e){vgColClick(e,g);};})(game));game.colBtns.appendChild(btn);}}
-function vgUpdateStatus(game){if(game.over)return;game.statusEl.textContent=game.current===P1?'Dein Zug':game.ac.name+' denkt...';}
-function vgColClick(e,game){if(game.over||game.current!==P1)return;var col=parseInt(e.target.dataset.col);var row=vgFindRow(game,col);if(row!==-1)vgDrop(game,row,col,P1);}
-function vgDrop(game,row,col,player){game.board[row][col]=player;game.moves++;vgRenderBoard(game);if(vgCheckWin(game,player)){vgEnd(game,player);return;}if(vgFull(game)){vgEnd(game,null);return;}game.current=game.current===P1?P2:P1;vgUpdateStatus(game);if(game.current===P2){vgDisable(game,true);setTimeout((function(g){return function(){vgAppMove(g);};})(game),900);}else vgDisable(game,false);}
+function vgBuildTurnQueue(){
+  var n=vgGames.length;
+  var starter=document.getElementById('vg-starter').value;
+  // Pro Runde: alle n App-Züge verschachtelt mit Nutzer-Zügen
+  // Reihenfolge: wenn starter=app: App0,Nutzer@0, App1,Nutzer@1, ..., dann wieder
+  // wenn starter=user: Nutzer@0,App0, Nutzer@1,App1, ...
+  vgTurnQueue=[];
+  // Wir bauen eine Endlos-Queue (bis alle Spiele vorbei)
+  // Strategie: Runde für Runde, jede Runde = n*(App+Nutzer)-Paare
+  var maxRounds=ROWS*COLS; // max mögliche Züge
+  for(var round=0;round<maxRounds;round++){
+    for(var i=0;i<n;i++){
+      if(starter==='app'){
+        vgTurnQueue.push({gameIdx:i,player:P2});
+        vgTurnQueue.push({gameIdx:i,player:P1});
+      } else {
+        vgTurnQueue.push({gameIdx:i,player:P1});
+        vgTurnQueue.push({gameIdx:i,player:P2});
+      }
+    }
+  }
+}
+function vgExecuteTurn(){
+  // Überspringe abgeschlossene Spiele
+  while(vgTurnIndex<vgTurnQueue.length){
+    var t=vgTurnQueue[vgTurnIndex];
+    var g=vgGames[t.gameIdx];
+    if(g.over){vgTurnIndex++;continue;}
+    if(vgFull(g)){vgEnd(g,null);vgTurnIndex++;continue;}
+    break;
+  }
+  if(vgTurnIndex>=vgTurnQueue.length)return;
+  var turn=vgTurnQueue[vgTurnIndex];
+  var game=vgGames[turn.gameIdx];
+  // Alle Spiele sperren
+  vgGames.forEach(function(g){if(!g.over)vgDisable(g,true);});
+  vgUpdateAllCounters();
+  if(turn.player===P2){
+    game.statusEl.textContent=game.ac.name+' denkt...';
+    game.statusEl.style.color='rgba(255,255,255,0.85)';
+    setTimeout(function(){vgAppMove(game);},900);
+  } else {
+    // Nutzer ist dran bei game
+    game.statusEl.textContent='⬇ Dein Zug hier!';
+    game.statusEl.style.color='#4dabf7';
+    // Nur dieses Spielfeld freischalten
+    vgDisable(game,false);
+    // Andere Spiele bleiben gesperrt — Klick dort = Warnung
+    vgGames.forEach(function(g,gi){
+      if(!g.over&&gi!==turn.gameIdx){
+        g.statusEl.textContent='⏳ Warte – erst bei '+vgGames[turn.gameIdx].ac.name+' spielen';
+        g.statusEl.style.color='rgba(255,200,80,0.8)';
+        vgSetWrongClickWarning(g,turn.gameIdx);
+      }
+    });
+  }
+}
+function vgSetWrongClickWarning(game,correctIdx){
+  game.colBtns.querySelectorAll('button').forEach(function(b){
+    b.disabled=false; // kurz freischalten für Klick-Event
+    b.onclick=function(){
+      var box=document.getElementById('vg-last-move-box');
+      var txt=document.getElementById('vg-last-move-text');
+      txt.innerHTML='⚠️ Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[correctIdx].ac.name+'</strong> spielen.';
+      box.style.display='block';
+      setTimeout(function(){box.style.display='none';},3000);
+    };
+    b.disabled=true; // wieder sperren, aber onclick bleibt
+  });
+  // Eigentlich wollen wir, dass der Button klickbar ist aber disabled-Stil verhindert das.
+  // Lösung: Button nicht disabled, aber eigene Klick-Logik
+  game.colBtns.querySelectorAll('button').forEach(function(b){
+    b.disabled=false;
+    b.style.opacity='0.35';
+    b.style.cursor='not-allowed';
+  });
+}
+function vgUpdateAllCounters(){
+  var n=vgGames.length;
+  // Finde maximale Nutzer-Züge über alle Spiele
+  var maxUserMoves=0;
+  vgGames.forEach(function(g){if(g.userMoves>maxUserMoves)maxUserMoves=g.userMoves;});
+  vgGames.forEach(function(g){
+    if(g.over)return;
+    var lag=maxUserMoves-g.userMoves;
+    var txt=g.moves+' Züge gesamt (Du: '+g.userMoves+', '+g.ac.name+': '+g.appMoves+')';
+    if(lag>0)txt+=' · '+lag+' Zug'+(lag>1?'e':'')+' im Rückstand';
+    g.counterEl.textContent=txt;
+  });
+}
+function vgUpdateStatus(game){if(game.over)return;}
+function vgColClick(e,game){
+  // Prüfe ob dieses Spiel gerade dran ist
+  if(vgTurnIndex<vgTurnQueue.length){
+    var t=vgTurnQueue[vgTurnIndex];
+    if(t.gameIdx!==game.idx||t.player!==P1){
+      // Falsches Spielfeld
+      var box=document.getElementById('vg-last-move-box');
+      var txt=document.getElementById('vg-last-move-text');
+      txt.innerHTML='⚠️ Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[t.gameIdx].ac.name+'</strong> spielen.';
+      box.style.display='block';
+      setTimeout(function(){box.style.display='none';},3000);
+      return;
+    }
+  }
+  if(game.over)return;
+  var col=parseInt(e.target.dataset.col);
+  var row=vgFindRow(game,col);
+  if(row!==-1){document.getElementById('vg-last-move-box').style.display='none';vgDrop(game,row,col,P1);}}
+function vgDrop(game,row,col,player){game.board[row][col]=player;game.moves++;if(player===P1)game.userMoves++;else game.appMoves++;vgRenderBoard(game);if(vgCheckWin(game,player)){vgEnd(game,player);vgTurnIndex++;vgExecuteTurn();return;}if(vgFull(game)){vgEnd(game,null);vgTurnIndex++;vgExecuteTurn();return;}vgTurnIndex++;vgExecuteTurn();}
 function vgFindRow(game,col){for(var r=ROWS-1;r>=0;r--)if(game.board[r][col]===null)return r;return -1;}
-function vgAppMove(game){if(game.over)return;var avail=[];for(var c=0;c<COLS;c++)if(game.board[0][c]===null)avail.push(c);if(avail.length){var col=avail[Math.floor(Math.random()*avail.length)];var row=vgFindRow(game,col);if(document.getElementById('vg-speech').checked)speak(game.ac.name+' setzt in Spalte '+(col+1)+'.');vgDrop(game,row,col,P2);}}
+function vgAppMove(game){if(game.over)return;var avail=[];for(var c=0;c<COLS;c++)if(game.board[0][c]===null)avail.push(c);if(avail.length){var col=avail[Math.floor(Math.random()*avail.length)];var row=vgFindRow(game,col);var moveMsg=game.ac.name+' setzt in Spalte '+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}}
 function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
 function vgEnd(game,winner){game.over=true;vgDisable(game,true);var msg='';if(winner===P1)msg='Du hast gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else if(winner===P2)msg=game.ac.name+' hat gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else msg='Unentschieden! ('+game.moves+' Z\u00fcge)';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);}
 function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
+function vgShowLastMove(game,msg){var box=document.getElementById('vg-last-move-box');var txt=document.getElementById('vg-last-move-text');txt.innerHTML=msg+'<br><small style="font-size:12px;color:var(--text-light);">Klicke auf eine Spalte, um deinen Zug zu machen.</small>';box.style.display='block';}
 vgInit();
 var PI='14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912983367336244065664308602139494639522473719070217986094370277053921717629317675238467481846766940513200056812714526356082778577134275778960917363717872146844090122495343014654958537105079227968925892354201995611212902196086403441815981362977477130996051870721134999999837297804995105973173281609631859502445945534690830264252230825334468503526193118817101000313783875288658753320838142061717766914730359825349042875546873115956286388235378759375195778185778053217122680661300192787661119590921642019893809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095176237';
 var SEQ=20,piRunning=false,piTimeout=null,piStart=0,piCur=0,piDir='forward';
