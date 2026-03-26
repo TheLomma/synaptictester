@@ -1,1332 +1,258 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synaptic Tester</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --mode-label: 'Dunkel';
-            --ease: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --glass-bg: rgba(0,0,0,0.45);
-            --glass-border: rgba(255,255,255,0.10);
-            --glass-shadow: 0 8px 40px rgba(0,0,0,0.7);
-            --glass-blur: blur(28px) saturate(160%);
-            --glass-btn: rgba(255,255,255,0.08);
-            --glass-btn-hover: rgba(255,255,255,0.14);
-            --glass-input: rgba(255,255,255,0.06);
-            --glass-display: rgba(0,0,0,0.45);
-            --text: rgba(255,255,255,0.92);
-            --text-light: rgba(255,255,255,0.40);
-            --accent: #4dabf7;
-            --accent2: #74c7ec;
-            --red: #ff6b6b;
-            --green: #51cf66;
-            --tab-active: rgba(255,255,255,0.12);
-        }
-
-        body.light-mode {
-            --glass-bg: rgba(255,255,255,0.12);
-            --glass-border: rgba(255,255,255,0.15);
-            --glass-shadow: 0 8px 40px rgba(0,0,0,0.4);
-            --glass-btn: rgba(255,255,255,0.10);
-            --glass-btn-hover: rgba(255,255,255,0.18);
-            --glass-input: rgba(255,255,255,0.08);
-            --glass-display: rgba(255,255,255,0.08);
-            --text: rgba(255,255,255,0.95);
-            --text-light: rgba(255,255,255,0.55);
-            --tab-active: rgba(255,255,255,0.15);
-        }
-        body.light-mode {
-            background:
-                radial-gradient(ellipse at 20% 20%, #1a3a6e 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 10%, #2a1a5e 0%, transparent 50%),
-                radial-gradient(ellipse at 60% 80%, #0a2a4a 0%, transparent 50%),
-                linear-gradient(135deg, #0f1f3d 0%, #1a1030 50%, #0f1f3d 100%);
-        }
-        body.light-mode .input-group select option { background: #f0f4ff; color: #111; }
-        body.light-mode .app-header { background: rgba(255,255,255,0.4); border-bottom-color: rgba(0,0,0,0.08); }
-        body.light-mode .tabs { background: rgba(255,255,255,0.4); border-bottom-color: rgba(0,0,0,0.08); }
-        body.light-mode .tab-button { color: rgba(0,0,0,0.45); }
-        body.light-mode .tab-button.active { background: rgba(0,0,0,0.08); color: rgba(0,0,0,0.88); border-color: rgba(0,0,0,0.12); box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-        body.light-mode #vier-gewinnt-board { background: rgba(30,80,200,0.08); border-color: rgba(77,171,247,0.3); }
-        body.light-mode .cell { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
-        body.light-mode .column-btn { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.15); color: #111; }
-        body.light-mode .column-btn:hover { background: rgba(0,0,0,0.15); }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px 60px;
-            background:
-                radial-gradient(ellipse at 20% 20%, #0d3a7a 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 10%, #2d0a6e 0%, transparent 50%),
-                radial-gradient(ellipse at 60% 80%, #04385a 0%, transparent 50%),
-                radial-gradient(ellipse at 10% 90%, #050d1f 0%, transparent 50%),
-                linear-gradient(135deg, #030810 0%, #060f22 50%, #030810 100%);
-            background-attachment: scroll;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 580px;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.3);
-            overflow: hidden;
-            transition: var(--ease);
-        }
-
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 24px 14px;
-            background: rgba(0,0,0,0.35);
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-
-        .app-header span {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -0.3px;
-        }
-
-        #theme-toggle {
-            min-width: 80px;
-            text-align: center;
-            background: var(--glass-btn);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            color: var(--text);
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: var(--ease);
-        }
-        #theme-toggle:hover { background: var(--glass-btn-hover); }
-
-        .tabs {
-            display: flex;
-            background: rgba(0,0,0,0.35);
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            padding: 6px 8px;
-            gap: 4px;
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 8px 4px;
-            border: none;
-            background: transparent;
-            color: var(--text-light);
-            font-size: 11px;
-            font-weight: 500;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: var(--ease);
-            letter-spacing: -0.1px;
-        }
-        .tab-button.active {
-            background: var(--tab-active);
-            color: var(--text);
-            font-weight: 600;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .tab-content { padding: 24px; }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
-
-        h2 {
-            margin: 0 0 20px;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .input-group { margin-bottom: 16px; }
-        .input-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-light);
-            letter-spacing: 0.1px;
-        }
-        .input-group input[type="date"],
-        .input-group input[type="number"],
-        .input-group select {
-            width: 100%;
-            padding: 11px 14px;
-            background: var(--glass-input);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 14px;
-            color: var(--text);
-            font-size: 15px;
-            font-family: inherit;
-            backdrop-filter: blur(10px);
-            transition: var(--ease);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .input-group input[type="number"] { width: 90px; }
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 0 3px rgba(77,171,247,0.2);
-        }
-        .input-group select option { background: #1a2a4a; color: white; }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 14px;
-            cursor: pointer;
-            gap: 10px;
-        }
-        .checkbox-group input[type="checkbox"] {
-            width: 20px; height: 20px;
-            accent-color: var(--accent);
-            cursor: pointer;
-            border-radius: 6px;
-        }
-        .checkbox-group label {
-            font-size: 14px;
-            color: var(--text);
-            cursor: pointer;
-            font-weight: 400;
-        }
-
-        .button-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-
-        button {
-            padding: 13px 18px;
-            font-size: 15px;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 16px;
-            cursor: pointer;
-            transition: var(--ease);
-            color: white;
-            font-family: inherit;
-            letter-spacing: -0.2px;
-            backdrop-filter: blur(10px);
-        }
-        button:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-        button:active:not(:disabled) { transform: scale(0.97); }
-        @keyframes haptic-pulse {
-            0%   { box-shadow: 0 0 0 0 rgba(77,171,247,0.55); }
-            50%  { box-shadow: 0 0 0 10px rgba(77,171,247,0.0); }
-            100% { box-shadow: 0 0 0 0 rgba(77,171,247,0); }
-        }
-        button.haptic { animation: haptic-pulse 0.35s ease-out; }
-
-        #btn-generate, #btn-next {
-            background: linear-gradient(135deg, rgba(77,171,247,0.6), rgba(116,199,236,0.4));
-            border-color: rgba(77,171,247,0.4);
-        }
-        #btn-generate:hover:not(:disabled), #btn-next:hover:not(:disabled) {
-            background: linear-gradient(135deg, rgba(77,171,247,0.8), rgba(116,199,236,0.6));
-        }
-        #btn-reset {
-            background: var(--glass-btn);
-        }
-        #btn-reset:hover { background: var(--glass-btn-hover); }
-
-        .btn-primary {
-            background: linear-gradient(135deg, rgba(77,171,247,0.6), rgba(116,199,236,0.4));
-            border-color: rgba(77,171,247,0.4);
-        }
-        .btn-primary:hover:not(:disabled) {
-            background: linear-gradient(135deg, rgba(77,171,247,0.8), rgba(116,199,236,0.6));
-        }
-        .btn-dark {
-            background: rgba(0,0,0,0.3);
-            border-color: rgba(255,255,255,0.12);
-            color: white;
-        }
-        .btn-dark:hover:not(:disabled) { background: rgba(0,0,0,0.45); }
-
-        #display-area {
-            margin-top: 20px;
-            padding: 24px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            min-height: 70px;
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            backdrop-filter: blur(10px);
-            letter-spacing: -0.5px;
-        }
-
-        #speech-settings {
-            display: none;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 10px;
-        }
-        #speech-settings h4 { color: var(--text); font-size: 14px; margin-bottom: 14px; }
-        #speech-settings .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        #speech-settings .input-group { font-size: 13px; margin-bottom: 4px; }
-
-        /* GLASS DISPLAY BOX */
-        .glass-display {
-            margin: 16px 0;
-            padding: 16px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            font-size: 18px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text);
-            min-height: 2.2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-
-        /* VIER GEWINNT */
-        .vier-gewinnt-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        #vier-gewinnt-status {
-            margin: 14px 0;
-            padding: 14px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            color: var(--text);
-            min-height: 2em;
-            backdrop-filter: blur(10px);
-        }
-        #vier-gewinnt-column-buttons {
-            display: grid;
-            grid-template-columns: repeat(7,1fr);
-            gap: 3px;
-            margin-bottom: 8px;
-        }
-        @media (max-width: 400px) {
-            .column-btn { font-size: 10px; padding: 4px 2px; border-radius: 7px; }
-            #vier-gewinnt-board { gap: 3px; padding: 6px; }
-            .tab-button { font-size: 9px; padding: 7px 2px; }
-            h2 { font-size: 18px; }
-            .tab-content { padding: 16px; }
-            #cc-answer { font-size: 48px; }
-        }
-        .column-btn {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 10px;
-            aspect-ratio: 1;
-            font-size: 13px;
-            font-weight: 700;
-            color: white;
-            backdrop-filter: blur(8px);
-        }
-        .column-btn:hover { background: rgba(255,255,255,0.22); }
-        #vier-gewinnt-board {
-            display: grid;
-            grid-template-columns: repeat(7,1fr);
-            gap: 5px;
-            background: rgba(0,40,120,0.25);
-            border: 1px solid rgba(77,171,247,0.2);
-            padding: 10px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-        }
-        .cell {
-            aspect-ratio: 1;
-            background: rgba(0,0,0,0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        .cell .piece {
-            width: 85%; height: 85%;
-            border-radius: 50%;
-            animation: drop 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .cell .piece.player1 {
-            background: radial-gradient(circle at 35% 35%, #ffe066, #f59f00);
-            box-shadow: 0 2px 8px rgba(255,180,0,0.5), inset 0 -3px 4px rgba(0,0,0,0.2);
-        }
-        .cell .piece.player2 {
-            background: radial-gradient(circle at 35% 35%, #ff8787, #e03131);
-            box-shadow: 0 2px 8px rgba(255,80,80,0.5), inset 0 -3px 4px rgba(0,0,0,0.2);
-        }
-        .cell.win .piece { animation: pulse 0.6s infinite; }
-        @keyframes drop { from{transform:translateY(-180px);opacity:0} to{transform:translateY(0);opacity:1} }
-        @keyframes pulse { 0%{transform:scale(0.88)} 50%{transform:scale(1.1)} 100%{transform:scale(0.88)} }
-
-        /* PI */
-        #pi-status {
-            margin: 16px 0;
-            padding: 20px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            font-size: clamp(28px, 10vw, 42px);
-            font-weight: 800;
-            text-align: center;
-            color: var(--text);
-            min-height: 2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: -1px;
-            backdrop-filter: blur(10px);
-        }
-        #pi-context-box {
-            display: none;
-            margin-top: 10px;
-            padding: 16px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 15px;
-            line-height: 2;
-            word-break: break-all;
-            color: var(--text);
-            backdrop-filter: blur(10px);
-        }
-
-        /* KREDITKARTE */
-        #cc-status {
-            margin: 16px 0;
-            padding: 20px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            font-size: clamp(18px, 6vw, 36px);
-            font-weight: 800;
-            text-align: center;
-            color: var(--text);
-            min-height: 2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: -1px;
-            backdrop-filter: blur(10px);
-        }
-        #cc-answer-box {
-            display: none;
-            margin: 12px 0;
-            padding: 20px;
-            background: rgba(255,107,107,0.15);
-            border: 1px solid rgba(255,107,107,0.35);
-            border-radius: 18px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-        #cc-answer {
-            font-size: 72px;
-            font-weight: 900;
-            color: var(--red);
-            letter-spacing: -2px;
-            text-shadow: 0 0 30px rgba(255,107,107,0.5);
-        }
-        #cc-number-box {
-            display: none;
-            margin-top: 8px;
-            padding: 16px;
-            background: var(--glass-display);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            font-family: 'SF Mono', monospace;
-            font-size: clamp(13px, 4vw, 19px);
-            letter-spacing: clamp(1px, 0.5vw, 3px);
-            text-align: center;
-            color: var(--text);
-            word-break: break-all;
-            backdrop-filter: blur(10px);
-        }
-
-        /* SEPARATOR */
-        .section-sep {
-            height: 1px;
-            background: rgba(255,255,255,0.08);
-            margin: 16px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synaptic Tester v2.1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ease:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+  --glass-bg:rgba(0,0,0,0.45);
+  --glass-border:rgba(255,255,255,0.10);
+  --glass-shadow:0 8px 40px rgba(0,0,0,0.7);
+  --glass-blur:blur(28px) saturate(160%);
+  --glass-btn:rgba(255,255,255,0.08);
+  --glass-btn-hover:rgba(255,255,255,0.14);
+  --glass-input:rgba(255,255,255,0.06);
+  --glass-display:rgba(0,0,0,0.45);
+  --text:rgba(255,255,255,0.92);
+  --text-light:rgba(255,255,255,0.40);
+  --accent:#4dabf7;
+  --red:#ff6b6b;
+  --green:#51cf66;
+  --tab-active:rgba(255,255,255,0.12);
+}
+body.light-mode{
+  --glass-bg:rgba(255,255,255,0.12);
+  --glass-border:rgba(255,255,255,0.15);
+  --glass-shadow:0 8px 40px rgba(0,0,0,0.4);
+  --glass-btn:rgba(255,255,255,0.10);
+  --glass-btn-hover:rgba(255,255,255,0.18);
+  --glass-input:rgba(255,255,255,0.08);
+  --glass-display:rgba(255,255,255,0.08);
+  --text:rgba(255,255,255,0.95);
+  --text-light:rgba(255,255,255,0.55);
+  --tab-active:rgba(255,255,255,0.15);
+  background:radial-gradient(ellipse at 20% 20%,#1a3a6e 0%,transparent 55%),radial-gradient(ellipse at 80% 10%,#2a1a5e 0%,transparent 50%),linear-gradient(135deg,#0f1f3d 0%,#1a1030 50%,#0f1f3d 100%);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:40px 20px 60px;
+  background:radial-gradient(ellipse at 20% 20%,#0d3a7a 0%,transparent 55%),radial-gradient(ellipse at 80% 10%,#2d0a6e 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,#04385a 0%,transparent 50%),linear-gradient(135deg,#030810 0%,#060f22 50%,#030810 100%);
+}
+.app-container{width:100%;max-width:580px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:28px;box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,0.3);overflow:hidden;transition:var(--ease);}
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px 14px;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);}
+.app-header span{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
+#theme-toggle{min-width:80px;text-align:center;background:var(--glass-btn);border:1px solid var(--glass-border);border-radius:20px;color:var(--text);padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;backdrop-filter:blur(10px);transition:var(--ease);}
+#theme-toggle:hover{background:var(--glass-btn-hover);}
+.tabs{display:flex;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 8px;gap:4px;}
+.tab-button{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);}
+.tab-button.active{background:var(--tab-active);color:var(--text);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);}
+.tab-content{padding:24px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+h2{margin:0 0 20px;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
+.input-group{margin-bottom:16px;}
+.input-group label{display:block;margin-bottom:7px;font-size:13px;font-weight:500;color:var(--text-light);}
+.input-group input[type=date],.input-group input[type=number],.input-group select{width:100%;padding:11px 14px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-radius:14px;color:var(--text);font-size:15px;font-family:inherit;backdrop-filter:blur(10px);transition:var(--ease);-webkit-appearance:none;appearance:none;}
+.input-group input[type=number]{width:90px;}
+.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,0.15);box-shadow:0 0 0 3px rgba(77,171,247,0.2);}
+.input-group select option{background:#1a2a4a;color:white;}
+.checkbox-group{display:flex;align-items:center;margin-bottom:14px;cursor:pointer;gap:10px;}
+.checkbox-group input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);cursor:pointer;}
+.checkbox-group label{font-size:14px;color:var(--text);cursor:pointer;font-weight:400;}
+.button-group{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
+button{padding:13px 18px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.2);border-radius:16px;cursor:pointer;transition:var(--ease);color:white;font-family:inherit;letter-spacing:-0.2px;backdrop-filter:blur(10px);}
+button:disabled{opacity:0.35;cursor:not-allowed;}
+button:active:not(:disabled){transform:scale(0.97);}
+@keyframes haptic-pulse{0%{box-shadow:0 0 0 0 rgba(77,171,247,0.55)}50%{box-shadow:0 0 0 10px rgba(77,171,247,0)}100%{box-shadow:0 0 0 0 rgba(77,171,247,0)}}
+button.haptic{animation:haptic-pulse 0.35s ease-out;}
+.btn-primary{background:linear-gradient(135deg,rgba(77,171,247,0.6),rgba(116,199,236,0.4));border-color:rgba(77,171,247,0.4);}
+.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}
+.btn-dark{background:rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.12);color:white;}
+.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}
+#btn-generate,#btn-next{background:linear-gradient(135deg,rgba(77,171,247,0.6),rgba(116,199,236,0.4));border-color:rgba(77,171,247,0.4);}
+#btn-reset{background:var(--glass-btn);}
+#display-area{margin-top:20px;padding:24px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;min-height:70px;font-size:28px;font-weight:700;text-align:center;color:var(--text);display:flex;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(10px);letter-spacing:-0.5px;}
+#speech-settings{display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:16px;margin-top:10px;}
+#speech-settings h4{color:var(--text);font-size:14px;margin-bottom:14px;}
+#speech-settings .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+#speech-settings .input-group{font-size:13px;margin-bottom:4px;}
+.vier-gewinnt-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px;}
+.column-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:10px;aspect-ratio:1;font-size:13px;font-weight:700;color:white;backdrop-filter:blur(8px);}
+.column-btn:hover{background:rgba(255,255,255,0.22);}
+@keyframes drop{from{transform:translateY(-180px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pulse{0%{transform:scale(0.88)}50%{transform:scale(1.1)}100%{transform:scale(0.88)}}
+#pi-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;font-size:clamp(28px,10vw,42px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;backdrop-filter:blur(10px);}
+#pi-context-box{display:none;margin-top:10px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:15px;line-height:2;word-break:break-all;color:var(--text);backdrop-filter:blur(10px);}
+#cc-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;font-size:clamp(18px,6vw,36px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;backdrop-filter:blur(10px);}
+#cc-answer-box{display:none;margin:12px 0;padding:20px;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:18px;text-align:center;backdrop-filter:blur(10px);}
+#cc-answer{font-size:72px;font-weight:900;color:var(--red);letter-spacing:-2px;text-shadow:0 0 30px rgba(255,107,107,0.5);}
+#cc-number-box{display:none;margin-top:8px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:clamp(13px,4vw,19px);letter-spacing:clamp(1px,0.5vw,3px);text-align:center;color:var(--text);word-break:break-all;backdrop-filter:blur(10px);}
+@media(max-width:400px){.tab-button{font-size:9px;padding:7px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}
+</style>
 </head>
 <body>
 <div class="app-container">
-    <div class="app-header">
-        <span>Synaptic Tester v2.0</span>
-        <button id="theme-toggle">Theme</button>
+  <div class="app-header">
+    <span>Synaptic Tester v2.1</span>
+    <button id="theme-toggle">Dunkel</button>
+  </div>
+  <div class="tabs">
+    <button class="tab-button active" onclick="openTab(event,'date-tab')">Calendar Prodigy</button>
+    <button class="tab-button" onclick="openTab(event,'vg-tab')">Vier Gewinnt</button>
+    <button class="tab-button" onclick="openTab(event,'pi-tab')">Pi</button>
+    <button class="tab-button" onclick="openTab(event,'cc-tab')">Kreditkarte</button>
+  </div>
+  <div id="date-tab" class="tab-content tab-pane active">
+    <h2>Zuf&auml;lliges Datum</h2>
+    <div id="setup-view">
+      <div class="input-group"><label>Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
+      <div class="input-group"><label>Enddatum</label><input type="date" id="end-date"></div>
+      <div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac">Sternzeichen anzeigen</label></div>
+      <div class="input-group"><label>Datumsformat</label>
+        <select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select>
+      </div>
+      <div class="checkbox-group" style="margin-top:20px;"><input type="checkbox" id="enable-speech"><label for="enable-speech">Sprachausgabe aktivieren</label></div>
+      <div id="speech-settings">
+        <h4>Pausen (Sekunden)</h4>
+        <div class="grid">
+          <div class="input-group"><label>Start</label><input type="number" id="delay-initial" value="5" min="0"></div>
+          <div class="input-group"><label>nach Jahr</label><input type="number" id="delay-year-month" value="10" min="0"></div>
+          <div class="input-group"><label>nach Monat</label><input type="number" id="delay-month-day" value="10" min="0"></div>
+          <div class="input-group"><label>nach Tag</label><input type="number" id="delay-day-weekday" value="10" min="0"></div>
+          <div class="input-group"><label>nach Wochentag</label><input type="number" id="delay-weekday-days" value="10" min="0"></div>
+          <div class="input-group"><label>zw. Ziffern</label><input type="number" id="delay-digit" value="3" min="0"></div>
+        </div>
+      </div>
+      <button id="btn-generate" class="btn-primary" style="width:100%;margin-top:16px;">Zuf&auml;lliges Datum generieren</button>
     </div>
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab(event,'date-function')">Calendar Prodigy</button>
-        <button class="tab-button" onclick="openTab(event,'vier-gewinnt')">Vier Gewinnt</button>
-        <button class="tab-button" onclick="openTab(event,'pi-tab')">Pi</button>
-        <button class="tab-button" onclick="openTab(event,'cc-tab')">Kreditkarte</button>
+    <div id="result-view" style="display:none;">
+      <div id="display-area">Bereit!</div>
+      <div class="button-group">
+        <button id="btn-next">N&auml;chster Schritt</button>
+        <button id="btn-reset">Zur&uuml;cksetzen</button>
+      </div>
     </div>
-
-    <div id="date-function" class="tab-content tab-pane active">
-        <h2>Zuf&auml;lliges Datum</h2>
-        <div id="setup-view">
-            <div class="input-group">
-                <label for="start-date">Anfangsdatum</label>
-                <input type="date" id="start-date" value="1950-01-01">
-            </div>
-            <div class="input-group">
-                <label for="end-date">Enddatum</label>
-                <input type="date" id="end-date" value="2026-03-26">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="show-zodiac">
-                <label for="show-zodiac">Optional: Sternzeichen anzeigen</label>
-            </div>
-            <div class="input-group">
-                <label for="date-format">Datumsformat <span style="font-weight:400;color:var(--text-light);">(bitte w&auml;hlen)</span></label>
-                <select id="date-format">
-                    <option value="DMY" selected>TT / MM / JJJJ</option>
-                    <option value="YMD">JJJJ / MM / TT</option>
-                </select>
-            </div>
-            <div class="checkbox-group" style="margin-top:20px;">
-                <input type="checkbox" id="enable-speech">
-                <label for="enable-speech">Sprachausgabe aktivieren</label>
-            </div>
-            <div id="speech-settings">
-                <h4>Pausen f&uuml;r Sprachausgabe (Sekunden)</h4>
-                <div class="grid">
-                    <div class="input-group"><label for="delay-initial">Start</label><input type="number" id="delay-initial" value="5" min="0"></div>
-                    <div class="input-group"><label for="delay-year-month">nach Jahr</label><input type="number" id="delay-year-month" value="10" min="0"></div>
-                    <div class="input-group"><label for="delay-month-day">nach Monat</label><input type="number" id="delay-month-day" value="10" min="0"></div>
-                    <div class="input-group"><label for="delay-day-weekday">nach Tag</label><input type="number" id="delay-day-weekday" value="10" min="0"></div>
-                    <div class="input-group"><label for="delay-weekday-days">nach Wochentag</label><input type="number" id="delay-weekday-days" value="10" min="0"></div>
-                    <div class="input-group"><label for="delay-digit">zw. Ziffern</label><input type="number" id="delay-digit" value="3" min="0"></div>
-                </div>
-            </div>
-            <button id="btn-generate" class="btn-primary" style="width:100%;margin-top:16px;">Zuf&auml;lliges Datum generieren</button>
-        </div>
-        <div id="result-view" style="display:none;">
-            <div id="display-area">Warte auf Eingabe...</div>
-            <div class="button-group">
-                <button id="btn-next">N&auml;chster Schritt</button>
-                <button id="btn-reset">Zur&uuml;cksetzen</button>
-            </div>
-        </div>
+  </div>
+  <div id="vg-tab" class="tab-content tab-pane" style="display:none;">
+    <h2>Vier Gewinnt</h2>
+    <div class="vier-gewinnt-controls">
+      <div class="input-group"><label>Wer beginnt?</label>
+        <select id="vg-starter"><option value="user">Benutzer</option><option value="app" selected>App</option></select>
+      </div>
+      <div class="input-group"><label>Anzahl App-Spieler</label>
+        <select id="vg-num-players"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+      </div>
+      <div class="checkbox-group"><input type="checkbox" id="vg-show-board"><label for="vg-show-board">Spielfelder anzeigen</label></div>
+      <div class="checkbox-group"><input type="checkbox" id="vg-speech"><label for="vg-speech">Sprachausgabe f&uuml;r App</label></div>
     </div>
-
-    <div id="vier-gewinnt" class="tab-content tab-pane" style="display:none;">
-        <h2>Vier Gewinnt</h2>
-        <div class="vier-gewinnt-controls">
-            <div class="input-group">
-                <label for="vier-gewinnt-starter">Wer beginnt?</label>
-                <select id="vier-gewinnt-starter">
-                    <option value="user">Benutzer</option>
-                    <option value="app" selected>App</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="vier-gewinnt-num-players">Anzahl App-Spieler</label>
-                <select id="vier-gewinnt-num-players">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="vier-gewinnt-show-board">
-                <label for="vier-gewinnt-show-board">Spielfelder anzeigen</label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="vier-gewinnt-speech">
-                <label for="vier-gewinnt-speech">Sprachausgabe f&uuml;r App</label>
-            </div>
-        </div>
-        <div id="vg-games-container"></div>
-        <button id="vier-gewinnt-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
+    <div id="vg-container"></div>
+    <button id="vg-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
+  </div>
+  <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
+    <h2>Pi &ndash; Ziffernfolge</h2>
+    <div class="input-group"><label>Leserichtung</label>
+      <select id="pi-direction"><option value="random" selected>Zuf&auml;llig</option><option value="forward">Vorw&auml;rts</option><option value="backward">R&uuml;ckw&auml;rts</option></select>
     </div>
-
-    <!-- TAB 4: KREDITKARTE -->
-    <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
-        <h2>Kreditkarte</h2>
-
-        <div class="input-group">
-            <label for="cc-delay">Pause zwischen Ziffern (Sekunden)</label>
-            <input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;">
-        </div>
-
-        <button id="cc-main-btn" class="btn-primary" style="color:white;" style="width:100%;">Karte generieren</button>
-        <button id="cc-reset-btn" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
-
-        <div id="cc-status" style="margin:20px 0;padding:15px;background-color:var(--display-bg);border-radius:6px;font-size:16px;font-weight:bold;text-align:center;color:white;min-height:2em;display:flex;align-items:center;justify-content:center;">Bereit.</div>
-
-        <div id="cc-answer-box" style="display:none;margin:10px 0;padding:20px;background-color:var(--display-bg);border-radius:6px;text-align:center;">
-            <div style="font-size:13px;color:var(--text-color-light);margin-bottom:6px;">Fehlende Ziffer</div>
-            <div id="cc-answer" style="font-size:64px;font-weight:900;color:#dc3545;"></div>
-        </div>
-
-        <div class="checkbox-group" style="margin-top:10px;">
-            <input type="checkbox" id="cc-show-number">
-            <label for="cc-show-number">Nummer anzeigen</label>
-        </div>
-        <div id="cc-number-box" style="display:none;margin-top:5px;padding:15px;background-color:var(--display-bg);border-radius:6px;font-family:monospace;font-size:20px;letter-spacing:3px;text-align:center;color:white;word-break:break-all;"></div>
-    </div>
-
-    <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
-        <h2>Pi &ndash; Ziffernfolge</h2>
-        <div class="input-group">
-            <label for="pi-direction">Leserichtung</label>
-            <select id="pi-direction">
-                <option value="random" selected>Zuf&auml;llig</option>
-                <option value="forward">Vorw&auml;rts</option>
-                <option value="backward">R&uuml;ckw&auml;rts</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label for="pi-digit-delay">Pause zwischen Ziffern (Sekunden)</label>
-            <input type="number" id="pi-digit-delay" value="5" min="1" max="30" style="width:80px;">
-        </div>
-        <button id="pi-start" class="btn-primary" style="width:100%;">Ziffernfolge w&auml;hlen &amp; starten</button>
-        <button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
-        <div id="pi-status">Bereit.</div>
-        <div class="checkbox-group" style="margin-top:10px;">
-            <input type="checkbox" id="pi-show-context">
-            <label for="pi-show-context">Zahlen anzeigen</label>
-        </div>
-        <div id="pi-context-box"></div>
-    </div>
-
+    <div class="input-group"><label>Pause zwischen Ziffern (Sekunden)</label><input type="number" id="pi-delay" value="5" min="1" max="30" style="width:80px;"></div>
+    <button id="pi-start" class="btn-primary" style="width:100%;">Starten</button>
+    <button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
+    <div id="pi-status">Bereit.</div>
+    <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx">Zahlen anzeigen</label></div>
+    <div id="pi-context-box"></div>
+  </div>
+  <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
+    <h2>Kreditkarte</h2>
+    <div class="input-group"><label>Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
+    <button id="cc-main" class="btn-primary" style="width:100%;">Karte generieren</button>
+    <button id="cc-reset" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
+    <div id="cc-status">Bereit.</div>
+    <div id="cc-answer-box"><div style="font-size:13px;color:var(--text-light);margin-bottom:6px;">Fehlende Ziffer</div><div id="cc-answer"></div></div>
+    <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="cc-show-num"><label for="cc-show-num">Nummer anzeigen</label></div>
+    <div id="cc-number-box"></div>
+  </div>
 </div>
-
 <div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;">
-    <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;">🔊 Lautstärke</span>
-    <input type="range" id="global-volume" min="0" max="1" step="0.05" value="1" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
-    <span id="volume-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:32px;text-align:right;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;">100%</span>
+  <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;">&#x1F50A; Lautst&auml;rke</span>
+  <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="1" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
+  <span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">100%</span>
 </div>
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
-    <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'">Synaptic kaufen</a>
+  <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'">Synaptic kaufen</a>
 </div>
-
 <script>
-// Set yesterday as default end date immediately
-(function() {
-    const t = new Date();
-    const y = new Date(t.getFullYear(), t.getMonth(), t.getDate() - 1);
-    const yStr = y.getFullYear() + '-' + String(y.getMonth()+1).padStart(2,'0') + '-' + String(y.getDate()).padStart(2,'0');
-    document.getElementById('end-date').value = yStr;
+(function(){
+'use strict';
+window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
+var isLight=false;
+document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?'Hell':'Dunkel';});
+var globalVolume=1;
+var volSlider=document.getElementById('vol-slider');
+var volLabel=document.getElementById('vol-label');
+volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';});
+document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
+var speechQueue=[],isSpeaking=false;
+function speak(text,onDone){speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
+function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang='de-DE';u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
+function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
+function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
+(function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);document.getElementById('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
+var cpStep=0,cpDate=null;
+var cpToday=new Date();
+var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
+document.getElementById('enable-speech').addEventListener('change',function(){document.getElementById('speech-settings').style.display=this.checked?'block':'none';});
+document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert('Bitte Start- und Enddatum eingeben.');return;}var s=new Date(sVal),e=new Date(eVal);if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
+document.getElementById('btn-next').addEventListener('click',cpNextStep);
+document.getElementById('btn-reset').addEventListener('click',cpReset);
+function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
+function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString('de-DE',{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString('de-DE',{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub='Tage vergangen';break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').textContent='Fertig';document.getElementById('btn-next').disabled=true;}}
+function cpEndSeq(){document.getElementById('display-area').innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Zur\u00fccksetzen klicken.</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';}
+function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';}
+function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent='Sprachausgabe startet...';clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString('de-DE',{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString('de-DE',{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){area.textContent=weekday;speakPause(weekday,d.dw,function(){area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">Tage vergangen</small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
+function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';}
+var ROWS=6,COLS=7,P1='user',P2='app';
+var vgGames=[];
+var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
+document.getElementById('vg-reset').addEventListener('click',vgInit);
+document.getElementById('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=document.getElementById('vg-show-board').checked?'grid':'none';});});
+function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent='Spielfeld gegen '+ac.name;wrap.appendChild(title);var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent='Startet...';wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,current:document.getElementById('vg-starter').value,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,ac:ac};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);vgUpdateStatus(game);if(game.current===P2){vgDisable(game,true);setTimeout((function(g){return function(){vgAppMove(g);};})(game),1000+i*300);}}}
+function vgRenderBoard(game){game.boardEl.innerHTML='';for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){var cell=document.createElement('div');cell.style.cssText='aspect-ratio:1;background:rgba(0,0,0,0.35);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.07);';cell.dataset.r=r;cell.dataset.c=c;if(game.board[r][c]){var p=document.createElement('div');var isU=game.board[r][c]===P1;p.style.cssText='width:85%;height:85%;border-radius:50%;background:'+(isU?'radial-gradient(circle at 35% 35%,#ffe066,#f59f00)':'radial-gradient(circle at 35% 35%,'+game.ac.label+'cc,'+game.ac.label+'88)')+';box-shadow:0 2px 8px rgba(0,0,0,0.4);animation:drop 0.3s ease;';cell.appendChild(p);}game.boardEl.appendChild(cell);}}
+function vgRenderColBtns(game){game.colBtns.innerHTML='';for(var c=0;c<COLS;c++){var btn=document.createElement('button');btn.style.cssText='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:white;cursor:pointer;padding:2px;';btn.textContent='\u2193'+(c+1);btn.dataset.col=c;btn.addEventListener('click',(function(g){return function(e){vgColClick(e,g);};})(game));game.colBtns.appendChild(btn);}}
+function vgUpdateStatus(game){if(game.over)return;game.statusEl.textContent=game.current===P1?'Dein Zug':game.ac.name+' denkt...';}
+function vgColClick(e,game){if(game.over||game.current!==P1)return;var col=parseInt(e.target.dataset.col);var row=vgFindRow(game,col);if(row!==-1)vgDrop(game,row,col,P1);}
+function vgDrop(game,row,col,player){game.board[row][col]=player;game.moves++;vgRenderBoard(game);if(vgCheckWin(game,player)){vgEnd(game,player);return;}if(vgFull(game)){vgEnd(game,null);return;}game.current=game.current===P1?P2:P1;vgUpdateStatus(game);if(game.current===P2){vgDisable(game,true);setTimeout((function(g){return function(){vgAppMove(g);};})(game),900);}else vgDisable(game,false);}
+function vgFindRow(game,col){for(var r=ROWS-1;r>=0;r--)if(game.board[r][col]===null)return r;return -1;}
+function vgAppMove(game){if(game.over)return;var avail=[];for(var c=0;c<COLS;c++)if(game.board[0][c]===null)avail.push(c);if(avail.length){var col=avail[Math.floor(Math.random()*avail.length)];var row=vgFindRow(game,col);if(document.getElementById('vg-speech').checked)speak(game.ac.name+' setzt in Spalte '+(col+1)+'.');vgDrop(game,row,col,P2);}}
+function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
+function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
+function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
+function vgEnd(game,winner){game.over=true;vgDisable(game,true);var msg='';if(winner===P1)msg='Du hast gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else if(winner===P2)msg=game.ac.name+' hat gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else msg='Unentschieden! ('+game.moves+' Z\u00fcge)';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);}
+function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
+vgInit();
+var PI='14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912983367336244065664308602139494639522473719070217986094370277053921717629317675238467481846766940513200056812714526356082778577134275778960917363717872146844090122495343014654958537105079227968925892354201995611212902196086403441815981362977477130996051870721134999999837297804995105973173281609631859502445945534690830264252230825334468503526193118817101000313783875288658753320838142061717766914730359825349042875546873115956286388235378759375195778185778053217122680661300192787661119590921642019893809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095176237';
+var SEQ=20,piRunning=false,piTimeout=null,piStart=0,piCur=0,piDir='forward';
+document.getElementById('pi-start').addEventListener('click',function(){if(piRunning)return;var max=PI.length-SEQ-10;piStart=Math.floor(Math.random()*max);var dv=document.getElementById('pi-direction').value;piDir=dv==='random'?(Math.random()<0.5?'forward':'backward'):dv;piCur=piDir==='forward'?piStart:piStart+SEQ-1;piRunning=true;document.getElementById('pi-start').style.display='none';document.getElementById('pi-stop').style.display='block';document.getElementById('pi-status').textContent='...';if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();piStep();});
+document.getElementById('pi-stop').addEventListener('click',piStop);
+document.getElementById('pi-show-ctx').addEventListener('change',function(){document.getElementById('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
+function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
+function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent='Gestoppt.';}
+function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
+var CC_TYPES=[{name:'Visa',prefix:'4',len:16},{name:'Mastercard',prefix:'51',len:16},{name:'Amex',prefix:'34',len:15},{name:'Discover',prefix:'6011',len:16}];
+var ccState='idle',ccFull='',ccMissIdx=-1,ccMissDig='',ccTimeout=null;
+document.getElementById('cc-show-num').addEventListener('change',function(){document.getElementById('cc-number-box').style.display=this.checked?'block':'none';});
+document.getElementById('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate();else if(ccState==='ready')ccRead();else if(ccState==='done')ccShowSolution();});
+document.getElementById('cc-reset').addEventListener('click',ccReset);
+function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
+function ccMakeLuhn(prefix,length){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++)if(ccLuhn(num+ch))return num+ch;return num+'0';}
+function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';ccState='ready';document.getElementById('cc-main').textContent='Vorlesen';}
+function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Liest vor...';clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='L\u00f6sung anzeigen';document.getElementById('cc-status').textContent='Vorlesen beendet.';return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
+function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
+function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent='L\u00f6sung angezeigt.';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Fertig';speak(ccMissDig);}
+function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='Karte generieren';document.getElementById('cc-status').textContent='Bereit.';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
 })();
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    const themeBtn = document.getElementById('theme-toggle');
-        themeBtn.textContent = 'Dunkel';
-        let isLight = false;
-        themeBtn.addEventListener('click', () => {
-            isLight = !isLight;
-            document.body.classList.toggle('light-mode', isLight);
-            themeBtn.textContent = isLight ? 'Hell' : 'Dunkel';
-        });
-
-    let globalVolume = 1.0;
-    const volSlider = document.getElementById('global-volume');
-    const volLabel = document.getElementById('volume-label');
-    volSlider.addEventListener('input', () => {
-        globalVolume = parseFloat(volSlider.value);
-        volLabel.textContent = Math.round(globalVolume * 100) + '%';
-    });
-
-    // iOS-kompatible Sprachwarteschlange
-    let speechQueue = [];
-    let isSpeaking = false;
-
-    function speak(text, onDone) {
-        speechQueue.push({ text, onDone });
-        if (!isSpeaking) processQueue();
-    }
-
-    function processQueue() {
-        if (speechQueue.length === 0) { isSpeaking = false; return; }
-        isSpeaking = true;
-        const { text, onDone } = speechQueue.shift();
-        if (!('speechSynthesis' in window)) { if (onDone) onDone(); processQueue(); return; }
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'de-DE';
-        u.volume = globalVolume;
-        u.onend = () => { if (onDone) onDone(); processQueue(); };
-        u.onerror = () => { if (onDone) onDone(); processQueue(); };
-        window.speechSynthesis.speak(u);
-    }
-
-    function clearSpeechQueue() {
-        speechQueue = [];
-        isSpeaking = false;
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-    }
-
-    function speakWithPause(text, pauseMs, onDone) {
-        speak(text, () => {
-            setTimeout(() => { if (onDone) onDone(); }, pauseMs);
-        });
-    }
-
-    // Haptic pulse on all buttons
-    document.addEventListener('click', e => {
-        const btn = e.target.closest('button');
-        if (btn && !btn.disabled) {
-            btn.classList.remove('haptic');
-            void btn.offsetWidth; // reflow
-            btn.classList.add('haptic');
-            btn.addEventListener('animationend', () => btn.classList.remove('haptic'), {once: true});
-        }
-    });
-
-    // CALENDAR PRODIGY
-    const today = new Date();
-    const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-    const yy = yesterday.getFullYear();
-    const mm = String(yesterday.getMonth() + 1).padStart(2, '0');
-    const dd = String(yesterday.getDate()).padStart(2, '0');
-    document.getElementById('end-date').value = `${yy}-${mm}-${dd}`;
-    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    let currentStep = 0, randomDate = null, speechTimeouts = [];
-    const btnGenerate = document.getElementById('btn-generate');
-    const btnNext = document.getElementById('btn-next');
-    const btnReset = document.getElementById('btn-reset');
-    const displayArea = document.getElementById('display-area');
-    const setupView = document.getElementById('setup-view');
-    const resultView = document.getElementById('result-view');
-    const enableSpeechCheck = document.getElementById('enable-speech');
-    const speechSettings = document.getElementById('speech-settings');
-
-    btnGenerate.addEventListener('click', generateRandomDate);
-    btnNext.addEventListener('click', showNextStep);
-    btnReset.addEventListener('click', resetApp);
-    enableSpeechCheck.addEventListener('change', () => {
-        speechSettings.style.display = enableSpeechCheck.checked ? 'block' : 'none';
-        if (!enableSpeechCheck.checked) clearAllTimeouts();
-    });
-
-    function generateRandomDate() {
-        const s = new Date(document.getElementById('start-date').value);
-        const e = new Date(document.getElementById('end-date').value);
-        if (!s || !e || s >= e) { alert('Bitte g\u00fcltige Daten eingeben.'); return; }
-        randomDate = new Date(s.getTime() + Math.random() * (e.getTime() - s.getTime()));
-        currentStep = 0;
-        setupView.style.display = 'none';
-        resultView.style.display = 'block';
-        btnNext.disabled = false;
-        if (enableSpeechCheck.checked) startSpeechSequence();
-        else displayArea.innerHTML = 'Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-color-light);">Klicke auf N\u00e4chster Schritt</small>';
-    }
-
-    function startSpeechSequence() {
-        btnNext.disabled = true;
-        displayArea.textContent = 'Sprachausgabe startet...';
-        clearSpeechQueue();
-        const d = {
-            initial: parseInt(document.getElementById('delay-initial').value)*1000,
-            yearMonth: parseInt(document.getElementById('delay-year-month').value)*1000,
-            monthDay: parseInt(document.getElementById('delay-month-day').value)*1000,
-            dayWeekday: parseInt(document.getElementById('delay-day-weekday').value)*1000,
-            weekdayDays: parseInt(document.getElementById('delay-weekday-days').value)*1000,
-            digit: parseInt(document.getElementById('delay-digit').value)*1000
-        };
-        const year = randomDate.getFullYear().toString();
-        const month = randomDate.toLocaleString('de-DE',{month:'long'});
-        const day = randomDate.getDate().toString();
-        const weekday = randomDate.toLocaleString('de-DE',{weekday:'long'});
-        const timeDiff = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
-        const dayDiff = Math.floor(timeDiff/(1000*3600*24));
-        const dayDiffStr = dayDiff.toString();
-        const showZodiac = document.getElementById('show-zodiac').checked;
-        const fmt = getDateFormat();
-        const dateSteps = fmt === 'YMD'
-            ? [[year, d.initial],[month, d.yearMonth],[day, d.monthDay]]
-            : [[day, d.initial],[month, d.yearMonth],[year, d.monthDay]];
-
-        function runStep(steps, idx, afterDone) {
-            if (idx >= steps.length) { afterDone(); return; }
-            const [txt, pause] = steps[idx];
-            displayArea.innerHTML = txt;
-            speakWithPause(txt, pause, () => runStep(steps, idx+1, afterDone));
-        }
-
-        // Start with initial pause then run date steps
-        setTimeout(() => {
-            runStep(dateSteps, 0, () => {
-                // Weekday
-                displayArea.innerHTML = weekday;
-                speakWithPause(weekday, d.dayWeekday, () => {
-                    // Days passed
-                    displayArea.innerHTML = `${dayDiff}<br><small style='font-size:14px;color:var(--text-color-light);'>Tage vergangen</small>`;
-                    // Speak each digit of dayDiff with pause
-                    const digits = dayDiffStr.split('');
-                    function speakDigit(i) {
-                        if (i >= digits.length) {
-                            if (showZodiac) {
-                                setTimeout(() => {
-                                    const z = getZodiacSign(randomDate);
-                                    displayArea.textContent = z;
-                                    speakWithPause(z, 1000, endSequence);
-                                }, d.weekdayDays);
-                            } else {
-                                setTimeout(endSequence, d.weekdayDays);
-                            }
-                            return;
-                        }
-                        speakWithPause(digits[i], d.digit, () => speakDigit(i+1));
-                    }
-                    speakDigit(0);
-                });
-            });
-        }, d.initial);
-    }
-
-    function getDateFormat() { return document.getElementById('date-format').value; }
-
-    function getStepOrder() {
-        const fmt = getDateFormat();
-        if (fmt === 'YMD') { const showZ=document.getElementById('show-zodiac').checked; return showZ?['year','month','day','weekday','days','zodiac']:['year','month','day','weekday','days']; }
-        const showZ=document.getElementById('show-zodiac').checked; return showZ?['day','month','year','weekday','days','zodiac']:['day','month','year','weekday','days'];
-    }
-
-    function showNextStep() {
-        currentStep++;
-        const showZodiac = document.getElementById('show-zodiac').checked;
-        const steps = getStepOrder();
-        let content='', subtext='', isLast=false;
-        const stepName = steps[currentStep - 1];
-        switch(stepName) {
-            case 'year': content = randomDate.getFullYear(); break;
-            case 'month': content = randomDate.toLocaleString('de-DE',{month:'long'}); break;
-            case 'day': content = randomDate.getDate(); break;
-            case 'weekday': content = randomDate.toLocaleString('de-DE',{weekday:'long'}); break;
-            case 'days':
-                const td = todayDateOnly - new Date(randomDate.getFullYear(),randomDate.getMonth(),randomDate.getDate());
-                content = Math.floor(td/(1000*3600*24)); subtext='Tage vergangen';
-                if(!showZodiac) isLast=true; break;
-            case 'zodiac':
-                if(showZodiac){content=getZodiacSign(randomDate);isLast=true;}else{endSequence();return;} break;
-            default: endSequence(); return;
-        }
-        displayArea.innerHTML = `${content}<br><small style='font-size:14px;font-weight:normal;color:var(--text-color-light);'>${subtext}</small>`;
-        if(isLast){btnNext.textContent='Fertig';btnNext.disabled=true;}
-    }
-
-    function endSequence() {
-        displayArea.innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-color-light);">Auf Zur\u00fccksetzen klicken.</small>';
-        btnNext.disabled=true; btnNext.textContent='N\u00e4chster Schritt';
-    }
-    function clearAllTimeouts() { speechTimeouts.forEach(t=>clearTimeout(t)); speechTimeouts=[]; clearSpeechQueue(); }
-    function resetApp() {
-        clearAllTimeouts(); currentStep=0; randomDate=null;
-        setupView.style.display='block'; resultView.style.display='none';
-        displayArea.textContent='Warte auf Eingabe...'; btnNext.disabled=false; btnNext.textContent='N\u00e4chster Schritt';
-    }
-    function getZodiacSign(date) {
-        const day=date.getDate(), m=date.getMonth()+1;
-        if((m==1&&day>=21)||(m==2&&day<=19)) return'Wassermann';
-        if((m==2&&day>=20)||(m==3&&day<=20)) return'Fische';
-        if((m==3&&day>=21)||(m==4&&day<=20)) return'Widder';
-        if((m==4&&day>=21)||(m==5&&day<=20)) return'Stier';
-        if((m==5&&day>=21)||(m==6&&day<=21)) return'Zwillinge';
-        if((m==6&&day>=22)||(m==7&&day<=22)) return'Krebs';
-        if((m==7&&day>=23)||(m==8&&day<=23)) return'L\u00f6we';
-        if((m==8&&day>=24)||(m==9&&day<=23)) return'Jungfrau';
-        if((m==9&&day>=24)||(m==10&&day<=23)) return'Waage';
-        if((m==10&&day>=24)||(m==11&&day<=22)) return'Skorpion';
-        if((m==11&&day>=23)||(m==12&&day<=21)) return'Sch\u00fctze';
-        return'Steinbock';
-    }
-
-    // VIER GEWINNT — Multi-Board
-    const ROWS=6, COLS=7, PLAYER1='user', PLAYER2='app';
-    const vgResetBtn = document.getElementById('vier-gewinnt-reset');
-    const starterSel = document.getElementById('vier-gewinnt-starter');
-    const showBoardChk = document.getElementById('vier-gewinnt-show-board');
-    const vgSpeechChk = document.getElementById('vier-gewinnt-speech');
-    const numPlayersSel = document.getElementById('vier-gewinnt-num-players');
-    const gamesContainer = document.getElementById('vg-games-container');
-
-    // Each game: { board, gameOver, moveCount, currentPlayer, boardEl, colBtnsEl, statusEl, appIdx }
-    let games = [];
-
-    vgResetBtn.addEventListener('click', initAllGames);
-    showBoardChk.addEventListener('change', () => {
-        games.forEach(g => { g.boardEl.style.display = showBoardChk.checked ? 'grid' : 'none'; });
-    });
-
-    const APP_COLORS = [
-        { name: 'App 1', piece: 'player2', label: '#ff6b6b' },
-        { name: 'App 2', piece: 'player3', label: '#a9e34b' },
-        { name: 'App 3', piece: 'player4', label: '#f783ac' },
-        { name: 'App 4', piece: 'player5', label: '#ffd43b' },
-    ];
-
-    function initAllGames() {
-        const numPlayers = parseInt(numPlayersSel.value);
-        gamesContainer.innerHTML = '';
-        games = [];
-        for (let i = 0; i < numPlayers; i++) {
-            const appColor = APP_COLORS[i];
-            // Wrapper
-            const wrapper = document.createElement('div');
-            wrapper.style.cssText = 'margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';
-
-            // Title
-            const title = document.createElement('div');
-            title.style.cssText = `font-size:14px;font-weight:700;color:${appColor.label};margin-bottom:10px;letter-spacing:-0.2px;`;
-            title.textContent = `Spielfeld gegen ${appColor.name}`;
-            wrapper.appendChild(title);
-
-            // Status
-            const statusEl = document.createElement('div');
-            statusEl.style.cssText = 'margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';
-            statusEl.textContent = 'Startet...';
-            wrapper.appendChild(statusEl);
-
-            // Column buttons
-            const colBtnsEl = document.createElement('div');
-            colBtnsEl.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';
-            wrapper.appendChild(colBtnsEl);
-
-            // Board
-            const boardEl = document.createElement('div');
-            boardEl.style.cssText = `display:${showBoardChk.checked?'grid':'none'};grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;`;
-            wrapper.appendChild(boardEl);
-
-            gamesContainer.appendChild(wrapper);
-
-            const game = {
-                board: Array(ROWS).fill(null).map(()=>Array(COLS).fill(null)),
-                gameOver: false,
-                moveCount: 0,
-                currentPlayer: starterSel.value,
-                boardEl, colBtnsEl, statusEl,
-                appIdx: i,
-                appColor,
-            };
-            games.push(game);
-            renderBoard(game);
-            renderColBtns(game);
-            updateStatus(game);
-            if (game.currentPlayer === PLAYER2) {
-                disableColBtns(game, true);
-                setTimeout(() => appMove(game), 1000 + i * 300);
-            }
-        }
-    }
-
-    function renderBoard(game) {
-        game.boardEl.innerHTML = '';
-        for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
-            const cell = document.createElement('div');
-            cell.style.cssText = 'aspect-ratio:1;background:rgba(0,0,0,0.35);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.07);';
-            cell.dataset.row = r; cell.dataset.col = c;
-            if (game.board[r][c]) {
-                const p = document.createElement('div');
-                const isUser = game.board[r][c] === PLAYER1;
-                p.style.cssText = `width:85%;height:85%;border-radius:50%;background:${isUser
-                    ? 'radial-gradient(circle at 35% 35%,#ffe066,#f59f00)'
-                    : `radial-gradient(circle at 35% 35%,${game.appColor.label}cc,${game.appColor.label}88)`
-                };box-shadow:0 2px 8px rgba(0,0,0,0.4);animation:drop 0.3s ease;`;
-                cell.appendChild(p);
-            }
-            game.boardEl.appendChild(cell);
-        }
-    }
-
-    function renderColBtns(game) {
-        game.colBtnsEl.innerHTML = '';
-        for (let c = 0; c < COLS; c++) {
-            const btn = document.createElement('button');
-            btn.style.cssText = 'background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:white;cursor:pointer;padding:2px;';
-            btn.textContent = '↓' + (c + 1);
-            btn.dataset.col = c;
-            btn.addEventListener('click', (e) => handleColClick(e, game));
-            game.colBtnsEl.appendChild(btn);
-        }
-    }
-
-    function updateStatus(game) {
-        if (game.gameOver) return;
-        game.statusEl.textContent = game.currentPlayer === PLAYER1 ? 'Dein Zug' : `${game.appColor.name} denkt...`;
-    }
-
-    function handleColClick(e, game) {
-        if (game.gameOver || game.currentPlayer !== PLAYER1) return;
-        const col = parseInt(e.target.dataset.col);
-        const row = findLowestRow(game, col);
-        if (row !== -1) dropPiece(game, row, col, PLAYER1);
-    }
-
-    function dropPiece(game, row, col, player) {
-        game.board[row][col] = player;
-        game.moveCount++;
-        renderBoard(game);
-        if (checkWin(game, player)) { endGame(game, player); return; }
-        if (isBoardFull(game)) { endGame(game, null); return; }
-        game.currentPlayer = game.currentPlayer === PLAYER1 ? PLAYER2 : PLAYER1;
-        updateStatus(game);
-        if (game.currentPlayer === PLAYER2) {
-            disableColBtns(game, true);
-            setTimeout(() => appMove(game), 900);
-        } else {
-            disableColBtns(game, false);
-        }
-    }
-
-    function findLowestRow(game, col) {
-        for (let r = ROWS - 1; r >= 0; r--) if (game.board[r][col] === null) return r;
-        return -1;
-    }
-
-    function appMove(game) {
-        if (game.gameOver) return;
-        const avail = [];
-        for (let c = 0; c < COLS; c++) if (game.board[0][c] === null) avail.push(c);
-        if (avail.length > 0) {
-            const col = avail[Math.floor(Math.random() * avail.length)];
-            const row = findLowestRow(game, col);
-            if (vgSpeechChk.checked) speak(`${game.appColor.name} setzt in Spalte ${col + 1}.`);
-            dropPiece(game, row, col, PLAYER2);
-        }
-    }
-
-    function checkWin(game, player) {
-        const b = game.board;
-        const ok = (a,b2,c,d) => a !== null && a === b2 && a === c && a === d && a === player;
-        for (let r = 0; r < ROWS; r++) for (let c = 0; c <= COLS-4; c++)
-            if (ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])) { highlightWin(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]); game.lastWinDir='Horizontal'; return true; }
-        for (let c = 0; c < COLS; c++) for (let r = 0; r <= ROWS-4; r++)
-            if (ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])) { highlightWin(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]); game.lastWinDir='Vertikal'; return true; }
-        for (let r = 0; r <= ROWS-4; r++) for (let c = 0; c <= COLS-4; c++)
-            if (ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])) { highlightWin(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]); game.lastWinDir='Diagonal'; return true; }
-        for (let r = 3; r < ROWS; r++) for (let c = 0; c <= COLS-4; c++)
-            if (ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])) { highlightWin(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]); game.lastWinDir='Diagonal'; return true; }
-        return false;
-    }
-
-    function highlightWin(game, cells) {
-        const allCells = game.boardEl.querySelectorAll('[data-row]');
-        cells.forEach(([r,c]) => {
-            const el = game.boardEl.querySelector(`[data-row='${r}'][data-col='${c}']`);
-            if (el) el.style.boxShadow = '0 0 0 3px rgba(255,255,255,0.8)';
-        });
-    }
-
-    function isBoardFull(game) { return game.board[0].every(c => c !== null); }
-
-    function endGame(game, winner) {
-        game.gameOver = true;
-        disableColBtns(game, true);
-        let msg = '';
-        if (winner === PLAYER1) msg = `Du hast gewonnen! ${game.lastWinDir||''} (${game.moveCount} Züge)`;
-        else if (winner === PLAYER2) msg = `${game.appColor.name} hat gewonnen! ${game.lastWinDir||''} (${game.moveCount} Züge)`;
-        else msg = `Unentschieden! (${game.moveCount} Züge)`;
-        game.statusEl.textContent = msg;
-        game.statusEl.style.color = winner === PLAYER1 ? '#51cf66' : winner === PLAYER2 ? game.appColor.label : 'rgba(255,255,255,0.7)';
-        if (vgSpeechChk.checked) speak(msg);
-    }
-
-    function disableColBtns(game, disabled) {
-        game.colBtnsEl.querySelectorAll('button').forEach(b => b.disabled = disabled);
-    }
-
-    initAllGames();
-
-    // PI
-    const PI_DIGITS='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632788659361533818279682303019520353018529689957736225994138912497217752834791315155748572424541506959508295331168617278558890750983817546374649393192550604009277016711390098488240128583616035637076601047101819429555961989467678374494482553797747268471040475346462080466842590694912933136770289891521047521620569660240580381501935112533824300355876402474964732639141992726042699227967823547816360093417216412199245863150302861829745557067498385054945885869269956909272107975093029553211653449872027559602364806654991198818347977535663698074265425278625518184175746728909777727938000816470600161452491921732172147723501414419735685481613611573525521334757418494684385233239073941433345477624168625189835694855620992192221842725502542568876717904946016534668049886272327917860857843838279679766814541009538837863609506800642251252051173929848960841284886269456042419652850222106611863067442786220391949450471237137869609563643719172874677646575739624138908658326459958133904780275901';
-
-    let piTimeouts=[], piRunning=false, piStartIdx=0, piDirection='forward';
-    const SEQ_LEN=5, PAUSE_AFTER=5000;
-    let DIG_INT=5000;
-    const piStartBtn=document.getElementById('pi-start');
-    const piStopBtn=document.getElementById('pi-stop');
-    const piStatusEl=document.getElementById('pi-status');
-    const piShowCtx=document.getElementById('pi-show-context');
-    const piCtxBox=document.getElementById('pi-context-box');
-    const piDirSel=document.getElementById('pi-direction');
-
-    piShowCtx.addEventListener('change',()=>{ piCtxBox.style.display=piShowCtx.checked?'block':'none'; });
-    piStartBtn.addEventListener('click',startPi);
-    piStopBtn.addEventListener('click',stopPi);
-
-    function startPi() {
-        stopPi();
-        const maxStart=PI_DIGITS.length-SEQ_LEN-10;
-        piStartIdx=10+Math.floor(Math.random()*(maxStart-10));
-        const dirVal=piDirSel.value;
-        piDirection=dirVal==='random'?(Math.random()<0.5?'forward':'backward'):dirVal;
-        const seq=PI_DIGITS.slice(piStartIdx,piStartIdx+SEQ_LEN).split('');
-        const readSeq=piDirection==='backward'?[...seq].reverse():seq;
-        piRunning=true;
-        piStartBtn.style.display='none'; piStopBtn.style.display='block';
-        renderPiContext(piStartIdx,false);
-        DIG_INT = parseInt(document.getElementById('pi-digit-delay').value)*1000 || 5000;
-
-        // iOS-safe: use onend queue
-        function speakSeq(digits, idx, onAllDone) {
-            if (idx >= digits.length) { onAllDone(); return; }
-            piStatusEl.textContent = digits[idx];
-            speakWithPause(digits[idx], DIG_INT, () => speakSeq(digits, idx+1, onAllDone));
-        }
-
-        speakSeq(readSeq, 0, () => {
-            const dirText = piDirection==='forward' ? 'Vorw\u00e4rts' : 'R\u00fcckw\u00e4rts';
-            piStatusEl.textContent = dirText;
-            speak(dirText, () => {
-                renderPiContext(piStartIdx, true);
-                // Continue reading subsequent digits
-                let nextIdx = piDirection==='forward' ? piStartIdx+SEQ_LEN : piStartIdx-1;
-                function readNext() {
-                    if (!piRunning) return;
-                    if (nextIdx < 0 || nextIdx >= PI_DIGITS.length) { stopPi(); return; }
-                    const digit = PI_DIGITS[nextIdx];
-                    piStatusEl.textContent = digit;
-                    nextIdx = piDirection==='forward' ? nextIdx+1 : nextIdx-1;
-                    speakWithPause(digit, DIG_INT, readNext);
-                }
-                readNext();
-            });
-        });
-    }
-
-    function stopPi() {
-        piRunning=false;
-        piTimeouts.forEach(t=>clearTimeout(t)); piTimeouts=[];
-        clearSpeechQueue();
-        piStartBtn.style.display='block'; piStopBtn.style.display='none';
-        piStatusEl.textContent='Gestoppt.';
-    }
-    function renderPiContext(startIdx, highlight) {
-        const from=Math.max(0,startIdx-10), to=Math.min(PI_DIGITS.length,startIdx+SEQ_LEN+10);
-        const chunk=PI_DIGITS.slice(from,to);
-        let html=`<div style="font-size:12px;color:var(--text-color-light);margin-bottom:6px;">Position ${startIdx+1}\u2013${startIdx+SEQ_LEN} (von 10.000)</div>`;
-        for(let i=0;i<chunk.length;i++){
-            const absIdx=from+i, inSeq=absIdx>=startIdx&&absIdx<startIdx+SEQ_LEN;
-            html+=inSeq&&highlight?`<span style="color:#dc3545;font-weight:bold;">${chunk[i]}</span>`:chunk[i];
-        }
-        piCtxBox.innerHTML=html;
-    }
-
-    // KREDITKARTE
-    (function(){
-        const CARD_TYPES = [
-            {name:'Visa', prefix:['4'], len:16},
-            {name:'Mastercard', prefix:['51','52','53','54','55'], len:16},
-            {name:'Amex', prefix:['34','37'], len:15},
-            {name:'Discover', prefix:['6011'], len:16}
-        ];
-
-        let ccNumber = '';      // full valid number
-        let ccMasked = '';      // with one digit removed
-        let ccMissingIdx = -1;
-        let ccMissingDigit = '';
-        let ccPhase = 0;        // 0=ready, 1=generated, 2=reading, 3=revealed
-        let ccTimeouts = [];
-
-        const mainBtn = document.getElementById('cc-main-btn');
-        const resetBtn = document.getElementById('cc-reset-btn');
-        const statusEl = document.getElementById('cc-status');
-        const answerBox = document.getElementById('cc-answer-box');
-        const answerEl = document.getElementById('cc-answer');
-        const showNumChk = document.getElementById('cc-show-number');
-        const numberBox = document.getElementById('cc-number-box');
-
-        showNumChk.addEventListener('change', () => {
-            numberBox.style.display = showNumChk.checked ? 'block' : 'none';
-        });
-        mainBtn.addEventListener('click', handleMainBtn);
-        resetBtn.addEventListener('click', resetCC);
-
-        function luhn(digits) {
-            let sum = 0;
-            let odd = true;
-            for (let i = digits.length - 1; i >= 0; i--) {
-                let d = parseInt(digits[i]);
-                if (!odd) { d *= 2; if (d > 9) d -= 9; }
-                sum += d;
-                odd = !odd;
-            }
-            return sum % 10 === 0;
-        }
-
-        function generateCard() {
-            const type = CARD_TYPES[Math.floor(Math.random() * CARD_TYPES.length)];
-            const prefix = type.prefix[Math.floor(Math.random() * type.prefix.length)];
-            const len = type.len;
-            let digits = prefix.split('');
-            while (digits.length < len - 1) digits.push(String(Math.floor(Math.random()*10)));
-            // calc check digit
-            for (let check = 0; check <= 9; check++) {
-                const candidate = digits.concat([String(check)]);
-                if (luhn(candidate)) { digits = candidate; break; }
-            }
-            return { number: digits.join(''), type: type.name };
-        }
-
-        function formatCard(num, missingIdx) {
-            // group into blocks of 4 (or 4-6-5 for Amex 15)
-            let html = '';
-            for (let i = 0; i < num.length; i++) {
-                if (i > 0 && i % 4 === 0) html += ' ';
-                if (i === missingIdx) {
-                    html += `<span style="color:#ff6b6b;font-weight:bold;">?</span>`;
-                } else {
-                    html += `<span style="color:white;">${num[i]}</span>`;
-                }
-            }
-            return html;
-        }
-
-        function handleMainBtn() {
-            if (ccPhase === 0) {
-                // Generate
-                const card = generateCard();
-                ccNumber = card.number;
-                ccMissingIdx = Math.floor(Math.random() * ccNumber.length);
-                ccMissingDigit = ccNumber[ccMissingIdx];
-                ccPhase = 1;
-                answerBox.style.display = 'none';
-                numberBox.innerHTML = formatCard(ccNumber, ccMissingIdx);
-                if (showNumChk.checked) numberBox.style.display = 'block';
-                statusEl.textContent = `${card.type} \u2013 Bereit zum Vorlesen. Welche Ziffer fehlt?`;
-                mainBtn.textContent = 'Vorlesen starten';
-            } else if (ccPhase === 1) {
-                // Start reading
-                ccPhase = 2;
-                mainBtn.disabled = true;
-                const delay = (parseInt(document.getElementById('cc-delay').value) || 3) * 1000;
-                // build full sequence with null at missing position
-                const fullSeq = ccNumber.split('');
-                let d = 0;
-                ccTimeouts = [];
-                statusEl.textContent = 'Lese vor...';
-                clearSpeechQueue();
-                  function readNextCC(i) {
-                      if (i >= fullSeq.length) {
-                          statusEl.textContent = 'Welche Ziffer fehlt?';
-                          mainBtn.textContent = 'L\u00f6sung anzeigen';
-                          mainBtn.disabled = false; ccPhase = 3; return;
-                      }
-                      if (i === ccMissingIdx) {
-                          statusEl.textContent = '?'; beep();
-                          setTimeout(() => readNextCC(i+1), delay);
-                      } else {
-                          statusEl.textContent = fullSeq[i];
-                          speakWithPause(fullSeq[i], delay, () => readNextCC(i+1));
-                      }
-                  }
-                  readNextCC(0);
-              } else if (ccPhase === 3) {
-                  answerEl.textContent = ccMissingDigit;
-                  answerBox.style.display = 'block';
-                  statusEl.textContent = `Die fehlende Ziffer war die ${ccMissingIdx+1}. Stelle.`;
-                  speak(ccMissingDigit);
-                  mainBtn.disabled = true;
-                  mainBtn.textContent = 'Karte generieren';
-              }
-          }
-          if(false) { if(false) {
-                    ccTimeouts.push(setTimeout(() => {
-                        if (i === ccMissingIdx) {
-                            statusEl.textContent = '?';
-                            beep();
-                        } else {
-                            statusEl.textContent = digit;
-                            speak(digit);
-                        }
-                        if (i === fullSeq.length - 1) {
-                            ccTimeouts.push(setTimeout(() => {
-                                statusEl.textContent = 'Welche Ziffer fehlt?';
-                                mainBtn.textContent = 'L\u00f6sung anzeigen';
-                                mainBtn.disabled = false;
-                                ccPhase = 3;
-                            }, delay));
-                        }
-                    }, d));
-                    d += delay;
-                });
-            } else if (ccPhase === 3) {
-                // Reveal
-                answerEl.textContent = ccMissingDigit;
-                answerBox.style.display = 'block';
-                statusEl.textContent = `Die fehlende Ziffer war die ${ccMissingIdx+1}. Stelle.`;
-                speak(ccMissingDigit);
-                mainBtn.disabled = true;
-                mainBtn.textContent = 'Karte generieren';
-            }
-        }
-
-        function resetCC() {
-            ccTimeouts.forEach(t => clearTimeout(t)); ccTimeouts = [];
-            window.speechSynthesis.cancel();
-            ccPhase = 0;
-            ccNumber = ''; ccMissingIdx = -1; ccMissingDigit = '';
-            statusEl.textContent = 'Bereit.';
-            mainBtn.textContent = 'Karte generieren';
-            mainBtn.disabled = false;
-            answerBox.style.display = 'none';
-            numberBox.innerHTML = '';
-            if (!showNumChk.checked) numberBox.style.display = 'none';
-        }
-    })();
-
-});
-
-
-
-</script>
-<script>
-function openTab(evt, tabName) {
-    document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
-    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-    const target = document.getElementById(tabName);
-    if (target) target.style.display = 'block';
-    if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
-}
 </script>
 </body>
 </html>
-
