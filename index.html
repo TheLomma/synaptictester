@@ -71,7 +71,7 @@
                 radial-gradient(ellipse at 60% 80%, #04385a 0%, transparent 50%),
                 radial-gradient(ellipse at 10% 90%, #050d1f 0%, transparent 50%),
                 linear-gradient(135deg, #030810 0%, #060f22 50%, #030810 100%);
-            background-attachment: fixed;
+            background-attachment: scroll;
         }
 
         .app-container {
@@ -129,11 +129,11 @@
 
         .tab-button {
             flex: 1;
-            padding: 9px 6px;
+            padding: 8px 4px;
             border: none;
             background: transparent;
             color: var(--text-light);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             border-radius: 14px;
             cursor: pointer;
@@ -341,8 +341,16 @@
         #vier-gewinnt-column-buttons {
             display: grid;
             grid-template-columns: repeat(7,1fr);
-            gap: 5px;
+            gap: 3px;
             margin-bottom: 8px;
+        }
+        @media (max-width: 400px) {
+            .column-btn { font-size: 10px; padding: 4px 2px; border-radius: 7px; }
+            #vier-gewinnt-board { gap: 3px; padding: 6px; }
+            .tab-button { font-size: 9px; padding: 7px 2px; }
+            h2 { font-size: 18px; }
+            .tab-content { padding: 16px; }
+            #cc-answer { font-size: 48px; }
         }
         .column-btn {
             background: rgba(255,255,255,0.12);
@@ -399,7 +407,7 @@
             background: var(--glass-display);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 18px;
-            font-size: 42px;
+            font-size: clamp(28px, 10vw, 42px);
             font-weight: 800;
             text-align: center;
             color: var(--text);
@@ -432,7 +440,7 @@
             background: var(--glass-display);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 18px;
-            font-size: 36px;
+            font-size: clamp(18px, 6vw, 36px);
             font-weight: 800;
             text-align: center;
             color: var(--text);
@@ -468,8 +476,8 @@
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             font-family: 'SF Mono', monospace;
-            font-size: 19px;
-            letter-spacing: 3px;
+            font-size: clamp(13px, 4vw, 19px);
+            letter-spacing: clamp(1px, 0.5vw, 3px);
             text-align: center;
             color: var(--text);
             word-break: break-all;
@@ -487,7 +495,7 @@
 <body>
 <div class="app-container">
     <div class="app-header">
-        <span>Synaptic Tester v1.6</span>
+        <span>Synaptic Tester v1.7</span>
         <button id="theme-toggle">Theme</button>
     </div>
     <div class="tabs">
