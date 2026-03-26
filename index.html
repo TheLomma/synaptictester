@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synaptic Tester v1.1</title>
+    <title>Synaptic Tester</title>
     <style>
         :root {
             --ease: all 0.2s ease-in-out;
@@ -81,7 +81,7 @@
             border-radius: 12px;
             box-shadow: var(--app-shadow);
             width: 90%;
-            max-width: 500px;
+            max-width: 550px; /* Adjusted for wider game board */
             overflow: hidden;
             transition: var(--ease);
         }
@@ -105,14 +105,13 @@
             padding: 5px 10px;
             font-size: 14px;
             transition: var(--ease);
-            width: 40px; /* Fixed width for icon */
-            text-align: center;
         }
         #theme-toggle:hover {
             background-color: var(--theme-toggle-hover);
         }
         #theme-toggle::after {
             content: var(--theme-toggle-icon);
+            padding-left: 5px;
         }
 
         .tabs {
@@ -160,7 +159,7 @@
             font-weight: 600;
             color: var(--text-color-light);
         }
-        .input-group input[type="date"], .input-group input[type="number"] {
+        .input-group input[type="date"], .input-group input[type="number"], .input-group select {
             width: calc(100% - 22px);
             padding: 10px;
             border: 1px solid var(--input-border);
@@ -260,18 +259,104 @@
         #speech-settings .input-group {
             font-size: 14px; margin-bottom: 5px;
         }
+
+        /* --- VIER GEWINNT STYLES --- */
+        .vier-gewinnt-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        #vier-gewinnt-status {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--display-bg);
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--display-text);
+            min-height: 2em;
+        }
+        #vier-gewinnt-column-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .column-btn {
+            background-color: var(--btn-secondary-bg);
+            aspect-ratio: 1;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .column-btn:hover {
+            background-color: var(--btn-secondary-hover);
+        }
+        #vier-gewinnt-board {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 5px solid #0056b3;
+        }
+        .cell {
+            aspect-ratio: 1;
+            background-color: var(--app-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateZ(0);
+        }
+        .cell .piece {
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            animation: drop 0.3s ease-out;
+        }
+        .cell .piece.player1 {
+            background-color: #ffc107; /* Gelb */
+            box-shadow: inset 0 -4px 5px rgba(0,0,0,0.2);
+        }
+        .cell .piece.player2 {
+            background-color: #dc3545; /* Rot */
+            box-shadow: inset 0 -4px 5px rgba(0,0,0,0.2);
+        }
+        .cell.win .piece {
+            animation: pulse 0.6s infinite;
+        }
+
+        @keyframes drop {
+            from {
+                transform: translateY(-200px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(0.9); }
+        }
+
     </style>
 </head>
 <body>
 
     <div class="app-container">
         <div class="app-header">
-            <span>Synaptic Tester v1.1</span>
+            <span>Synaptic Tester v1.2</span>
             <button id="theme-toggle" title="Toggle Theme"></button>
         </div>
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'date-function')">Calendar Prodigy</button>
-            <button class="tab-button" onclick="openTab(event, 'placeholder1')">Weitere Funktion...</button>
+            <button class="tab-button" onclick="openTab(event, 'vier-gewinnt')">Vier Gewinnt</button>
         </div>
 
         <div id="date-function" class="tab-content tab-pane active">
@@ -334,9 +419,31 @@
             </div>
         </div>
 
-        <div id="placeholder1" class="tab-content tab-pane">
-            <h2>Weitere Funktion</h2>
-            <p>Dieser Bereich ist für zukünftige Funktionen reserviert.</p>
+        <div id="vier-gewinnt" class="tab-content tab-pane">
+            <h2>Vier Gewinnt</h2>
+            <div class="vier-gewinnt-controls">
+                <div class="input-group">
+                    <label for="vier-gewinnt-starter">Wer beginnt?</label>
+                    <select id="vier-gewinnt-starter">
+                        <option value="user">Benutzer</option>
+                        <option value="app" selected>App</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="vier-gewinnt-show-board">
+                    <label for="vier-gewinnt-show-board">Spielfeld anzeigen</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="vier-gewinnt-speech">
+                    <label for="vier-gewinnt-speech">Sprachausgabe für App</label>
+                </div>
+            </div>
+
+            <div id="vier-gewinnt-status">Wähle die Optionen und starte eine neue Runde.</div>
+            <div id="vier-gewinnt-column-buttons"></div>
+            <div id="vier-gewinnt-board"></div>
+
+            <button id="vier-gewinnt-reset" style="width: 100%; margin-top: 20px; background-color: #343a40; color: #ffffff;">Neues Spiel</button>
         </div>
     </div>
 
@@ -348,6 +455,7 @@
 
             function setAndStoreTheme(theme) {
                 body.setAttribute('data-theme', theme);
+                themeToggleBtn.textContent = theme === 'dark' ? 'Light' : 'Dark';
                 try {
                     localStorage.setItem('synaptic-theme', theme);
                 } catch (e) {
@@ -369,8 +477,18 @@
             }
             setAndStoreTheme(storedTheme || 'dark');
 
+            // --- GENERAL ---
+            function speak(text, lang = 'de-DE') {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); 
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang;
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
 
-            // --- APP LOGIC ---
+
+            // --- CALENDAR PRODIGY LOGIC ---
             const today = new Date();
             const todayString = today.toISOString().split('T')[0];
             document.getElementById('end-date').value = todayString;
@@ -398,15 +516,6 @@
                     clearAllTimeouts();
                 }
             });
-            
-            function speak(text) {
-                if ('speechSynthesis' in window && enableSpeechCheck.checked) {
-                    window.speechSynthesis.cancel(); 
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'de-DE';
-                    window.speechSynthesis.speak(utterance);
-                }
-            }
 
             function generateRandomDate() {
                 const startDateStr = document.getElementById('start-date').value;
@@ -476,15 +585,14 @@
                     cumulativeDelay += step.delay;
                     speechTimeouts.push(setTimeout(() => {
                         displayArea.innerHTML = step.html;
-                        if(step.text) speak(step.text);
+                        if(step.text && enableSpeechCheck.checked) speak(step.text);
                     }, cumulativeDelay));
                 });
                 
-                // Digits for dayDiff
                 let digitDelay = cumulativeDelay;
                 dayDiffStr.split('').forEach(digit => {
                     digitDelay += delays.digit;
-                    speechTimeouts.push(setTimeout(() => speak(digit), digitDelay));
+                    speechTimeouts.push(setTimeout(() => { if(enableSpeechCheck.checked) speak(digit); }, digitDelay));
                 });
                 cumulativeDelay = digitDelay;
 
@@ -492,7 +600,7 @@
                      cumulativeDelay += (delays.weekdayDays > delays.digit * dayDiffStr.length) ? delays.weekdayDays : delays.digit * dayDiffStr.length + 2000;
                      speechTimeouts.push(setTimeout(() => {
                         displayArea.textContent = zodiac;
-                        speak(zodiac);
+                        if(enableSpeechCheck.checked) speak(zodiac);
                      }, cumulativeDelay));
                 }
                 
@@ -571,6 +679,239 @@
                 if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) return "Schütze";
                 if ((month == 12 && day >= 22) || (month == 1 && day <= 20)) return "Steinbock";
             }
+
+            // --- VIER GEWINNT LOGIC ---
+            const ROWS = 6;
+            const COLS = 7;
+            const PLAYER1 = 'user';
+            const PLAYER2 = 'app';
+
+            let board = [];
+            let lastWinDirection = '';
+            let currentPlayer;
+            let gameOver = false;
+            let lastMove = null;
+
+            const boardElement = document.getElementById('vier-gewinnt-board');
+            const columnButtonsElement = document.getElementById('vier-gewinnt-column-buttons');
+            const statusElement = document.getElementById('vier-gewinnt-status');
+            const resetBtn = document.getElementById('vier-gewinnt-reset');
+            const starterSelect = document.getElementById('vier-gewinnt-starter');
+            const showBoardCheck = document.getElementById('vier-gewinnt-show-board');
+            const speechCheck = document.getElementById('vier-gewinnt-speech');
+            
+            resetBtn.addEventListener('click', initVierGewinnt);
+            showBoardCheck.addEventListener('change', () => {
+                boardElement.style.display = showBoardCheck.checked ? 'grid' : 'none';
+            });
+
+            function initVierGewinnt() {
+                gameOver = false;
+                lastMove = null;
+                currentPlayer = starterSelect.value;
+                board = Array(ROWS).fill(null).map(() => Array(COLS).fill(null));
+                
+                renderBoard();
+                renderColumnButtons();
+
+                statusElement.textContent = `Spiel gestartet. ${currentPlayer === PLAYER1 ? 'Du bist' : 'Die App ist'} am Zug.`;
+
+                if (currentPlayer === PLAYER2) {
+                    disableColumnButtons(true);
+                    setTimeout(appMove, 1000);
+                } else {
+                    disableColumnButtons(false);
+                }
+            }
+
+            function renderBoard() {
+                boardElement.innerHTML = '';
+                boardElement.style.display = showBoardCheck.checked ? 'grid' : 'none';
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        cell.dataset.row = r;
+                        cell.dataset.col = c;
+                        if (board[r][c]) {
+                            const piece = document.createElement('div');
+                            piece.classList.add('piece', board[r][c] === PLAYER1 ? 'player1' : 'player2');
+                            // Do not add 'drop' animation on re-render
+                            cell.appendChild(piece);
+                        }
+                        boardElement.appendChild(cell);
+                    }
+                }
+            }
+            
+            function renderColumnButtons() {
+                columnButtonsElement.innerHTML = '';
+                for (let c = 0; c < COLS; c++) {
+                    const btn = document.createElement('button');
+                    btn.classList.add('column-btn');
+                    btn.dataset.col = c;
+                    btn.textContent = '↓ ' + (c + 1);
+                    btn.addEventListener('click', handleColumnClick);
+                    columnButtonsElement.appendChild(btn);
+                }
+            }
+
+            function handleColumnClick(event) {
+                if (gameOver || currentPlayer !== PLAYER1) return;
+                const col = parseInt(event.target.dataset.col);
+                const row = findLowestEmptyRow(col);
+
+                if (row !== -1) {
+                    dropPiece(row, col, PLAYER1);
+                }
+            }
+
+            function dropPiece(row, col, player) {
+                board[row][col] = player;
+                lastMove = { row, col, player };
+                
+                // UI Update
+                const cell = boardElement.querySelector(`.cell[data-row='${row}'][data-col='${col}']`);
+                const piece = document.createElement('div');
+                piece.classList.add('piece', player === PLAYER1 ? 'player1' : 'player2');
+                cell.appendChild(piece);
+                
+                if (checkWin(player)) {
+                    endGame(player);
+                    return;
+                }
+                
+                if (isBoardFull()) {
+                    endGame(null); // Unentschieden
+                    return;
+                }
+
+                switchPlayer();
+            }
+            
+            function findLowestEmptyRow(col) {
+                for (let r = ROWS - 1; r >= 0; r--) {
+                    if (board[r][col] === null) {
+                        return r;
+                    }
+                }
+                return -1; // Spalte ist voll
+            }
+
+            function switchPlayer() {
+                currentPlayer = (currentPlayer === PLAYER1) ? PLAYER2 : PLAYER1;
+                statusElement.textContent = `${currentPlayer === PLAYER1 ? 'Du bist' : 'Die App ist'} am Zug.`;
+                
+                if (currentPlayer === PLAYER2) {
+                    disableColumnButtons(true);
+                    setTimeout(appMove, 1200); // Kurze Pause bevor die App zieht
+                } else {
+                    disableColumnButtons(false);
+                }
+            }
+
+            function appMove() {
+                if (gameOver) return;
+                let availableCols = [];
+                for (let c = 0; c < COLS; c++) {
+                    if (board[0][c] === null) {
+                        availableCols.push(c);
+                    }
+                }
+
+                if (availableCols.length > 0) {
+                    const col = availableCols[Math.floor(Math.random() * availableCols.length)];
+                    const row = findLowestEmptyRow(col);
+                    if (speechCheck.checked) {
+                        speak(`Ich setze in Spalte ${col + 1}.`);
+                    }
+                    dropPiece(row, col, PLAYER2);
+                }
+            }
+
+            function checkWin(player) {
+                const checkLine = (a, b, c, d) => {
+                    return (a !== null && a === b && a === c && a === d);
+                };
+
+                // Horizontal
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c <= COLS - 4; c++) {
+                        if (checkLine(board[r][c], board[r][c+1], board[r][c+2], board[r][c+3]) && board[r][c] === player) {
+                            lastWinDirection = 'Horizontal.';
+                            highlightWinningCells([[r,c],[r,c+1],[r,c+2],[r,c+3]]);
+                            return true;
+                        }
+                    }
+                }
+                // Vertical
+                for (let c = 0; c < COLS; c++) {
+                    for (let r = 0; r <= ROWS - 4; r++) {
+                        if (checkLine(board[r][c], board[r+1][c], board[r+2][c], board[r+3][c]) && board[r][c] === player) {
+                            lastWinDirection = 'Vertikal.';
+                            highlightWinningCells([[r,c],[r+1,c],[r+2,c],[r+3,c]]);
+                            return true;
+                        }
+                    }
+                }
+                // Diagonal (down-right)
+                for (let r = 0; r <= ROWS - 4; r++) {
+                    for (let c = 0; c <= COLS - 4; c++) {
+                        if (checkLine(board[r][c], board[r+1][c+1], board[r+2][c+2], board[r+3][c+3]) && board[r][c] === player) {
+                            lastWinDirection = 'Diagonal.';
+                            highlightWinningCells([[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);
+                            return true;
+                        }
+                    }
+                }
+                // Diagonal (up-right)
+                for (let r = 3; r < ROWS; r++) {
+                    for (let c = 0; c <= COLS - 4; c++) {
+                        if (checkLine(board[r][c], board[r-1][c+1], board[r-2][c+2], board[r-3][c+3]) && board[r][c] === player) {
+                            lastWinDirection = 'Diagonal.';
+                            highlightWinningCells([[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function highlightWinningCells(cells) {
+                 cells.forEach(([r, c]) => {
+                    const cell = boardElement.querySelector(`.cell[data-row='${r}'][data-col='${c}']`);
+                    if(cell) cell.classList.add('win');
+                });
+            }
+            
+            function isBoardFull() {
+                return board[0].every(cell => cell !== null);
+            }
+
+            function endGame(winner) {
+                gameOver = true;
+                disableColumnButtons(true);
+                let message = '';
+                if (winner) {
+                    const winnerName = winner === PLAYER1 ? 'Du hast' : 'Die App hat';
+                    message = `${winnerName} gewonnen! ${lastWinDirection}`;
+                    statusElement.textContent = message;
+                    if (speechCheck.checked) {
+                        speak(message);
+                    }
+                } else {
+                    message = 'Unentschieden!';
+                    statusElement.textContent = message;
+                    if (speechCheck.checked) speak(message);
+                }
+            }
+            
+            function disableColumnButtons(disabled) {
+                 const buttons = columnButtonsElement.querySelectorAll('.column-btn');
+                 buttons.forEach(btn => btn.disabled = disabled);
+            }
+            
+            initVierGewinnt(); // Initialize on load
         });
 
         function openTab(evt, tabName) {
@@ -583,6 +924,5 @@
             evt.currentTarget.className += " active";
         }
     </script>
-
 </body>
 </html>
