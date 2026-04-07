@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v2.4</title>
+<title>SynaTest v2.5</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -105,7 +105,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v2.4</span>
+    <span>SynaTest v2.5</span>
 <button id="theme-toggle">Dunkel</button>
 </div>
 <div class="tabs">
@@ -113,6 +113,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <button class="tab-button" onclick="openTab(event,'vg-tab')">Vier Gewinnt</button>
 <button class="tab-button" onclick="openTab(event,'pi-tab')">Pi</button>
 <button class="tab-button" onclick="openTab(event,'cc-tab')">Kreditkarte</button>
+<button class="tab-button" onclick="openTab(event,'oe-tab')">Order Equation</button>
 </div>
 <div id="date-tab" class="tab-content tab-pane active">
 <h2>Zuf&auml;lliges Datum</h2>
@@ -175,6 +176,44 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="pi-status">Bereit.</div>
 <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx">Zahlen anzeigen</label></div>
 <div id="pi-context-box"></div>
+</div>
+<div id="oe-tab" class="tab-content tab-pane" style="display:none;">
+<h2>Order Equation</h2>
+<p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.</p>
+<div class="input-group">
+  <label>Pause zwischen Schritten (Sekunden)</label>
+  <input type="number" id="oe-delay" value="5" min="1" max="30" style="width:80px;">
+</div>
+<button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
+<div id="oe-sequence" style="display:none;margin-top:18px;">
+  <div id="oe-step-box" style="margin-bottom:14px;padding:22px 18px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;backdrop-filter:blur(10px);">
+    <div id="oe-step-label" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;"></div>
+    <div id="oe-step-value" style="font-size:42px;font-weight:800;color:var(--text);letter-spacing:-1px;"></div>
+    <div id="oe-step-sub" style="font-size:13px;color:var(--text-light);margin-top:6px;"></div>
+  </div>
+  <div id="oe-result-area" style="display:none;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+      <div id="oe-result-box" style="flex:1;padding:24px 16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;backdrop-filter:blur(10px);">
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">Ergebnis</div>
+        <div id="oe-result-value" style="font-size:36px;font-weight:800;color:var(--accent);letter-spacing:-1px;">████████</div>
+      </div>
+      <div id="oe-parity-box" style="padding:16px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:18px;text-align:center;min-width:90px;">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Letzte Ziffer</div>
+        <div id="oe-parity-value" style="font-size:16px;font-weight:700;color:var(--text);"></div>
+      </div>
+    </div>
+    <button id="oe-reveal" class="btn-primary" style="width:100%;">Anzeigen</button>
+    <div id="oe-reveal-box" style="display:none;margin-top:14px;padding:20px;background:rgba(77,171,247,0.1);border:1px solid rgba(77,171,247,0.3);border-radius:18px;backdrop-filter:blur(10px);">
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Aufl&ouml;sung</div>
+      <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:12px;">
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Dein Geburtsjahr</div><div id="oe-reveal-year" style="font-size:28px;font-weight:800;color:#51cf66;"></div></div>
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Dein Alter</div><div id="oe-reveal-age" style="font-size:28px;font-weight:800;color:#ff6b6b;"></div></div>
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Vollst. Ergebnis</div><div id="oe-reveal-result" style="font-size:28px;font-weight:800;color:var(--accent);"></div></div>
+      </div>
+    </div>
+  </div>
+  <button id="oe-reset" class="btn-dark" style="width:100%;margin-top:12px;">Neu starten</button>
+</div>
 </div>
 <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
 <h2>Kreditkarte</h2>
@@ -370,6 +409,102 @@ document.getElementById('pi-show-ctx').addEventListener('change',function(){docu
 function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
 function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent='Gestoppt.';}
 function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
+// ===== ORDER EQUATION =====
+(function(){
+var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0;
+var oeRunning=false,oeTimeout=null;
+
+document.getElementById('oe-start').addEventListener('click',function(){
+  if(oeRunning)return;
+  oeRunning=true;
+  var currentYear=2026;
+  // Geburtsjahr: Person unter 90, also geb zwischen 1936 und 2008
+  oeYear=1936+Math.floor(Math.random()*73);
+  oeAge=currentYear-oeYear;
+  // A: zufällige zweistellige Alterszahl (10-99)
+  oeA=10+Math.floor(Math.random()*90);
+  // B: zweite Alterszahl (10-99)
+  oeB=10+Math.floor(Math.random()*90);
+  // C: dritte Alterszahl (10-99)
+  oeC=10+Math.floor(Math.random()*90);
+  // Formel: oeYear + (oeA * oeB * oeC) + oeAge  (Punkt vor Strich)
+  oeResult=oeYear+(oeA*oeB*oeC)+oeAge;
+
+  document.getElementById('oe-start').style.display='none';
+  document.getElementById('oe-sequence').style.display='block';
+  document.getElementById('oe-result-area').style.display='none';
+  document.getElementById('oe-reveal-box').style.display='none';
+  document.getElementById('oe-result-value').textContent='████████';
+  document.getElementById('oe-reveal').disabled=false;
+
+  var delay=parseFloat(document.getElementById('oe-delay').value)*1000;
+  var steps=[
+    {label:'Schritt 1 – Gib ein (zensiert)',value:'████',sub:'Dein Geburtsjahr (4-stellig) → Taschenrechner',speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.'},
+    {label:'Schritt 2 – Plus',value:'+ '+oeA,sub:'Addiere diese zweistellige Zahl',speak:'Plus '+oeA,sub:'Addiere diese Zahl (merken – Multiplikation folgt)'},
+    {label:'Schritt 3 – Mal',value:'× '+oeB,sub:'Multipliziere mit dieser Zahl',speak:'Mal '+oeB},
+    {label:'Schritt 4 – Mal',value:'× '+oeC,sub:'Multipliziere erneut mit dieser Zahl',speak:'Mal '+oeC},
+    {label:'Schritt 5 – Plus (zensiert)',value:'+ ████',sub:'Addiere dein aktuelles Alter',speak:'Addiere jetzt dein aktuelles Alter – diese Zahl bleibt geheim.'}
+  ];
+
+  var i=0;
+  function runStep(){
+    if(i>=steps.length){
+      // Ergebnis anzeigen
+      var lastDigit=oeResult%10;
+      var parity=lastDigit%2===0?'Gerade ✓':'Ungerade ✓';
+      document.getElementById('oe-parity-value').textContent=parity;
+      document.getElementById('oe-result-area').style.display='block';
+      document.getElementById('oe-step-label').textContent='Ergebnis';
+      document.getElementById('oe-step-value').textContent='Berechne & zeige mir das Ergebnis!';
+      document.getElementById('oe-step-sub').textContent='';
+      speak('Berechne das Ergebnis und zeig es mir.');
+      oeRunning=false;
+      return;
+    }
+    var s=steps[i];
+    document.getElementById('oe-step-label').textContent=s.label;
+    document.getElementById('oe-step-value').textContent=s.value;
+    document.getElementById('oe-step-sub').textContent=s.sub||'';
+    speak(s.speak,function(){
+      if(i<steps.length-1){
+        oeTimeout=setTimeout(function(){i++;runStep();},delay);
+      } else {
+        oeTimeout=setTimeout(function(){i++;runStep();},delay);
+      }
+    });
+    if(!window.speechSynthesis||!document.getElementById('vg-speech')){
+      // Fallback ohne Sprachausgabe-Check: Timer läuft trotzdem
+    }
+  }
+  runStep();
+});
+
+document.getElementById('oe-reveal').addEventListener('click',function(){
+  document.getElementById('oe-result-value').textContent=oeResult;
+  document.getElementById('oe-reveal-year').textContent=oeYear;
+  document.getElementById('oe-reveal-age').textContent=oeAge;
+  document.getElementById('oe-reveal-result').textContent=oeResult;
+  document.getElementById('oe-reveal-box').style.display='block';
+  this.disabled=true;
+  speak('Das Ergebnis ist '+oeResult+'. Geburtsjahr: '+oeYear+'. Alter: '+oeAge+'.');
+});
+
+document.getElementById('oe-reset').addEventListener('click',function(){
+  oeRunning=false;
+  clearTimeout(oeTimeout);
+  clearSpeech();
+  oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;
+  document.getElementById('oe-start').style.display='block';
+  document.getElementById('oe-sequence').style.display='none';
+  document.getElementById('oe-step-label').textContent='';
+  document.getElementById('oe-step-value').textContent='';
+  document.getElementById('oe-step-sub').textContent='';
+  document.getElementById('oe-result-value').textContent='████████';
+  document.getElementById('oe-reveal-box').style.display='none';
+  document.getElementById('oe-reveal').disabled=false;
+});
+})();
+// ===== KREDITKARTE =====
 var CC_TYPES=[{name:'Visa',prefix:'4',len:16},{name:'Mastercard',prefix:'51',len:16},{name:'Amex',prefix:'34',len:15},{name:'Discover',prefix:'6011',len:16}];
 var ccState='idle',ccFull='',ccMissIdx=-1,ccMissDig='',ccTimeout=null;
 document.getElementById('cc-show-num').addEventListener('change',function(){document.getElementById('cc-number-box').style.display=this.checked?'block':'none';});
