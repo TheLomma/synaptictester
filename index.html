@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v3.1</title>
+<title>SynaTest v3.2</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -94,7 +94,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 .btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}
 .btn-dark{background:rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.12);color:white;}
 .btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}
-#btn-generate,#btn-next{background:linear-gradient(135deg,rgba(77,171,247,0.6),rgba(116,199,236,0.4));border-color:rgba(77,171,247,0.4);}
+#btn-generate,#btn-next,#btn-next-date{background:linear-gradient(135deg,rgba(77,171,247,0.6),rgba(116,199,236,0.4));border-color:rgba(77,171,247,0.4);}
 #btn-reset{background:var(--glass-btn);}
 #display-area{margin-top:20px;padding:24px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;min-height:70px;font-size:28px;font-weight:700;text-align:center;color:var(--text);display:flex;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(10px);letter-spacing:-0.5px;}
 #speech-settings{display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:16px;margin-top:10px;}
@@ -118,7 +118,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.1</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.2</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.1</span>
+    <span>SynaTest v3.2</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -174,6 +174,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div class="button-group">
 <button id="btn-next">N&auml;chster Schritt</button>
 <button id="btn-reset">Zur&uuml;cksetzen</button>
+<button id="btn-next-date" style="display:none;grid-column:1/-1;">&#x1F4C5; N&auml;chstes Datum</button>
 </div>
 </div>
 </div>
@@ -342,8 +343,23 @@ document.getElementById('btn-next').addEventListener('click',cpNextStep);
 document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
 function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString('de-DE',{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString('de-DE',{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub='Tage vergangen';break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').textContent='Fertig';document.getElementById('btn-next').disabled=true;}}
-function cpEndSeq(){document.getElementById('display-area').innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Zur\u00fccksetzen klicken.</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';}
-function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';}
+function cpEndSeq(){document.getElementById('display-area').innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Nächstes Datum oder Zurücksetzen.</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').textContent='Nächster Schritt';document.getElementById('btn-next-date').style.display='block';}
+function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='Nächster Schritt';document.getElementById('btn-next-date').style.display='none';}
+document.getElementById('btn-next-date').addEventListener('click',function(){
+  var sVal=document.getElementById('start-date').value;
+  var eVal=document.getElementById('end-date').value;
+  var s=new Date(sVal),e=new Date(eVal);
+  cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));
+  cpStep=0;
+  document.getElementById('btn-next').disabled=false;
+  document.getElementById('btn-next').textContent='Nächster Schritt';
+  document.getElementById('btn-next-date').style.display='none';
+  if(document.getElementById('enable-speech').checked){
+    cpRunSpeech();
+  } else {
+    document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf Nächster Schritt</small>';
+  }
+});
 function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent='Sprachausgabe startet...';clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString('de-DE',{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString('de-DE',{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">Tage vergangen<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
 function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';}
 var ROWS=6,COLS=7,P1='user',P2='app';
@@ -681,11 +697,11 @@ document.getElementById('oe-start').addEventListener('click',function(){
   oeYear=1936+Math.floor(Math.random()*73);
   oeAge=currentYear-oeYear;
   // A: zufällige zweistellige Alterszahl (10-99)
-  oeA=10+Math.floor(Math.random()*90);
+  oeA=11+Math.floor(Math.random()*50);
   // B: zweite Alterszahl (10-99)
-  oeB=10+Math.floor(Math.random()*90);
+  oeB=11+Math.floor(Math.random()*50);
   // C: dritte Alterszahl (10-99)
-  oeC=10+Math.floor(Math.random()*90);
+  oeC=11+Math.floor(Math.random()*50);
   // Formel: oeYear + (oeA * oeB * oeC) + oeAge  (Punkt vor Strich)
   oeResult=oeYear+(oeA*oeB*oeC)+oeAge;
 
