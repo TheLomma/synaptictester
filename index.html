@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v2.5</title>
+<title>SynaTest v2.6</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -55,8 +55,19 @@ background:radial-gradient(ellipse at 20% 20%,#0d3a7a 0%,transparent 55%),radial
 .app-header span{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
 #theme-toggle{min-width:80px;text-align:center;background:var(--glass-btn);border:1px solid var(--glass-border);border-radius:20px;color:var(--text);padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;backdrop-filter:blur(10px);transition:var(--ease);}
 #theme-toggle:hover{background:var(--glass-btn-hover);}
+#mute-toggle,#help-toggle{min-width:40px;text-align:center;background:var(--glass-btn);border:1px solid var(--glass-border);border-radius:20px;color:var(--text);padding:6px 10px;font-size:15px;cursor:pointer;backdrop-filter:blur(10px);transition:var(--ease);}
+#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn-hover);}
+#help-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);justify-content:center;align-items:center;padding:20px;}
+#help-modal.open{display:flex;}
+#help-modal-inner{width:100%;max-width:560px;max-height:85vh;overflow-y:auto;background:rgba(10,20,50,0.97);border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:28px 24px;box-shadow:0 20px 80px rgba(0,0,0,0.8);}
+#help-modal-inner h3{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;letter-spacing:-0.5px;}
+.help-item{margin-bottom:18px;padding:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:16px;}
+.help-item-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;letter-spacing:0.3px;}
+.help-item-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
+#help-close{width:100%;margin-top:6px;background:var(--glass-btn);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:var(--ease);}
+#help-close:hover{background:var(--glass-btn-hover);}
 .tabs{display:flex;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 8px;gap:4px;}
-.tab-button{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);}
+.tab-button{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.6;}  .tab-button .tab-num{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
 .tab-button.active{background:var(--tab-active);color:var(--text);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);}
 .tab-content{padding:24px;}
 .tab-pane{display:none;}
@@ -103,17 +114,34 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </style>
 </head>
 <body>
+<div id="help-modal">
+<div id="help-modal-inner">
+<h3>&#x2753; Anleitung &ndash; SynaTest v2.6</h3>
+<div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
+<div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
+<div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
+<div class="help-item"><div class="help-item-title">4 &nbsp;Foursight Guru</div><div class="help-item-text">Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.</div></div>
+<div class="help-item"><div class="help-item-title">5 &nbsp;Time Master</div><div class="help-item-text">Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.</div></div>
+<div class="help-item"><div class="help-item-title">6 &nbsp;Order Equation</div><div class="help-item-text">Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.</div></div>
+<button id="help-close">Schlie&szlig;en</button>
+</div>
+</div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v2.5</span>
+    <span>SynaTest v2.6</span>
+<div style="display:flex;gap:8px;align-items:center;">
+<button id="mute-toggle" title="Ton aktivieren">🔇</button>
+<button id="help-toggle" title="Anleitung">❓</button>
 <button id="theme-toggle">Dunkel</button>
 </div>
+</div>
 <div class="tabs">
-<button class="tab-button active" onclick="openTab(event,'date-tab')">Calendar Prodigy</button>
-<button class="tab-button" onclick="openTab(event,'vg-tab')">Vier Gewinnt</button>
-<button class="tab-button" onclick="openTab(event,'pi-tab')">Pi</button>
-<button class="tab-button" onclick="openTab(event,'cc-tab')">Kreditkarte</button>
-<button class="tab-button" onclick="openTab(event,'oe-tab')">Order Equation</button>
+<button class="tab-button active" onclick="openTab(event,'date-tab')"><span class="tab-num">1</span>Calendar Prodigy</button>
+<button class="tab-button" onclick="openTab(event,'pi-tab')"><span class="tab-num">2</span>Full Circle Master</button>
+<button class="tab-button" onclick="openTab(event,'cc-tab')"><span class="tab-num">3</span>Card Hacker</button>
+<button class="tab-button" onclick="openTab(event,'vg-tab')"><span class="tab-num">4</span>Foursight Guru</button>
+<button class="tab-button" onclick="openTab(event,'tm-tab')"><span class="tab-num">5</span>Time Master</button>
+<button class="tab-button" onclick="openTab(event,'oe-tab')"><span class="tab-num">6</span>Order Equation</button>
 </div>
 <div id="date-tab" class="tab-content tab-pane active">
 <h2>Zuf&auml;lliges Datum</h2>
@@ -147,7 +175,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 </div>
 <div id="vg-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Vier Gewinnt</h2>
+<h2>Foursight Guru</h2>
 <div class="vier-gewinnt-controls">
 <div class="input-group"><label>Wer beginnt?</label>
 <select id="vg-starter"><option value="user">Benutzer</option><option value="app" selected>App</option></select>
@@ -166,7 +194,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 </div>
 <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Pi &ndash; Ziffernfolge</h2>
+<h2>Full Circle Master</h2>
 <div class="input-group"><label>Leserichtung</label>
 <select id="pi-direction"><option value="random" selected>Zuf&auml;llig</option><option value="forward">Vorw&auml;rts</option><option value="backward">R&uuml;ckw&auml;rts</option></select>
 </div>
@@ -176,6 +204,22 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="pi-status">Bereit.</div>
 <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx">Zahlen anzeigen</label></div>
 <div id="pi-context-box"></div>
+</div>
+<div id="tm-tab" class="tab-content tab-pane" style="display:none;">
+<h2>Time Master</h2>
+<p style="font-size:13px;color:var(--text-light);margin-bottom:18px;">2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden</p>
+<div class="input-group">
+  <label>Zeit eingeben (2–3 Ziffern)</label>
+  <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-radius:14px;color:var(--text);font-family:inherit;">
+</div>
+<button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
+<button id="tm-reset" class="btn-dark" style="width:100%;display:none;">Reset</button>
+<div id="tm-display" style="display:none;margin-top:20px;">
+  <div id="tm-ring" style="margin:0 auto 16px;width:200px;height:200px;border-radius:50%;border:6px solid rgba(77,171,247,0.3);display:flex;align-items:center;justify-content:center;position:relative;transition:border-color 0.2s,box-shadow 0.2s;">
+    <div id="tm-time" style="font-size:52px;font-weight:900;color:var(--text);letter-spacing:-2px;font-variant-numeric:tabular-nums;">0:00</div>
+  </div>
+  <div id="tm-label" style="text-align:center;font-size:14px;font-weight:600;color:var(--text-light);min-height:22px;"></div>
+</div>
 </div>
 <div id="oe-tab" class="tab-content tab-pane" style="display:none;">
 <h2>Order Equation</h2>
@@ -216,7 +260,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 </div>
 <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Kreditkarte</h2>
+<h2>Card Hacker</h2>
 <div class="input-group"><label>Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
 <button id="cc-main" class="btn-primary" style="width:100%;">Karte generieren</button>
 <button id="cc-reset" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
@@ -238,12 +282,33 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 (function(){
 'use strict';
 window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
+// Stumm-Schaltfläche
+var isMuted=true;
+document.getElementById('mute-toggle').addEventListener('click',function(){
+  isMuted=!isMuted;
+  globalVolume=isMuted?0:parseFloat(document.getElementById('vol-slider').value);document.getElementById('vol-slider').value=isMuted?0:1;document.getElementById('vol-label').textContent=isMuted?'0%':Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';
+  this.textContent=isMuted?'🔇':'🔊';
+  this.style.color=isMuted?'#ff6b6b':'var(--text)';
+  if(isMuted&&window.speechSynthesis)window.speechSynthesis.cancel();
+});
+// Anleitung
+document.getElementById('help-toggle').addEventListener('click',function(){
+  document.getElementById('help-modal').classList.add('open');
+});
+document.getElementById('help-close').addEventListener('click',function(){
+  document.getElementById('help-modal').classList.remove('open');
+});
+document.getElementById('help-modal').addEventListener('click',function(e){
+  if(e.target===this)this.classList.remove('open');
+});
 var isLight=false;
 document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?'Hell':'Dunkel';});
-var globalVolume=1;
+var globalVolume=0;
+// Lautstärke-Slider mit Stumm-Sync
+
 var volSlider=document.getElementById('vol-slider');
 var volLabel=document.getElementById('vol-label');
-volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';});
+volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;document.getElementById('mute-toggle').textContent='🔊';document.getElementById('mute-toggle').style.color='var(--text)';}});
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
 var speechQueue=[],isSpeaking=false;
 function speak(text,onDone){speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
@@ -409,6 +474,162 @@ document.getElementById('pi-show-ctx').addEventListener('change',function(){docu
 function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
 function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent='Gestoppt.';}
 function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
+// ===== TIMEMASTER =====
+(function(){
+var tmEndTime=null,tmTotalMs=0,tmRaf=null,tmRunning=false;
+var tmRing=document.getElementById('tm-ring');
+var tmTimeEl=document.getElementById('tm-time');
+var tmLabel=document.getElementById('tm-label');
+var tmDisplay=document.getElementById('tm-display');
+var tmStartBtn=document.getElementById('tm-start');
+var tmResetBtn=document.getElementById('tm-reset');
+var tmInput=document.getElementById('tm-input');
+
+// Nur Ziffern erlauben
+tmInput.addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);});
+
+function tmParse(val){
+  val=val.replace(/[^0-9]/g,'');
+  if(val.length===0)return null;
+  if(val.length<=2){return {m:0,s:parseInt(val,10)};}
+  // 3 Ziffern: erste = Minuten, letzte zwei = Sekunden
+  var m=parseInt(val[0],10);
+  var s=parseInt(val.slice(1),10);
+  return {m:m,s:s};
+}
+
+function tmFormat(ms){
+  var totalSec=Math.ceil(ms/1000);
+  if(totalSec<0)totalSec=0;
+  var m=Math.floor(totalSec/60);
+  var s=totalSec%60;
+  return m+':'+(s<10?'0':'')+s;
+}
+
+function tmFlash(color,shadow){
+  tmRing.style.borderColor=color;
+  tmRing.style.boxShadow='0 0 32px '+shadow;
+  setTimeout(function(){tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';},350);
+}
+
+tmStartBtn.addEventListener('click',function(){
+  var parsed=tmParse(tmInput.value);
+  if(!parsed||parsed.s>59){alert('Bitte 2 oder 3 Ziffern eingeben. Sekunden max. 59.');return;}
+  var totalSec=parsed.m*60+parsed.s;
+  if(totalSec<=0){alert('Zeit muss größer als 0 sein.');return;}
+  tmTotalMs=totalSec*1000;
+  tmEndTime=performance.now()+tmTotalMs;
+  tmRunning=true;
+  tmStartBtn.style.display='none';
+  tmResetBtn.style.display='block';
+  tmInput.disabled=true;
+  tmDisplay.style.display='block';
+  tmLabel.textContent='';
+  tmRing.style.borderColor='rgba(77,171,247,0.3)';
+  tmRing.style.boxShadow='none';
+  tmTimeEl.style.color='var(--text)';
+  tmTick();
+});
+
+var tmLastSecond=-1;
+var tmNotifiedSeconds={};
+
+function tmTick(){
+  if(!tmRunning)return;
+  var now=performance.now();
+  var remaining=tmEndTime-now;
+  if(remaining<=0){remaining=0;}
+  // Exakte Sekunden für Benachrichtigungen
+  var remSec=Math.ceil(remaining/1000);
+  tmTimeEl.textContent=tmFormat(remaining);
+  if(remSec!==tmLastSecond){
+    tmLastSecond=remSec;
+    tmHandleNotification(remSec);
+  }
+  if(remaining<=0){
+    tmDone();
+    return;
+  }
+  tmRaf=requestAnimationFrame(tmTick);
+}
+
+function tmHandleNotification(remSec){
+  var key='s'+remSec;
+  if(tmNotifiedSeconds[key])return;
+  tmNotifiedSeconds[key]=true;
+  var totalSec=Math.round(tmTotalMs/1000);
+  // Volle Minuten (nur wenn >0 und nicht die Startzeit)
+  if(remSec>0&&remSec<totalSec&&remSec%60===0&&remSec>=60){
+    var minLeft=remSec/60;
+    tmLabel.textContent='⏰ Noch '+minLeft+' Minute'+(minLeft>1?'n':'')+'!';
+    tmFlash('#ff6b6b','rgba(255,107,107,0.6)');
+    return;
+  }
+  // 30 Sekunden
+  if(remSec===30){
+    tmLabel.textContent='⚡ Noch 30 Sekunden!';
+    tmFlash('#ff6b6b','rgba(255,107,107,0.5)');
+    return;
+  }
+  // 15 Sekunden
+  if(remSec===15){
+    tmLabel.textContent='⚡ Noch 15 Sekunden!';
+    tmFlash('#ffd43b','rgba(255,212,59,0.6)');
+    return;
+  }
+  // 10–6 Sekunden: rot blinken
+  if(remSec>=6&&remSec<=10){
+    tmLabel.textContent='🔴 '+remSec+'...';
+    tmRing.style.borderColor='#ff6b6b';
+    tmRing.style.boxShadow='0 0 28px rgba(255,107,107,0.7)';
+    tmTimeEl.style.color='#ff6b6b';
+    return;
+  }
+  // 5 Sekunden: grün
+  if(remSec===5){
+    tmLabel.textContent='🟢 5...';
+    tmRing.style.borderColor='#51cf66';
+    tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';
+    tmTimeEl.style.color='#51cf66';
+    return;
+  }
+  // 4–1 Sekunden: grün blinken
+  if(remSec>=1&&remSec<=4){
+    tmLabel.textContent='🟢 '+remSec+'...';
+    tmRing.style.borderColor='#51cf66';
+    tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';
+    tmTimeEl.style.color='#51cf66';
+    return;
+  }
+}
+
+function tmDone(){
+  tmRunning=false;
+  cancelAnimationFrame(tmRaf);
+  tmTimeEl.textContent='0:00';
+  tmTimeEl.style.color='var(--text)';
+  tmRing.style.borderColor='rgba(81,207,102,0.8)';
+  tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';
+  tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">ENDE</span>';
+}
+
+tmResetBtn.addEventListener('click',function(){
+  tmRunning=false;
+  cancelAnimationFrame(tmRaf);
+  tmEndTime=null;
+  tmLastSecond=-1;
+  tmNotifiedSeconds={};
+  tmStartBtn.style.display='block';
+  tmResetBtn.style.display='none';
+  tmInput.disabled=false;
+  tmInput.value='';
+  tmDisplay.style.display='none';
+  tmRing.style.borderColor='rgba(77,171,247,0.3)';
+  tmRing.style.boxShadow='none';
+  tmTimeEl.style.color='var(--text)';
+  tmLabel.textContent='';
+});
+})();
 // ===== ORDER EQUATION =====
 (function(){
 var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0;
