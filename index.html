@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v2.6</title>
+<title>SynaTest v2.7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -116,7 +116,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v2.6</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v2.7</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -128,7 +128,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v2.6</span>
+    <span>SynaTest v2.7</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -212,6 +212,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
   <label>Zeit eingeben (2–3 Ziffern)</label>
   <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-radius:14px;color:var(--text);font-family:inherit;">
 </div>
+<div id="tm-hint" style="font-size:13px;font-weight:600;margin-bottom:10px;min-height:18px;"></div>
 <button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
 <button id="tm-reset" class="btn-dark" style="width:100%;display:none;">Reset</button>
 <div id="tm-display" style="display:none;margin-top:20px;">
@@ -272,7 +273,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;">
 <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;">&#x1F50A; Lautst&auml;rke</span>
-<input type="range" id="vol-slider" min="0" max="1" step="0.05" value="1" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
+<input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
 <span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">100%</span>
 </div>
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
@@ -311,7 +312,7 @@ var volLabel=document.getElementById('vol-label');
 volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;document.getElementById('mute-toggle').textContent='🔊';document.getElementById('mute-toggle').style.color='var(--text)';}});
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
 var speechQueue=[],isSpeaking=false;
-function speak(text,onDone){speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
+function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
 function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang='de-DE';u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
 function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
 function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
@@ -486,7 +487,19 @@ var tmResetBtn=document.getElementById('tm-reset');
 var tmInput=document.getElementById('tm-input');
 
 // Nur Ziffern erlauben
-tmInput.addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);});
+tmInput.addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);
+  var val=this.value;
+  var hint=document.getElementById('tm-hint');
+  var startBtn=document.getElementById('tm-start');
+  if(val.length===0){hint.textContent='';hint.style.color='var(--text-light)';startBtn.disabled=false;return;}
+  var parsed=tmParse(val);
+  if(!parsed){hint.textContent='Ungültige Eingabe';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  if(parsed.s>59){hint.textContent='⚠️ '+parsed.m+' Min. '+parsed.s+' Sek. – Sekunden max. 59!';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  var totalSec=parsed.m*60+parsed.s;
+  if(totalSec===0){hint.textContent='⚠️ Zeit muss größer als 0 sein';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  hint.textContent='= '+parsed.m+' Min. '+parsed.s+' Sek. ✓';hint.style.color='#51cf66';startBtn.disabled=false;
+});
 
 function tmParse(val){
   val=val.replace(/[^0-9]/g,'');
@@ -614,6 +627,8 @@ function tmDone(){
 }
 
 tmResetBtn.addEventListener('click',function(){
+  document.getElementById('tm-hint').textContent='';
+  document.getElementById('tm-start').disabled=false;
   tmRunning=false;
   cancelAnimationFrame(tmRaf);
   tmEndTime=null;
