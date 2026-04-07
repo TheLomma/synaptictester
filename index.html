@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v3.4</title>
+<title>SynaTest v3.5</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -118,7 +118,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.4</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.5</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.4</span>
+    <span>SynaTest v3.5</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -300,7 +300,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
 // Stumm-Schaltfläche
 var isMuted=true;
-document.getElementById('mute-toggle').addEventListener('click',function(){
+document.getElementById('mute-toggle').addEventListener('click',function(){saveSettings();
   isMuted=!isMuted;
   globalVolume=isMuted?0:parseFloat(document.getElementById('vol-slider').value);document.getElementById('vol-slider').value=isMuted?0:1;document.getElementById('vol-label').textContent=isMuted?'0%':Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';
   this.textContent=isMuted?'🔇':'🔊';
@@ -317,14 +317,50 @@ document.getElementById('help-close').addEventListener('click',function(){
 document.getElementById('help-modal').addEventListener('click',function(e){
   if(e.target===this)this.classList.remove('open');
 });
+// ===== LOCALSTORAGE SETTINGS =====
+function saveSettings(){
+  try{
+    localStorage.setItem('syna_lang',appLang);
+    localStorage.setItem('syna_theme',isLight?'light':'dark');
+    localStorage.setItem('syna_vol',document.getElementById('vol-slider').value);
+    localStorage.setItem('syna_muted',isMuted?'1':'0');
+  }catch(e){}
+}
+function loadSettings(){
+  try{
+    var lang=localStorage.getItem('syna_lang');if(lang&&(lang==='de'||lang==='en'))appLang=lang;
+    var theme=localStorage.getItem('syna_theme');if(theme)isLight=(theme==='light');
+    var vol=localStorage.getItem('syna_vol');if(vol!==null){document.getElementById('vol-slider').value=vol;globalVolume=parseFloat(vol);}
+    var muted=localStorage.getItem('syna_muted');if(muted!==null){isMuted=(muted==='1');}
+  }catch(e){}
+}
+// ===== SYSTEM THEME DETECTION =====
+var systemDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
 var isLight=false;
-document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;});
+// Only apply system preference if no saved preference exists
+(function(){
+  var saved=null;try{saved=localStorage.getItem('syna_theme');}catch(e){}
+  if(!saved){isLight=!systemDark;}
+  else{isLight=(saved==='light');}
+})();
+document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;saveSettings();});
+if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){
+  try{var saved=localStorage.getItem('syna_theme');}catch(ex){var saved=null;}
+  if(!saved){isLight=!e.matches;document.body.classList.toggle('light-mode',isLight);document.getElementById('theme-toggle').textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;}
+});}
 var globalVolume=0;
+  // Apply loaded settings
+  loadSettings();
+  document.body.classList.toggle('light-mode',isLight);
+  document.getElementById('mute-toggle').textContent=isMuted?'🔇':'🔊';
+  document.getElementById('mute-toggle').style.color=isMuted?'#ff6b6b':'var(--text)';
+  if(isMuted){globalVolume=0;document.getElementById('vol-slider').value=0;document.getElementById('vol-label').textContent='0%';}
+  else{document.getElementById('vol-label').textContent=Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';}
 var appLang='de';
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.4',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.5',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -391,7 +427,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.4',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.5',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -458,7 +494,11 @@ en:{
 }
 };
 window.appToggleLang=function(){
+  saveSettings();
+  // re-save after lang change below
+  var _save=saveSettings;
   appLang=appLang==='de'?'en':'de';
+  saveSettings();
   appApplyLang();
 };
 function appApplyLang(){
@@ -566,7 +606,7 @@ function appApplyLang(){
 
 // Lautstärke-Slider mit Stumm-Sync
 
-var volSlider=document.getElementById('vol-slider');
+var volSlider=document.getElementById('vol-slider');volSlider.addEventListener('change',function(){saveSettings();});
 var volLabel=document.getElementById('vol-label');
 volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;document.getElementById('mute-toggle').textContent='🔊';document.getElementById('mute-toggle').style.color='var(--text)';}});
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
