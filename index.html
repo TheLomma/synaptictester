@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v2.9</title>
+<title>SynaTest v3.0</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -66,8 +66,9 @@ background:radial-gradient(ellipse at 20% 20%,#0d3a7a 0%,transparent 55%),radial
 .help-item-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
 #help-close{width:100%;margin-top:6px;background:var(--glass-btn);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:var(--ease);}
 #help-close:hover{background:var(--glass-btn-hover);}
-.tabs{display:flex;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 8px;gap:4px;}
-.tab-button{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.6;}  .tab-button .tab-num{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
+.tabs{display:flex;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 8px;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-button{flex:0 0 auto;min-width:72px;padding:8px 6px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.6;}  .tab-button .tab-num{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
 .tab-button.active{background:var(--tab-active);color:var(--text);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);}
 .tab-content{padding:24px;}
 .tab-pane{display:none;}
@@ -117,7 +118,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v2.9</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.0</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -129,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v2.9</span>
+    <span>SynaTest v3.0</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -190,6 +191,11 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div id="vg-container"></div>
 <button id="vg-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
+<div id="vg-summary" style="display:none;margin-top:16px;padding:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:18px;">
+  <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:14px;">&#x1F3C6; Spielzusammenfassung</div>
+  <div id="vg-summary-rows" style="display:flex;flex-direction:column;gap:8px;"></div>
+  <div id="vg-summary-total" style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:var(--text-light);"></div>
+</div>
 <div id="vg-last-move-box" style="display:none;margin-top:14px;padding:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.13);border-radius:18px;text-align:center;">
 <div id="vg-last-move-text" style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;"></div>
 <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Klicke auf eine Spalte, um deinen Zug zu machen.</div>
@@ -347,7 +353,7 @@ var vgTurnQueue=[];  // globale Zugreihenfolge: [{gameIdx, player},...]
 var vgTurnIndex=0;  // aktueller Schritt in der Queue
 document.getElementById('vg-reset').addEventListener('click',vgInit);
 document.getElementById('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=document.getElementById('vg-show-board').checked?'grid':'none';});});
-function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';
+function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';document.getElementById('vg-summary').style.display='none';document.getElementById('vg-summary-rows').innerHTML='';
 var starter=document.getElementById('vg-starter').value;
 // Baue Zugreihenfolge: abwechselnd App[i] -> Nutzer für jedes Spielfeld, dann nächste App
 for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent='Spielfeld gegen '+ac.name;wrap.appendChild(title);
@@ -473,7 +479,8 @@ var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);retu
 function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
-function vgEnd(game,winner){game.over=true;vgDisable(game,true);var msg='';if(winner===P1)msg='Du hast gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else if(winner===P2)msg=game.ac.name+' hat gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else msg='Unentschieden! ('+game.moves+' Z\u00fcge)';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);}
+function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 Du gewonnen';rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+' gewonnen';rColor=g.ac.label;}else{rText='⚪ Unentschieden';rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+' Züge';row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});total.innerHTML='🎮 Gesamt: <strong style="color:#51cf66;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
+function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var msg='';if(winner===P1)msg='Du hast gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else if(winner===P2)msg=game.ac.name+' hat gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else msg='Unentschieden! ('+game.moves+' Z\u00fcge)';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);vgCheckAllDone();}
 function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
 function vgShowLastMove(game,msg){var box=document.getElementById('vg-last-move-box');var txt=document.getElementById('vg-last-move-text');txt.innerHTML=msg;box.style.display='block';}
 vgInit();
