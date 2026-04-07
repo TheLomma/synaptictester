@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v2.7</title>
+<title>SynaTest v2.8</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -116,7 +116,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v2.7</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v2.8</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -128,7 +128,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v2.7</span>
+    <span>SynaTest v2.8</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -148,6 +148,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="setup-view">
 <div class="input-group"><label>Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
 <div class="input-group"><label>Enddatum</label><input type="date" id="end-date"></div>
+<div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-top:-10px;margin-bottom:10px;">⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.</div>
 <div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac">Sternzeichen anzeigen</label></div>
 <div class="input-group"><label>Datumsformat</label>
 <select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select>
@@ -321,7 +322,10 @@ var cpStep=0,cpDate=null;
 var cpToday=new Date();
 var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
 document.getElementById('enable-speech').addEventListener('change',function(){document.getElementById('speech-settings').style.display=this.checked?'block':'none';});
-document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert('Bitte Start- und Enddatum eingeben.');return;}var s=new Date(sVal),e=new Date(eVal);if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
+document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert('Bitte Start- und Enddatum eingeben.');return;}var s=new Date(sVal),e=new Date(eVal);
+var yesterday=new Date(cpTodayOnly.getTime()-864e5);
+if(e>yesterday){e=yesterday;var yStr=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');document.getElementById('end-date').value=yStr;}
+if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
 document.getElementById('btn-next').addEventListener('click',cpNextStep);
 document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
