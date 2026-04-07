@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v3.2</title>
+<title>SynaTest v3.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -118,7 +118,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.2</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.3</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.2</span>
+    <span>SynaTest v3.3</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -199,7 +199,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div id="vg-last-move-box" style="display:none;margin-top:14px;padding:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.13);border-radius:18px;text-align:center;">
 <div id="vg-last-move-text" style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;"></div>
-<div style="font-size:13px;color:var(--text-light);margin-top:4px;">Klicke auf eine Spalte, um deinen Zug zu machen.</div>
+<div id="vg-click-hint" style="font-size:13px;color:var(--text-light);margin-top:4px;">Klicke auf eine Spalte, um deinen Zug zu machen.</div>
 </div>
 </div>
 <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
@@ -291,6 +291,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">100%</span>
 </div>
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
+<button id="lang-toggle" onclick="appToggleLang()" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;cursor:pointer;">🌐 English</button>
 <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'">Synaptic kaufen</a>
 </div>
 <script>
@@ -319,6 +320,232 @@ document.getElementById('help-modal').addEventListener('click',function(e){
 var isLight=false;
 document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?'Hell':'Dunkel';});
 var globalVolume=0;
+var appLang='de';
+var T={
+de:{
+  themeLight:'Hell',themeDark:'Dunkel',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.3',
+  helpClose:'Schlie&szlig;en',
+  h1:'Zuf&auml;lliges Datum',
+  labelStart:'Anfangsdatum',labelEnd:'Enddatum',
+  labelZodiac:'Sternzeichen anzeigen',
+  labelFormat:'Datumsformat',
+  fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
+  labelSpeech:'Sprachausgabe aktivieren',
+  speechTitle:'Pausen (Sekunden)',
+  dStart:'Start',dYM:'nach Jahr',dMD:'nach Monat',dDW:'nach Tag',dWD:'nach Wochentag',dDig:'zw. Ziffern',
+  btnGenerate:'Zuf&auml;lliges Datum generieren',
+  btnNext:'N&auml;chster Schritt',btnReset:'Zur&uuml;cksetzen',btnNextDate:'&#x1F4C5; N&auml;chstes Datum',
+  ready:'Bereit!',clickNext:'Klicke auf N&auml;chster Schritt',
+  seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Zur&uuml;cksetzen.',
+  speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fertig',
+  alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
+  vgTitle:'Foursight Guru',vgWho:'Wer beginnt?',vgUser:'Benutzer',vgApp:'App',
+  vgPlayers:'Anzahl App-Spieler',vgShowBoard:'Spielfelder anzeigen',vgSpeech:'Sprachausgabe f&uuml;r App',
+  vgNewGame:'Neues Spiel',vgSummaryTitle:'&#x1F3C6; Spielzusammenfassung',
+  vgWon:'Du hast gewonnen!',vgLost:' hat gewonnen!',vgDraw:'Unentschieden!',
+  vgMoves:' Z&uuml;ge',vgThinking:' denkt...',vgYourTurn:'&#x2B07; Dein Zug hier!',
+  vgWait:'&#x23F3; Warte – erst bei ',vgWaitPlay:' spielen',
+  vgWrong:'&#x26A0;&#xFE0F; Falsches Spielfeld! Bitte zuerst bei ',vgWrongAt:' spielen.',
+  vgSetsCol:' setzt in Spalte ',vgClickCol:'Klicke auf eine Spalte, um deinen Zug zu machen.',
+  vgWins:'Siege',vgLosses:'Niederlagen',vgDraws:'Unentschieden',vgTotal:'Z&uuml;ge total',
+  piTitle:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf&auml;llig',piForward:'Vorw&auml;rts',piBackward:'R&uuml;ckw&auml;rts',
+  piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',
+  ccTitle:'Card Hacker',ccDelay:'Pause zwischen Ziffern (Sekunden)',ccGen:'Karte generieren',ccReset:'Neu starten',ccReady:'Bereit.',
+  ccMissing:'Fehlende Ziffer',ccRead:'Vorlesen',ccReading:'Liest vor...',ccSolution:'L&ouml;sung anzeigen',
+  ccDone:'Vorlesen beendet.',ccShown:'L&ouml;sung angezeigt.',ccFinished:'Fertig',ccShow:'Nummer anzeigen',
+  tmTitle:'Time Master',tmHint:'2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden',
+  tmLabel:'Zeit eingeben (2–3 Ziffern)',tmStart:'Start',tmReset:'Reset',tmEnd:'ENDE',
+  tmMin:' Min. ',tmSec:' Sek.',tmInvalid:'Ung&uuml;ltige Eingabe',tmSecMax:'&#x26A0;&#xFE0F; Sekunden max. 59!',tmZero:'&#x26A0;&#xFE0F; Zeit muss gr&ouml;&szlig;er als 0 sein',
+  tmMin1:'Noch ',tmMinSuf:' Minute',tmMinSufP:' Minuten',tmSec30:'&#x26A1; Noch 30 Sekunden!',tmSec15:'&#x26A1; Noch 15 Sekunden!',
+  oeTitle:'Order Equation',oeHint:'Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.',
+  oeDelay:'Pause zwischen Schritten (Sekunden)',oeStart:'Starten',oeReset:'Neu starten',
+  oeFormulaTitle:'&#x1F9EE; Rechenweg f&uuml;r die Person',
+  oeFormulaSub:'A, B, C = zuf&auml;llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten',
+  oeResult:'Ergebnis',oeLastDigit:'Letzte Ziffer',oeEven:'Gerade &#x2713;',oeOdd:'Ungerade &#x2713;',
+  oeReveal:'Anzeigen',oeRevealTitle:'Aufl&ouml;sung',oeYear:'Dein Geburtsjahr',oeAge:'Dein Alter',oeFullResult:'Vollst. Ergebnis',
+  oeStep1Label:'Schritt 1 – Gib ein (zensiert)',oeStep1Sub:'Dein Geburtsjahr (4-stellig) → Taschenrechner',oeStep1Speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.',
+  oeStep2Label:'Schritt 2 – Plus',oeStep2Sub:'Addiere diese zweistellige Zahl',
+  oeStep3Label:'Schritt 3 – Mal',oeStep3Sub:'Multipliziere mit dieser Zahl',
+  oeStep4Label:'Schritt 4 – Mal',oeStep4Sub:'Multipliziere erneut mit dieser Zahl',
+  oeStep5Label:'Schritt 5 – Plus (zensiert)',oeStep5Sub:'Addiere dein aktuelles Alter',oeStep5Speak:'Addiere jetzt dein aktuelles Alter – diese Zahl bleibt geheim.',
+  oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCalcSub:'Berechne & zeige mir das Ergebnis!',
+  oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
+  volLabel:'&#x1F50A; Lautst&auml;rke',langBtn:'&#x1F310; English',
+  helpItems:[
+    {title:'1 &nbsp;Calendar Prodigy',text:'W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.'},
+    {title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.'},
+    {title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.'},
+    {title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.'},
+    {title:'5 &nbsp;Time Master',text:'Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.'},
+    {title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.'}
+  ],
+  zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'Löwe';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Schütze';return'Steinbock';},
+  locale:'de-DE'
+},
+en:{
+  themeLight:'Light',themeDark:'Dark',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.3',
+  helpClose:'Close',
+  h1:'Random Date',
+  labelStart:'Start date',labelEnd:'End date',
+  labelZodiac:'Show zodiac sign',
+  labelFormat:'Date format',
+  fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
+  labelSpeech:'Enable speech output',
+  speechTitle:'Pauses (seconds)',
+  dStart:'Start',dYM:'after year',dMD:'after month',dDW:'after day',dWD:'after weekday',dDig:'between digits',
+  btnGenerate:'Generate random date',
+  btnNext:'Next step',btnReset:'Reset',btnNextDate:'&#x1F4C5; Next date',
+  ready:'Ready!',clickNext:'Click Next Step',
+  seqDone:'Sequence complete.',seqHint:'Next date or reset.',
+  speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
+  alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
+  vgTitle:'Foursight Guru',vgWho:'Who starts?',vgUser:'User',vgApp:'App',
+  vgPlayers:'Number of app players',vgShowBoard:'Show boards',vgSpeech:'Speech for app',
+  vgNewGame:'New game',vgSummaryTitle:'&#x1F3C6; Game summary',
+  vgWon:'You won!',vgLost:' won!',vgDraw:'Draw!',
+  vgMoves:' moves',vgThinking:' thinking...',vgYourTurn:'&#x2B07; Your turn here!',
+  vgWait:'&#x23F3; Wait – play at ',vgWaitPlay:' first',
+  vgWrong:'&#x26A0;&#xFE0F; Wrong board! Please play at ',vgWrongAt:' first.',
+  vgSetsCol:' plays column ',vgClickCol:'Click a column to make your move.',
+  vgWins:'Wins',vgLosses:'Losses',vgDraws:'Draws',vgTotal:'moves total',
+  piTitle:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
+  piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',
+  ccTitle:'Card Hacker',ccDelay:'Pause between digits (seconds)',ccGen:'Generate card',ccReset:'Restart',ccReady:'Ready.',
+  ccMissing:'Missing digit',ccRead:'Read aloud',ccReading:'Reading...',ccSolution:'Show solution',
+  ccDone:'Reading complete.',ccShown:'Solution shown.',ccFinished:'Done',ccShow:'Show number',
+  tmTitle:'Time Master',tmHint:'2 digits = seconds &nbsp;|&nbsp; 3 digits = 1st digit minutes + 2 digits seconds',
+  tmLabel:'Enter time (2–3 digits)',tmStart:'Start',tmReset:'Reset',tmEnd:'END',
+  tmMin:' min. ',tmSec:' sec.',tmInvalid:'Invalid input',tmSecMax:'&#x26A0;&#xFE0F; Seconds max. 59!',tmZero:'&#x26A0;&#xFE0F; Time must be greater than 0',
+  tmMin1:'',tmMinSuf:' minute',tmMinSufP:' minutes',tmSec30:'&#x26A1; 30 seconds left!',tmSec15:'&#x26A1; 15 seconds left!',
+  oeTitle:'Order Equation',oeHint:'Think of your birth year. Enter it in your calculator – then follow the instructions.',
+  oeDelay:'Pause between steps (seconds)',oeStart:'Start',oeReset:'Restart',
+  oeFormulaTitle:'&#x1F9EE; Calculation for the person',
+  oeFormulaSub:'A, B, C = random two-digit numbers &nbsp;|&nbsp; mind operator precedence',
+  oeResult:'Result',oeLastDigit:'Last digit',oeEven:'Even &#x2713;',oeOdd:'Odd &#x2713;',
+  oeReveal:'Reveal',oeRevealTitle:'Solution',oeYear:'Your birth year',oeAge:'Your age',oeFullResult:'Full result',
+  oeStep1Label:'Step 1 – Enter (hidden)',oeStep1Sub:'Your birth year (4 digits) → calculator',oeStep1Speak:'Enter your four-digit birth year into the calculator.',
+  oeStep2Label:'Step 2 – Plus',oeStep2Sub:'Add this two-digit number',
+  oeStep3Label:'Step 3 – Times',oeStep3Sub:'Multiply by this number',
+  oeStep4Label:'Step 4 – Times',oeStep4Sub:'Multiply again by this number',
+  oeStep5Label:'Step 5 – Plus (hidden)',oeStep5Sub:'Add your current age',oeStep5Speak:'Now add your current age – this number stays secret.',
+  oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCalcSub:'Calculate & show me the result!',
+  oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
+  volLabel:'&#x1F50A; Volume',langBtn:'&#x1F310; Deutsch',
+  helpItems:[
+    {title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date from that range. Then click "Next Step" to reveal the day, month, year, weekday, number of days passed and optionally the zodiac sign. With speech enabled, everything is read aloud with configurable pauses.'},
+    {title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit and reads each one aloud. Choose the direction (forward, backward or random) and set the pause between digits. Optionally show the digit sequence in context to track your progress.'},
+    {title:'3 &nbsp;Card Hacker',text:'The app generates a valid credit card number (Luhn-checked) and omits one random digit. The number is read aloud digit by digit – the missing digit is presented as a question. The answer is revealed at the end. Optionally show the full number.'},
+    {title:'4 &nbsp;Foursight Guru',text:'A Connect Four game against up to 4 app players simultaneously. The app plays intelligently: it tries to win and blocks your winning moves. Set who starts and whether the boards are visible. Without board display, the app\'s last move is shown as text. With speech, every move is announced.'},
+    {title:'5 &nbsp;Time Master',text:'A precise countdown timer. Enter 2 digits for seconds (e.g. 45 = 45 sec.) or 3 digits for minutes and seconds (e.g. 111 = 1 min. 11 sec.). The ring flashes at every full minute remaining, at 30 and 15 seconds red, from 10 seconds each tick red, from 5 seconds green. END appears at zero.'},
+    {title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year and enters it into their calculator. The app then shows a step-by-step calculation: + a number × a number × a number + (secret age). The result is initially hidden. Next to it, it already shows whether the last digit is even or odd. Clicking Reveal shows the birth year, age and full result.'}
+  ],
+  zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Aquarius';if((m==2&&d>=20)||(m==3&&d<=20))return'Pisces';if((m==3&&d>=21)||(m==4&&d<=20))return'Aries';if((m==4&&d>=21)||(m==5&&d<=20))return'Taurus';if((m==5&&d>=21)||(m==6&&d<=21))return'Gemini';if((m==6&&d>=22)||(m==7&&d<=22))return'Cancer';if((m==7&&d>=23)||(m==8&&d<=23))return'Leo';if((m==8&&d>=24)||(m==9&&d<=23))return'Virgo';if((m==9&&d>=24)||(m==10&&d<=23))return'Libra';if((m==10&&d>=24)||(m==11&&d<=22))return'Scorpio';if((m==11&&d>=23)||(m==12&&d<=21))return'Sagittarius';return'Capricorn';},
+  locale:'en-US'
+}
+};
+window.appToggleLang=function(){
+  appLang=appLang==='de'?'en':'de';
+  appApplyLang();
+};
+function appApplyLang(){
+  var t=T[appLang];
+  // Header
+  document.getElementById('lang-toggle').innerHTML=t.langBtn;
+  document.getElementById('theme-toggle').textContent=isLight?t.themeLight:t.themeDark;
+  // Help modal
+  document.querySelector('#help-modal-inner h3').innerHTML=t.helpTitle;
+  document.getElementById('help-close').innerHTML=t.helpClose;
+  var items=document.querySelectorAll('.help-item');
+  t.helpItems.forEach(function(hi,i){if(items[i]){items[i].querySelector('.help-item-title').innerHTML=hi.title;items[i].querySelector('.help-item-text').innerHTML=hi.text;}});
+  // Calendar Prodigy
+  document.querySelector('#date-tab h2').innerHTML=t.h1;
+  document.querySelector('label[for="start-date"]').textContent=t.labelStart.replace(/&auml;/g,'ä');
+  document.querySelector('label[for="end-date"]').textContent=t.labelEnd.replace(/&auml;/g,'ä');
+  document.querySelector('label[for="show-zodiac"]').textContent=t.labelZodiac.replace(/&auml;/g,'ä');
+  document.querySelector('#date-tab .input-group:nth-child(4) label').innerHTML=t.labelFormat;
+  document.querySelector('#date-format option[value="DMY"]').textContent=t.fmtDMY.replace(/&auml;/g,'ä');
+  document.querySelector('#date-format option[value="YMD"]').textContent=t.fmtYMD.replace(/&auml;/g,'ä');
+  document.querySelector('label[for="enable-speech"]').innerHTML=t.labelSpeech;
+  document.querySelector('#speech-settings h4').innerHTML=t.speechTitle;
+  document.getElementById('btn-generate').innerHTML=t.btnGenerate;
+  document.getElementById('btn-next').innerHTML=t.btnNext;
+  document.getElementById('btn-reset').innerHTML=t.btnReset;
+  document.getElementById('btn-next-date').innerHTML=t.btnNextDate;
+  // Pi
+  document.querySelector('#pi-tab h2').innerHTML=t.piTitle;
+  document.querySelector('label[for="pi-direction"]').innerHTML=t.piDir;
+  document.querySelector('#pi-direction option[value="random"]').textContent=t.piRandom;
+  document.querySelector('#pi-direction option[value="forward"]').textContent=t.piForward;
+  document.querySelector('#pi-direction option[value="backward"]').textContent=t.piBackward;
+  document.getElementById('pi-start').innerHTML=t.piStart;
+  document.getElementById('pi-stop').innerHTML=t.piStop;
+  document.querySelector('label[for="pi-show-ctx"]').innerHTML=t.piShow;
+  // CC
+  document.querySelector('#cc-tab h2').innerHTML=t.ccTitle;
+  document.getElementById('cc-main').innerHTML=ccState==='idle'?t.ccGen:ccState==='ready'?t.ccRead:ccState==='done'?t.ccSolution:t.ccFinished;
+  document.getElementById('cc-reset').innerHTML=t.ccReset;
+  document.querySelector('label[for="cc-show-num"]').innerHTML=t.ccShow;
+  document.querySelector('#cc-answer-box div:first-child').innerHTML=t.ccMissing;
+  // VG
+  document.querySelector('#vg-tab h2').innerHTML=t.vgTitle;
+  document.getElementById('vg-reset').innerHTML=t.vgNewGame;
+  // TM
+  document.querySelector('#tm-tab h2').innerHTML=t.tmTitle;
+  document.querySelector('#tm-tab p').innerHTML=t.tmHint;
+  document.querySelector('label[for="tm-input"]').innerHTML=t.tmLabel;
+  document.getElementById('tm-start').innerHTML=t.tmStart;
+  document.getElementById('tm-reset').innerHTML=t.tmReset;
+  // OE
+  document.querySelector('#oe-tab h2').innerHTML=t.oeTitle;
+  document.querySelector('#oe-tab p').innerHTML=t.oeHint;
+  document.getElementById('oe-start').innerHTML=t.oeStart;
+  document.getElementById('oe-reset').innerHTML=t.oeReset;
+  document.getElementById('oe-reveal').innerHTML=t.oeReveal;
+  document.querySelector('#oe-formula-hint div:first-child').innerHTML=t.oeFormulaTitle;
+  document.querySelector('#oe-formula-hint div:last-child').innerHTML=t.oeFormulaSub;
+  // Vol label
+  document.querySelector('span[style*="white-space"]').innerHTML=t.volLabel;
+  // VG static hint
+  var vgHint=document.getElementById('vg-click-hint');
+  if(vgHint)vgHint.textContent=t.vgClickCol;
+  // VG starter options
+  document.querySelector('#vg-starter option[value="user"]').textContent=t.vgUser;
+  document.querySelector('#vg-starter option[value="app"]').textContent=t.vgApp;
+  document.querySelector('label[for="vg-show-board"]').innerHTML=t.vgShowBoard;
+  document.querySelector('label[for="vg-speech"]').innerHTML=t.vgSpeech;
+  document.querySelector('label[for="vg-num-players"]').innerHTML=t.vgPlayers;
+  document.querySelector('label[for="vg-starter"]').innerHTML=t.vgWho;
+  // VG summary title
+  var sumTitle=document.querySelector('#vg-summary div:first-child');
+  if(sumTitle)sumTitle.innerHTML=t.vgSummaryTitle;
+  // CC status if idle
+  if(ccState==='idle')document.getElementById('cc-status').textContent=t.ccReady;
+  // Pi status if not running
+  if(!piRunning)document.getElementById('pi-status').textContent='Bereit.';
+  // CP warning
+  document.getElementById('cp-date-warning').textContent=appLang==='de'?'⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.':'⚠️ End date is in the future – will be automatically set to yesterday.';
+  // OE result/parity labels
+  document.querySelector('#oe-result-box div:first-child').textContent=t.oeResult;
+  document.querySelector('#oe-parity-box div:first-child').textContent=t.oeLastDigit;
+  document.querySelector('#oe-reveal-box div:first-child').innerHTML=t.oeRevealTitle;
+  var revealDivs=document.querySelectorAll('#oe-reveal-box > div > div > div');
+  if(revealDivs[0])revealDivs[0].textContent=t.oeYear;
+  if(revealDivs[2])revealDivs[2].textContent=t.oeAge;
+  if(revealDivs[4])revealDivs[4].textContent=t.oeFullResult;
+  // Speech settings labels
+  var spLabels=document.querySelectorAll('#speech-settings .input-group label');
+  var spKeys=['dStart','dYM','dMD','dDW','dWD','dDig'];
+  spLabels.forEach(function(l,i){if(spKeys[i])l.textContent=t[spKeys[i]];});
+  // Pi delay label
+  document.querySelector('label[for="pi-delay"]').innerHTML=t.piDelay;
+  // CC delay label
+  document.querySelector('label[for="cc-delay"]').innerHTML=t.ccDelay;
+  // OE delay label
+  document.querySelector('label[for="oe-delay"]').innerHTML=t.oeDelay;
+}
+
 // Lautstärke-Slider mit Stumm-Sync
 
 var volSlider=document.getElementById('vol-slider');
@@ -327,7 +554,7 @@ volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
 var speechQueue=[],isSpeaking=false;
 function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
-function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang='de-DE';u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
+function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
 function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
 function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
 (function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);document.getElementById('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
@@ -335,16 +562,16 @@ var cpStep=0,cpDate=null;
 var cpToday=new Date();
 var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
 document.getElementById('enable-speech').addEventListener('change',function(){document.getElementById('speech-settings').style.display=this.checked?'block':'none';});
-document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert('Bitte Start- und Enddatum eingeben.');return;}var s=new Date(sVal),e=new Date(eVal);
+document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert(T[appLang].alertDates);return;}var s=new Date(sVal),e=new Date(eVal);
 var yesterday=new Date(cpTodayOnly.getTime()-864e5);
 if(e>yesterday){e=yesterday;var yStr=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');document.getElementById('end-date').value=yStr;}
-if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
+if(isNaN(s)||isNaN(e)||s>=e){alert(T[appLang].alertOrder);return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
 document.getElementById('btn-next').addEventListener('click',cpNextStep);
 document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
 function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString('de-DE',{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString('de-DE',{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub='Tage vergangen';break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').textContent='Fertig';document.getElementById('btn-next').disabled=true;}}
-function cpEndSeq(){document.getElementById('display-area').innerHTML='Sequenz beendet.<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Nächstes Datum oder Zurücksetzen.</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').textContent='Nächster Schritt';document.getElementById('btn-next-date').style.display='block';}
-function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent='Nächster Schritt';document.getElementById('btn-next-date').style.display='none';}
+function cpEndSeq(){var t=T[appLang];document.getElementById('display-area').innerHTML=t.seqDone+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+t.seqHint+'</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').innerHTML=t.btnNext;document.getElementById('btn-next-date').style.display='block';}
+function cpReset(){var t=T[appLang];clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML=t.btnNext;document.getElementById('btn-next-date').style.display='none';}
 document.getElementById('btn-next-date').addEventListener('click',function(){
   var sVal=document.getElementById('start-date').value;
   var eVal=document.getElementById('end-date').value;
@@ -360,8 +587,8 @@ document.getElementById('btn-next-date').addEventListener('click',function(){
     document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf Nächster Schritt</small>';
   }
 });
-function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent='Sprachausgabe startet...';clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString('de-DE',{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString('de-DE',{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">Tage vergangen<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
-function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';}
+function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent=T[appLang].speechStarting;clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString(T[appLang].locale,{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">Tage vergangen<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
+function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}function cpZodiacOld(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
 var ROWS=6,COLS=7,P1='user',P2='app';
 var vgGames=[];
 var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
@@ -372,9 +599,9 @@ document.getElementById('vg-show-board').addEventListener('change',function(){vg
 function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';document.getElementById('vg-summary').style.display='none';document.getElementById('vg-summary-rows').innerHTML='';
 var starter=document.getElementById('vg-starter').value;
 // Baue Zugreihenfolge: abwechselnd App[i] -> Nutzer für jedes Spielfeld, dann nächste App
-for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent='Spielfeld gegen '+ac.name;wrap.appendChild(title);
+for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent=(appLang==='de'?'Spielfeld gegen ':'Board vs. ')+ac.name;wrap.appendChild(title);
 var counterEl=document.createElement('div');counterEl.style.cssText='font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;text-align:center;';counterEl.textContent='0 Züge';wrap.appendChild(counterEl);
-var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent='Startet...';wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,current:starter,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);}
+var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent=appLang==='de'?'Startet...':'Starting...';wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,current:starter,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);}
 // Erstelle globale Zugreihenfolge
 vgBuildTurnQueue();
 vgExecuteTurn();}
@@ -414,19 +641,19 @@ var game=vgGames[turn.gameIdx];
 vgGames.forEach(function(g){if(!g.over)vgDisable(g,true);});
 vgUpdateAllCounters();
 if(turn.player===P2){
-game.statusEl.textContent=game.ac.name+' denkt...';
+game.statusEl.textContent=game.ac.name+T[appLang].vgThinking;
 game.statusEl.style.color='rgba(255,255,255,0.85)';
 setTimeout(function(){vgAppMove(game);},900);
 } else {
 // Nutzer ist dran bei game
-game.statusEl.textContent='⬇ Dein Zug hier!';
+game.statusEl.textContent=T[appLang].vgYourTurn;
 game.statusEl.style.color='#4dabf7';
 // Nur dieses Spielfeld freischalten
 vgDisable(game,false);
 // Andere Spiele bleiben gesperrt — Klick dort = Warnung
 vgGames.forEach(function(g,gi){
 if(!g.over&&gi!==turn.gameIdx){
-g.statusEl.textContent='⏳ Warte – erst bei '+vgGames[turn.gameIdx].ac.name+' spielen';
+g.statusEl.textContent=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;
 g.statusEl.style.color='rgba(255,200,80,0.8)';
 vgSetWrongClickWarning(g,turn.gameIdx);
 }
@@ -439,7 +666,7 @@ b.disabled=false; // kurz freischalten für Klick-Event
 b.onclick=function(){
 var box=document.getElementById('vg-last-move-box');
 var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML='⚠️ Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[correctIdx].ac.name+'</strong> spielen.';
+txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[correctIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
 box.style.display='block';
 setTimeout(function(){box.style.display='none';},3000);
 };
@@ -475,7 +702,7 @@ if(t.gameIdx!==game.idx||t.player!==P1){
 // Falsches Spielfeld
 var box=document.getElementById('vg-last-move-box');
 var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML='⚠️ Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[t.gameIdx].ac.name+'</strong> spielen.';
+txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[t.gameIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
 box.style.display='block';
 setTimeout(function(){box.style.display='none';},3000);
 return;
@@ -491,12 +718,12 @@ function vgAIBestCol(game,player){// 1. Gewinnen wenn möglich
 for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=player;var wins=vgCheckWinSilent(game,player);game.board[r][c]=null;if(wins)return c;}}// 2. Blockieren wenn Gegner gewinnen kann
 var opp=P1;for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=opp;var oWins=vgCheckWinSilent(game,opp);game.board[r][c]=null;if(oWins)return c;}}// 3. Mitte bevorzugen
 var center=Math.floor(COLS/2);if(vgFindRow(game,center)!==-1)return center;// 4. Zufällig aus verfügbaren
-var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c]))return true;for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3]))return true;for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3]))return true;return false;}function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+' setzt in Spalte '+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}
+var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c]))return true;for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3]))return true;for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3]))return true;return false;}function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+T[appLang].vgSetsCol+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}
 function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
-function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 Du gewonnen';rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+' gewonnen';rColor=g.ac.label;}else{rText='⚪ Unentschieden';rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+' Züge';row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});total.innerHTML='🎮 Gesamt: <strong style="color:#51cf66;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
-function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var msg='';if(winner===P1)msg='Du hast gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else if(winner===P2)msg=game.ac.name+' hat gewonnen! '+(game.winDir||'')+' ('+game.moves+' Z\u00fcge)';else msg='Unentschieden! ('+game.moves+' Z\u00fcge)';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);vgCheckAllDone();}
+function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 '+T[appLang].vgWon;rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+T[appLang].vgLost;rColor=g.ac.label;}else{rText='⚪ '+T[appLang].vgDraw;rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+T[appLang].vgMoves;row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});total.innerHTML='🎮 Gesamt: <strong style="color:#51cf66;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
+function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var t=T[appLang];var msg='';if(winner===P1)msg=t.vgWon+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else if(winner===P2)msg=game.ac.name+t.vgLost+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else msg=t.vgDraw+' ('+game.moves+t.vgMoves+')';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);vgCheckAllDone();}
 function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
 function vgShowLastMove(game,msg){var box=document.getElementById('vg-last-move-box');var txt=document.getElementById('vg-last-move-text');txt.innerHTML=msg;box.style.display='block';}
 vgInit();
@@ -508,7 +735,7 @@ document.getElementById('pi-start').addEventListener('click',function(){if(piRun
 document.getElementById('pi-stop').addEventListener('click',piStop);
 document.getElementById('pi-show-ctx').addEventListener('change',function(){document.getElementById('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
 function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
-function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent='Gestoppt.';}
+function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent=T[appLang].piStopped;}
 function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
 // ===== TIMEMASTER =====
 (function(){
@@ -529,11 +756,11 @@ tmInput.addEventListener('input',function(){
   var startBtn=document.getElementById('tm-start');
   if(val.length===0){hint.textContent='';hint.style.color='var(--text-light)';startBtn.disabled=false;return;}
   var parsed=tmParse(val);
-  if(!parsed){hint.textContent='Ungültige Eingabe';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
-  if(parsed.s>59){hint.textContent='⚠️ '+parsed.m+' Min. '+parsed.s+' Sek. – Sekunden max. 59!';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  if(!parsed){hint.textContent=T[appLang].tmInvalid;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  if(parsed.s>59){hint.textContent='⚠️ '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' – '+T[appLang].tmSecMax;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
   var totalSec=parsed.m*60+parsed.s;
-  if(totalSec===0){hint.textContent='⚠️ Zeit muss größer als 0 sein';hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
-  hint.textContent='= '+parsed.m+' Min. '+parsed.s+' Sek. ✓';hint.style.color='#51cf66';startBtn.disabled=false;
+  if(totalSec===0){hint.textContent=T[appLang].tmZero;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+  hint.textContent='= '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' ✓';hint.style.color='#51cf66';startBtn.disabled=false;
 });
 
 function tmParse(val){
@@ -617,13 +844,13 @@ function tmHandleNotification(remSec){
   }
   // 30 Sekunden
   if(remSec===30){
-    tmLabel.textContent='⚡ Noch 30 Sekunden!';
+    tmLabel.textContent=T[appLang].tmSec30;
     tmFlash('#ff6b6b','rgba(255,107,107,0.5)');
     return;
   }
   // 15 Sekunden
   if(remSec===15){
-    tmLabel.textContent='⚡ Noch 15 Sekunden!';
+    tmLabel.textContent=T[appLang].tmSec15;
     tmFlash('#ffd43b','rgba(255,212,59,0.6)');
     return;
   }
@@ -661,7 +888,7 @@ function tmDone(){
   tmTimeEl.style.color='var(--text)';
   tmRing.style.borderColor='rgba(81,207,102,0.8)';
   tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';
-  tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">ENDE</span>';
+  tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';
 }
 
 tmResetBtn.addEventListener('click',function(){
@@ -714,10 +941,10 @@ document.getElementById('oe-start').addEventListener('click',function(){
 
   var delay=parseFloat(document.getElementById('oe-delay').value)*1000;
   var steps=[
-    {label:'Schritt 1 – Gib ein (zensiert)',value:'████',sub:'Dein Geburtsjahr (4-stellig) → Taschenrechner',speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.'},
+    {label:T[appLang].oeStep1Label,value:'████',sub:T[appLang].oeStep1Sub,speak:T[appLang].oeStep1Speak},
     {label:'Schritt 2 – Plus',value:'+ '+oeA,sub:'Addiere diese zweistellige Zahl',speak:'Plus '+oeA,sub:'Addiere diese Zahl (merken – Multiplikation folgt)'},
-    {label:'Schritt 3 – Mal',value:'× '+oeB,sub:'Multipliziere mit dieser Zahl',speak:'Mal '+oeB},
-    {label:'Schritt 4 – Mal',value:'× '+oeC,sub:'Multipliziere erneut mit dieser Zahl',speak:'Mal '+oeC},
+    {label:T[appLang].oeStep3Label,value:'× '+oeB,sub:T[appLang].oeStep3Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeB},
+    {label:T[appLang].oeStep4Label,value:'× '+oeC,sub:T[appLang].oeStep4Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeC},
     {label:'Schritt 5 – Plus (zensiert)',value:'+ ████',sub:'Addiere dein aktuelles Alter',speak:'Addiere jetzt dein aktuelles Alter – diese Zahl bleibt geheim.'}
   ];
 
@@ -729,8 +956,8 @@ document.getElementById('oe-start').addEventListener('click',function(){
       var parity=lastDigit%2===0?'Gerade ✓':'Ungerade ✓';
       document.getElementById('oe-parity-value').textContent=parity;
       document.getElementById('oe-result-area').style.display='block';
-      document.getElementById('oe-step-label').textContent='Ergebnis';
-      document.getElementById('oe-step-value').textContent='Berechne & zeige mir das Ergebnis!';
+      document.getElementById('oe-step-label').textContent=T[appLang].oeCalcLabel;
+      document.getElementById('oe-step-value').textContent=T[appLang].oeCalcSub;
       document.getElementById('oe-step-sub').textContent='';
       speak('Berechne das Ergebnis und zeig es mir.');
       oeRunning=false;
@@ -788,10 +1015,10 @@ document.getElementById('cc-reset').addEventListener('click',ccReset);
 function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
 function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}// Fallback: brute-force last digit via Luhn formula
 var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}var check=(10-(sum%10))%10;return num+check;}
-function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';ccState='ready';document.getElementById('cc-main').textContent='Vorlesen';}
-function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Liest vor...';clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='L\u00f6sung anzeigen';document.getElementById('cc-status').textContent='Vorlesen beendet.';return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
+function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';ccState='ready';document.getElementById('cc-main').textContent=T[appLang].ccRead;}
+function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccSolution;document.getElementById('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
-function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent='L\u00f6sung angezeigt.';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Fertig';speak(ccMissDig);}
+function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent=T[appLang].ccShown;document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
 function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='Karte generieren';document.getElementById('cc-status').textContent='Bereit.';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
 })();
 </script>
