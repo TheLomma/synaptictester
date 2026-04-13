@@ -2,8 +2,8 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SynaTest v3.5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SynaTest v3.6</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -47,7 +47,7 @@ background:radial-gradient(ellipse at 20% 20%,#1a3a6e 0%,transparent 55%),radial
 body{
 font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
 min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-padding:40px 20px 60px;
+padding:env(safe-area-inset-top,16px) max(16px,env(safe-area-inset-right)) env(safe-area-inset-bottom,60px) max(16px,env(safe-area-inset-left));padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(60px,env(safe-area-inset-bottom));
 background:radial-gradient(ellipse at 20% 20%,#0d3a7a 0%,transparent 55%),radial-gradient(ellipse at 80% 10%,#2d0a6e 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,#04385a 0%,transparent 50%),linear-gradient(135deg,#030810 0%,#060f22 50%,#030810 100%);
 }
 .app-container{width:100%;max-width:580px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:28px;box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,0.3);overflow:hidden;transition:var(--ease);}
@@ -84,7 +84,7 @@ h2{margin:0 0 20px;font-size:22px;font-weight:700;color:var(--text);letter-spaci
 .checkbox-group input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);cursor:pointer;}
 .checkbox-group label{font-size:14px;color:var(--text);cursor:pointer;font-weight:400;}
 .button-group{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
-button{padding:13px 18px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.2);border-radius:16px;cursor:pointer;transition:var(--ease);color:white;font-family:inherit;letter-spacing:-0.2px;backdrop-filter:blur(10px);}
+button{padding:13px 18px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.2);border-radius:16px;cursor:pointer;transition:var(--ease);color:white;font-family:inherit;letter-spacing:-0.2px;backdrop-filter:blur(10px);min-height:44px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 button:disabled{opacity:0.35;cursor:not-allowed;}
 button:active:not(:disabled){transform:scale(0.97);}
 @keyframes tmBadgePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
@@ -104,7 +104,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 .vier-gewinnt-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px;}
 .column-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:10px;aspect-ratio:1;font-size:13px;font-weight:700;color:white;backdrop-filter:blur(8px);}
 .column-btn:hover{background:rgba(255,255,255,0.22);}
-@keyframes drop{from{transform:translateY(-180px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}@keyframes drop{from{transform:translateY(-180px);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes pulse{0%{transform:scale(0.88)}50%{transform:scale(1.1)}100%{transform:scale(0.88)}}
 #pi-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;font-size:clamp(28px,10vw,42px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;backdrop-filter:blur(10px);}
 #pi-context-box{display:none;margin-top:10px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:15px;line-height:2;word-break:break-all;color:var(--text);backdrop-filter:blur(10px);}
@@ -112,13 +112,13 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 #cc-answer-box{display:none;margin:12px 0;padding:20px;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:18px;text-align:center;backdrop-filter:blur(10px);}
 #cc-answer{font-size:72px;font-weight:900;color:var(--red);letter-spacing:-2px;text-shadow:0 0 30px rgba(255,107,107,0.5);}
 #cc-number-box{display:none;margin-top:8px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:clamp(13px,4vw,19px);letter-spacing:clamp(1px,0.5vw,3px);text-align:center;color:var(--text);word-break:break-all;backdrop-filter:blur(10px);}
-@media(max-width:400px){.tab-button{font-size:9px;padding:7px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}
+@media(max-width:400px){.tab-button{font-size:9px;padding:7px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}@media(max-width:375px){.app-header span{font-size:14px;}#theme-toggle{min-width:60px;font-size:12px;padding:6px 10px;}#display-area{font-size:22px;padding:16px;}#tm-ring{width:min(180px,60vw)!important;height:min(180px,60vw)!important;}#tm-time{font-size:clamp(32px,11vw,52px)!important;}}@media(min-width:600px){body{padding:40px 32px 60px;}.tab-button{min-width:86px;font-size:12px;}}@media(hover:hover){#theme-toggle:hover{background:var(--glass-btn-hover);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn-hover);}.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}.column-btn:hover{background:rgba(255,255,255,0.22);}#help-close:hover{background:var(--glass-btn-hover);}}@media(hover:none){#theme-toggle:hover{background:var(--glass-btn);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn);}}
 </style>
 </head>
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.5</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.6</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.5</span>
+    <span>SynaTest v3.6</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -360,7 +360,7 @@ var appLang='de';
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.5',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.6',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -427,7 +427,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.5',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.6',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
