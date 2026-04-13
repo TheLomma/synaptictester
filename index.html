@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v3.7</title>
+<title>SynaTest v3.8</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -66,9 +66,10 @@ background:radial-gradient(ellipse at 20% 20%,#0d3a7a 0%,transparent 55%),radial
 .help-item-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
 #help-close{width:100%;margin-top:6px;background:var(--glass-btn);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:12px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:var(--ease);}
 #help-close:hover{background:var(--glass-btn-hover);}
-.tabs{display:flex;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 8px;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs{display:flex;flex-wrap:wrap;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 4px;gap:4px;}
 .tabs::-webkit-scrollbar{display:none;}
-.tab-button{flex:0 0 auto;min-width:72px;padding:8px 6px;border:none;background:transparent;color:var(--text-light);font-size:11px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.6;}  .tab-button .tab-num{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
+.tab-button{flex:1 1 0;min-width:0;padding:7px 4px;border:none;background:transparent;color:var(--text-light);font-size:10px;font-weight:500;border-radius:12px;cursor:pointer;transition:var(--ease);line-height:1.5;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}  .tab-button .tab-num{display:block;font-size:14px;font-weight:800;margin-bottom:1px;}
+@media(max-width:480px){.tab-button{flex:1 1 calc(33.333% - 4px);max-width:calc(33.333% - 4px);}}
 .tab-button.active{background:var(--tab-active);color:var(--text);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);}
 .tab-content{padding:24px;}
 .tab-pane{display:none;}
@@ -112,13 +113,13 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 #cc-answer-box{display:none;margin:12px 0;padding:20px;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:18px;text-align:center;backdrop-filter:blur(10px);}
 #cc-answer{font-size:72px;font-weight:900;color:var(--red);letter-spacing:-2px;text-shadow:0 0 30px rgba(255,107,107,0.5);}
 #cc-number-box{display:none;margin-top:8px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:clamp(13px,4vw,19px);letter-spacing:clamp(1px,0.5vw,3px);text-align:center;color:var(--text);word-break:break-all;backdrop-filter:blur(10px);}
-@media(max-width:400px){.tab-button{font-size:9px;padding:7px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}@media(max-width:375px){.app-header span{font-size:14px;}#theme-toggle{min-width:60px;font-size:12px;padding:6px 10px;}#display-area{font-size:22px;padding:16px;}#tm-ring{width:min(180px,60vw)!important;height:min(180px,60vw)!important;}#tm-time{font-size:clamp(32px,11vw,52px)!important;}}@media(min-width:600px){body{padding:40px 32px 60px;}.tab-button{min-width:86px;font-size:12px;}}@media(hover:hover){#theme-toggle:hover{background:var(--glass-btn-hover);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn-hover);}.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}.column-btn:hover{background:rgba(255,255,255,0.22);}#help-close:hover{background:var(--glass-btn-hover);}}@media(hover:none){#theme-toggle:hover{background:var(--glass-btn);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn);}}
+@media(max-width:400px){.tab-button{font-size:8.5px;padding:6px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}@media(max-width:375px){.app-header span{font-size:14px;}#theme-toggle{min-width:60px;font-size:12px;padding:6px 10px;}#display-area{font-size:22px;padding:16px;}#tm-ring{width:min(180px,60vw)!important;height:min(180px,60vw)!important;}#tm-time{font-size:clamp(32px,11vw,52px)!important;}}@media(min-width:600px){body{padding:40px 32px 60px;}.tab-button{flex:1 1 0;max-width:none;font-size:12px;padding:8px 6px;}}@media(hover:hover){#theme-toggle:hover{background:var(--glass-btn-hover);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn-hover);}.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}.column-btn:hover{background:rgba(255,255,255,0.22);}#help-close:hover{background:var(--glass-btn-hover);}}@media(hover:none){#theme-toggle:hover{background:var(--glass-btn);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn);}}
 </style>
 </head>
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.7</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.8</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +131,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.7</span>
+    <span>SynaTest v3.8</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -357,7 +358,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.7',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.8',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -424,7 +425,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.7',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.8',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
