@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v3.6</title>
+<title>SynaTest v3.7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -118,7 +118,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.6</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.7</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -130,7 +130,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.6</span>
+    <span>SynaTest v3.7</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -299,8 +299,8 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 'use strict';
 window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
 // Stumm-Schaltfläche
-var isMuted=true;
-document.getElementById('mute-toggle').addEventListener('click',function(){saveSettings();
+var isMuted=true,appLang='de',isLight=false,globalVolume=0;
+document.getElementById('mute-toggle').addEventListener('click',function(){
   isMuted=!isMuted;
   globalVolume=isMuted?0:parseFloat(document.getElementById('vol-slider').value);document.getElementById('vol-slider').value=isMuted?0:1;document.getElementById('vol-label').textContent=isMuted?'0%':Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';
   this.textContent=isMuted?'🔇':'🔊';
@@ -336,7 +336,6 @@ function loadSettings(){
 }
 // ===== SYSTEM THEME DETECTION =====
 var systemDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-var isLight=false;
 // Only apply system preference if no saved preference exists
 (function(){
   var saved=null;try{saved=localStorage.getItem('syna_theme');}catch(e){}
@@ -348,19 +347,17 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
   try{var saved=localStorage.getItem('syna_theme');}catch(ex){var saved=null;}
   if(!saved){isLight=!e.matches;document.body.classList.toggle('light-mode',isLight);document.getElementById('theme-toggle').textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;}
 });}
-var globalVolume=0;
-  // Apply loaded settings
+// Apply loaded settings
   loadSettings();
   document.body.classList.toggle('light-mode',isLight);
   document.getElementById('mute-toggle').textContent=isMuted?'🔇':'🔊';
   document.getElementById('mute-toggle').style.color=isMuted?'#ff6b6b':'var(--text)';
   if(isMuted){globalVolume=0;document.getElementById('vol-slider').value=0;document.getElementById('vol-label').textContent='0%';}
   else{document.getElementById('vol-label').textContent=Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';}
-var appLang='de';
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.6',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.7',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -427,7 +424,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.6',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.7',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -493,14 +490,7 @@ en:{
   locale:'en-US'
 }
 };
-window.appToggleLang=function(){
-  saveSettings();
-  // re-save after lang change below
-  var _save=saveSettings;
-  appLang=appLang==='de'?'en':'de';
-  saveSettings();
-  appApplyLang();
-};
+window.appToggleLang=function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();};
 function appApplyLang(){
   var t=T[appLang];
   // Header
@@ -576,9 +566,9 @@ function appApplyLang(){
   // CC status if idle
   if(ccState==='idle')document.getElementById('cc-status').textContent=t.ccReady;
   // Pi status if not running
-  if(!piRunning)document.getElementById('pi-status').textContent='Bereit.';
+  if(!piRunning)document.getElementById('pi-status').textContent=t.piReady;
   // CP warning
-  document.getElementById('cp-date-warning').textContent='⚠️ Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.';
+  document.getElementById('cp-date-warning').textContent=appLang==='de'?'⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.':'⚠️ End date is in the future – automatically corrected to yesterday.';
   // OE result/parity labels
   document.querySelector('#oe-result-box div:first-child').textContent=t.oeResult;
   document.querySelector('#oe-parity-box div:first-child').textContent=t.oeLastDigit;
@@ -627,7 +617,7 @@ if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');retur
 document.getElementById('btn-next').addEventListener('click',cpNextStep);
 document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
-function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString('de-DE',{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString('de-DE',{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub='Tage vergangen';break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').innerHTML='Fertig';document.getElementById('btn-next').disabled=true;}}
+function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString(T[appLang].locale,{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub='Tage vergangen';break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').innerHTML='Fertig';document.getElementById('btn-next').disabled=true;}}
 function cpEndSeq(){var t=T[appLang];document.getElementById('display-area').innerHTML=t.seqDone+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+t.seqHint+'</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').innerHTML=t.btnNext;document.getElementById('btn-next-date').style.display='block';}
 function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML='N\u00e4chster Schritt';document.getElementById('btn-next-date').style.display='none';}
 document.getElementById('btn-next-date').addEventListener('click',function(){
@@ -645,8 +635,8 @@ document.getElementById('btn-next-date').addEventListener('click',function(){
     document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf Nächster Schritt</small>';
   }
 });
-function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent=T[appLang].speechStarting;clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString('de-DE',{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString('de-DE',{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].daysPassed+'<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
-function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';}function cpZodiacOld(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
+function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent=T[appLang].speechStarting;clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString(T[appLang].locale,{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].daysPassed+'<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
+function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
 var ROWS=6,COLS=7,P1='user',P2='app';
 var vgGames=[];
 var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
@@ -793,7 +783,7 @@ document.getElementById('pi-start').addEventListener('click',function(){if(piRun
 document.getElementById('pi-stop').addEventListener('click',piStop);
 document.getElementById('pi-show-ctx').addEventListener('change',function(){document.getElementById('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
 function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
-function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent='Gestoppt.';}
+function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent=T[appLang].piStopped;}
 function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
 // ===== TIMEMASTER =====
 (function(){
@@ -977,7 +967,7 @@ var oeRunning=false,oeTimeout=null;
 document.getElementById('oe-start').addEventListener('click',function(){
   if(oeRunning)return;
   oeRunning=true;
-  var currentYear=2026;
+  var currentYear=new Date().getFullYear();
   // Geburtsjahr: Person unter 90, also geb zwischen 1936 und 2008
   oeYear=1936+Math.floor(Math.random()*73);
   oeAge=currentYear-oeYear;
@@ -1073,11 +1063,11 @@ document.getElementById('cc-reset').addEventListener('click',ccReset);
 function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
 function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}// Fallback: brute-force last digit via Luhn formula
 var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}var check=(10-(sum%10))%10;return num+check;}
-function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';;ccState='ready';document.getElementById('cc-main').innerHTML='Vorlesen';document.getElementById('cc-main').disabled=false;document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';}
-function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Liest vor...';clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='L\u00f6sung anzeigen';document.getElementById('cc-status').textContent='Vorlesen beendet.';return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
+function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';ccState='ready';document.getElementById('cc-main').innerHTML=T[appLang].ccRead;document.getElementById('cc-main').disabled=false;document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';}
+function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccSolution;document.getElementById('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
-function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent='L\u00f6sung angezeigt.';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent='Fertig';speak(ccMissDig);}
-function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent='Karte generieren';document.getElementById('cc-status').textContent='Bereit.';document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
+function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent=T[appLang].ccShown;document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
+function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccGen;document.getElementById('cc-status').textContent=T[appLang].ccReady;document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
 })();
 </script>
 </body>
