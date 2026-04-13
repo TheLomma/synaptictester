@@ -223,7 +223,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <p style="font-size:13px;color:var(--text-light);margin-bottom:18px;">2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden</p>
 <div class="input-group">
   <label for="tm-input">Zeit eingeben (2–3 Ziffern)</label>
-  <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-radius:14px;color:var(--text);font-family:inherit;">
+  <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
 </div>
 <div id="tm-hint" style="font-size:13px;font-weight:600;margin-bottom:10px;min-height:18px;"></div>
 <button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
@@ -289,7 +289,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="cc-number-box"></div>
 </div>
 </div>
-<div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;">
+<div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-top:1px solid rgba(255,255,255,0.22);border-radius:20px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;">
 <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;">&#x1F50A; Lautst&auml;rke</span>
 <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
 <span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">100%</span>
@@ -454,7 +454,7 @@ en:{
   vgSetsCol:' plays column ',vgClickCol:'Click a column to make your move.',
   vgWins:'Wins',vgLosses:'Losses',vgDraws:'Draws',vgTotal:'moves total',
   piTitle:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
-  piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',
+  piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',
   ccTitle:'Card Hacker',ccDelay:'Pause between digits (seconds)',ccGen:'Generate card',ccReset:'Restart',ccReady:'Ready.',
   ccMissing:'Missing digit',ccRead:'Read aloud',ccReading:'Reading...',ccSolution:'Show solution',
   ccDone:'Reading complete.',ccShown:'Solution shown.',ccFinished:'Done',ccShow:'Show number',
