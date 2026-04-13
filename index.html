@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v4.0</title>
+<title>SynaTest v4.1</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -122,7 +122,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v4.0</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v4.1</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -134,7 +134,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v4.0</span>
+    <span>SynaTest v4.1</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -203,7 +203,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div id="vg-last-move-box" style="display:none;margin-top:14px;padding:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.13);border-radius:18px;text-align:center;">
 <div id="vg-last-move-text" style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;"></div>
-<div id="vg-click-hint" style="font-size:13px;color:var(--text-light);margin-top:4px;">Klicke auf eine Spalte, um deinen Zug zu machen.</div>
+<div id="vg-click-hint" style="font-size:13px;color:var(--text-light);margin-top:4px;"></div>
 </div>
 </div>
 <div id="pi-tab" class="tab-content tab-pane" style="display:none;">
@@ -361,7 +361,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.0',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.1',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -428,7 +428,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.0',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.1',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
