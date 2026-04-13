@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v3.8</title>
+<title>SynaTest v3.9</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -119,7 +119,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v3.8</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v3.9</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -131,7 +131,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v3.8</span>
+    <span>SynaTest v3.9</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -358,7 +358,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.8',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v3.9',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -425,7 +425,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.8',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v3.9',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -695,14 +695,14 @@ game.statusEl.style.color='rgba(255,255,255,0.85)';
 setTimeout(function(){vgAppMove(game);},900);
 } else {
 // Nutzer ist dran bei game
-game.statusEl.textContent='\u2B07 Dein Zug hier!';
+game.statusEl.textContent=T[appLang].vgYourTurn;
 game.statusEl.style.color='#4dabf7';
 // Nur dieses Spielfeld freischalten
 vgDisable(game,false);
 // Andere Spiele bleiben gesperrt — Klick dort = Warnung
 vgGames.forEach(function(g,gi){
 if(!g.over&&gi!==turn.gameIdx){
-g.statusEl.textContent='\u23F3 Warte \u2013 erst bei '+vgGames[turn.gameIdx].ac.name+' spielen';
+g.statusEl.textContent=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;
 g.statusEl.style.color='rgba(255,200,80,0.8)';
 vgSetWrongClickWarning(g,turn.gameIdx);
 }
@@ -715,7 +715,7 @@ b.disabled=false; // kurz freischalten für Klick-Event
 b.onclick=function(){
 var box=document.getElementById('vg-last-move-box');
 var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML='\u26A0\uFE0F Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[correctIdx].ac.name+'</strong> spielen.';
+txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[correctIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
 box.style.display='block';
 setTimeout(function(){box.style.display='none';},3000);
 };
@@ -751,7 +751,7 @@ if(t.gameIdx!==game.idx||t.player!==P1){
 // Falsches Spielfeld
 var box=document.getElementById('vg-last-move-box');
 var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML='\u26A0\uFE0F Falsches Spielfeld! Bitte zuerst bei <strong>'+vgGames[t.gameIdx].ac.name+'</strong> spielen.';
+txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[t.gameIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
 box.style.display='block';
 setTimeout(function(){box.style.display='none';},3000);
 return;
@@ -767,7 +767,7 @@ function vgAIBestCol(game,player){// 1. Gewinnen wenn möglich
 for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=player;var wins=vgCheckWinSilent(game,player);game.board[r][c]=null;if(wins)return c;}}// 2. Blockieren wenn Gegner gewinnen kann
 var opp=P1;for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=opp;var oWins=vgCheckWinSilent(game,opp);game.board[r][c]=null;if(oWins)return c;}}// 3. Mitte bevorzugen
 var center=Math.floor(COLS/2);if(vgFindRow(game,center)!==-1)return center;// 4. Zufällig aus verfügbaren
-var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c]))return true;for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3]))return true;for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3]))return true;return false;}function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+' setzt in Spalte '+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}
+var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c]))return true;for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3]))return true;for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3]))return true;return false;}function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+T[appLang].vgSetsCol+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}
 function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
@@ -1037,7 +1037,7 @@ document.getElementById('oe-reveal').addEventListener('click',function(){
   document.getElementById('oe-reveal-result').textContent=oeResult;
   document.getElementById('oe-reveal-box').style.display='block';
   this.disabled=true;
-  speak('Das Ergebnis ist '+oeResult+'. Geburtsjahr: '+oeYear+'. Alter: '+oeAge+'.');
+  speak(T[appLang].oeRevealSpeak+oeResult+T[appLang].oeRevealSpeakYear+oeYear+T[appLang].oeRevealSpeakAge+oeAge+'.');
 });
 
 document.getElementById('oe-reset').addEventListener('click',function(){
@@ -1064,7 +1064,7 @@ document.getElementById('cc-reset').addEventListener('click',ccReset);
 function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
 function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}// Fallback: brute-force last digit via Luhn formula
 var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}var check=(10-(sum%10))%10;return num+check;}
-function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';ccState='ready';document.getElementById('cc-main').innerHTML=T[appLang].ccRead;document.getElementById('cc-main').disabled=false;document.getElementById('cc-status').textContent=t.name+' \u00b7 '+t.len+' Ziffern \u00b7 Bereit';}
+function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';ccState='ready';document.getElementById('cc-main').innerHTML=T[appLang].ccRead;document.getElementById('cc-main').disabled=false;document.getElementById('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
 function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccSolution;document.getElementById('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
 function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent=T[appLang].ccShown;document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
