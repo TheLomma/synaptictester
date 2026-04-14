@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v4.3</title>
+<title>SynaTest v4.4</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -58,8 +58,8 @@ background:radial-gradient(ellipse at 18% 18%,#0d3a7a 0%,transparent 52%),radial
 .app-header span{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
 #theme-toggle{min-width:76px;text-align:center;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;backdrop-filter:blur(20px);transition:var(--ease);box-shadow:0 2px 10px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.14);}
 #theme-toggle:hover{background:rgba(255,255,255,0.16);box-shadow:0 4px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.2);}
-#mute-toggle,#help-toggle{min-width:40px;text-align:center;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 10px;font-size:15px;cursor:pointer;backdrop-filter:blur(20px);transition:var(--ease);box-shadow:0 2px 10px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.14);}
-#mute-toggle:hover,#help-toggle:hover{background:rgba(255,255,255,0.16);box-shadow:0 4px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.2);}
+#lang-toggle,#mute-toggle,#help-toggle{min-width:40px;text-align:center;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 10px;font-size:15px;cursor:pointer;backdrop-filter:blur(20px);transition:var(--ease);box-shadow:0 2px 10px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.14);}
+#lang-toggle:hover,#mute-toggle:hover,#help-toggle:hover{background:rgba(255,255,255,0.16);box-shadow:0 4px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.2);}
 #help-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.55);backdrop-filter:blur(28px) saturate(180%);justify-content:center;align-items:center;padding:20px;}
 #help-modal.open{display:flex;}
 #help-modal-inner{width:100%;max-width:560px;max-height:85vh;overflow-y:auto;background:rgba(8,12,36,0.86);backdrop-filter:blur(44px) saturate(180%);border:1px solid rgba(255,255,255,0.14);border-top:1px solid rgba(255,255,255,0.30);border-radius:28px;padding:28px 24px;box-shadow:0 40px 100px rgba(0,0,0,0.9),inset 0 1px 0 rgba(255,255,255,0.18);}
@@ -122,7 +122,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v4.3</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v4.4</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
@@ -137,8 +137,9 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v4.3</span>
+    <span>SynaTest v4.4</span>
 <div style="display:flex;gap:8px;align-items:center;">
+<button id="lang-toggle" title="Sprache wechseln">🌐 English</button>
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
 <button id="theme-toggle">Dunkel</button>
@@ -226,7 +227,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <p style="font-size:13px;color:var(--text-light);margin-bottom:18px;">2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden</p>
 <div class="input-group">
   <label for="tm-input">Zeit eingeben (2–3 Ziffern)</label>
-  <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
+  <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" id="tm-placeholder" id="tm-input-placeholder" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
 </div>
 <div id="tm-hint" style="font-size:13px;font-weight:600;margin-bottom:10px;min-height:18px;"></div>
 <button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
@@ -247,7 +248,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div id="oe-formula-hint" style="margin-bottom:14px;padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;">
   <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">🧮 Rechenweg für die Person</div>
-  <div style="font-size:14px;color:var(--text);font-weight:600;letter-spacing:0.2px;">Geburtsjahr <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">×</span> B <span style="color:#4dabf7;">×</span> C <span style="color:#4dabf7;">+</span> Alter</div>
+  <div id="oe-formula-line" style="font-size:14px;color:var(--text);font-weight:600;letter-spacing:0.2px;"><span id="oe-formula-year">Geburtsjahr</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">&times;</span> B <span style="color:#4dabf7;">&times;</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">Alter</span></div>
   <div style="font-size:12px;color:var(--text-light);margin-top:6px;">A, B, C = zufällige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten</div>
 </div>
 <button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
@@ -299,7 +300,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
 
-<a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'">Synaptic kaufen</a>
+<a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'"><span id="buy-link-text">Synaptic kaufen</span></a>
 </div>
 <script>
 (function(){
@@ -307,7 +308,8 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
 // Stumm-Schaltfläche
 var isMuted=true,appLang='de',isLight=false,globalVolume=0;
-document.getElementById('mute-toggle').addEventListener('click',function(){
+document.getElementById('lang-toggle').addEventListener('click',function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();});
+  document.getElementById('mute-toggle').addEventListener('click',function(){
   isMuted=!isMuted;
   globalVolume=isMuted?0:parseFloat(document.getElementById('vol-slider').value);document.getElementById('vol-slider').value=isMuted?0:1;document.getElementById('vol-label').textContent=isMuted?'0%':Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';
   this.textContent=isMuted?'🔇':'🔊';
@@ -364,7 +366,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.3',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.4',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -384,7 +386,7 @@ de:{
   vgPlayers:'Anzahl App-Spieler',vgShowBoard:'Spielfelder anzeigen',vgSpeech:'Sprachausgabe f&uuml;r App',
   vgNewGame:'Neues Spiel',vgSummaryTitle:'&#x1F3C6; Spielzusammenfassung',
   vgWon:'Du hast gewonnen!',vgLost:' hat gewonnen!',vgDraw:'Unentschieden!',
-  vgMoves:' Z&uuml;ge',vgThinking:' denkt...',vgYourTurn:'&#x2B07; Dein Zug hier!',
+  vgMoves:' Z&uuml;ge',vgThinking:' denkt...',vgYourTurn:'⬇ Dein Zug hier!',
   vgWait:'&#x23F3; Warte – erst bei ',vgWaitPlay:' spielen',
   vgWrong:'&#x26A0;&#xFE0F; Falsches Spielfeld! Bitte zuerst bei ',vgWrongAt:' spielen.',
   vgSetsCol:' setzt in Spalte ',vgClickCol:'Klicke auf eine Spalte, um deinen Zug zu machen.',
@@ -416,7 +418,7 @@ de:{
   vgGrandTotal:'Gesamt',
   ccDigits:' Ziffern \u00b7 Bereit',
   cpReady:'Bereit!',cpClickNext:'Klicke auf Nächster Schritt',
-  buyLink:'Synaptic kaufen',
+  buyLink:'Synaptic kaufen',oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',
   volLabel:'&#x1F50A; Lautst&auml;rke',langBtn:'&#x1F310; English',
   helpItems:[
     {title:'1 &nbsp;Calendar Prodigy',text:'W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.'},
@@ -434,7 +436,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.3',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.4',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -454,7 +456,7 @@ en:{
   vgPlayers:'Number of app players',vgShowBoard:'Show boards',vgSpeech:'Speech for app',
   vgNewGame:'New game',vgSummaryTitle:'&#x1F3C6; Game summary',
   vgWon:'You won!',vgLost:' won!',vgDraw:'Draw!',
-  vgMoves:' moves',vgThinking:' thinking...',vgYourTurn:'&#x2B07; Your turn here!',
+  vgMoves:' moves',vgThinking:' thinking...',vgYourTurn:'⬇ Your turn here!',
   vgWait:'&#x23F3; Wait – play at ',vgWaitPlay:' first',
   vgWrong:'&#x26A0;&#xFE0F; Wrong board! Please play at ',vgWrongAt:' first.',
   vgSetsCol:' plays column ',vgClickCol:'Click a column to make your move.',
@@ -486,7 +488,7 @@ en:{
   vgGrandTotal:'Total',
   ccDigits:' digits \u00b7 Ready',
   cpReady:'Ready!',cpClickNext:'Click Next Step',
-  buyLink:'Buy Synaptic',
+  buyLink:'Buy Synaptic',oeFormulaYear:'Birth year',oeFormulaAge:'Age',
   volLabel:'&#x1F50A; Volume',langBtn:'&#x1F310; Deutsch',
   helpItems:[
     {title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date from that range. Then click "Next Step" to reveal the day, month, year, weekday, number of days passed and optionally the zodiac sign. With speech enabled, everything is read aloud with configurable pauses.'},
@@ -519,7 +521,7 @@ function appApplyLang(){
   document.querySelector('label[for="start-date"]').textContent=t.labelStart.replace(/&auml;/g,'ä');
   document.querySelector('label[for="end-date"]').textContent=t.labelEnd.replace(/&auml;/g,'ä');
   document.querySelector('label[for="show-zodiac"]').textContent=t.labelZodiac.replace(/&auml;/g,'ä');
-  // labelFormat handled in Vol label block
+  document.querySelector('label[for="date-format"]').textContent=t.labelFormat;
   document.querySelector('#date-format option[value="DMY"]').textContent=t.fmtDMY.replace(/&auml;/g,'ä');
   document.querySelector('#date-format option[value="YMD"]').textContent=t.fmtYMD.replace(/&auml;/g,'ä');
   document.querySelector('label[for="enable-speech"]').innerHTML=t.labelSpeech;
@@ -575,14 +577,25 @@ function appApplyLang(){
   document.querySelector('label[for="vg-starter"]').innerHTML=t.vgWho;
   // VG summary title
   var sumTitle=document.querySelector('#vg-summary div:first-child');
-  if(sumTitle)sumTitle.innerHTML=t.vgSummaryTitle;
+  if(sumTitle)sumTitle.innerHTML=t.vgSummaryTitle; document.querySelectorAll('.vg-board-title').forEach(function(el,i){if(vgGames[i])el.textContent=t.vgBoardVs+vgGames[i].ac.name;}); if(typeof vgUpdateAllCounters==='function')vgUpdateAllCounters(); if(vgGames.length&&vgTurnIndex<vgTurnQueue.length){var _ct=vgTurnQueue[vgTurnIndex];vgGames.forEach(function(g,gi){if(g.over)return;if(gi===_ct.gameIdx&&_ct.player==='user'){g.statusEl.textContent=t.vgYourTurn;}else if(gi!==_ct.gameIdx){g.statusEl.textContent=t.vgWait+vgGames[_ct.gameIdx].ac.name+t.vgWaitPlay;}});}
+    document.querySelectorAll('.vg-board-title').forEach(function(el,i){if(vgGames[i])el.textContent=t.vgBoardVs+vgGames[i].ac.name;});
+    if(typeof vgUpdateAllCounters==='function')vgUpdateAllCounters();
+    if(vgGames.length&&vgTurnIndex<vgTurnQueue.length){var _ct=vgTurnQueue[vgTurnIndex];vgGames.forEach(function(g,gi){if(g.over)return;if(gi===_ct.gameIdx&&_ct.player==='user'){g.statusEl.textContent=t.vgYourTurn;}else if(gi!==_ct.gameIdx){g.statusEl.textContent=t.vgWait+vgGames[_ct.gameIdx].ac.name+t.vgWaitPlay;}});}
   // CC status if idle
   if(ccState==='idle')document.getElementById('cc-status').textContent=t.ccReady;
   // Pi status if not running
   if(!piRunning)document.getElementById('pi-status').textContent=t.piReady;
   // CP warning
   document.getElementById('cp-date-warning').textContent=appLang==='de'?'⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.':'⚠️ End date is in the future – automatically corrected to yesterday.';
-  // OE result/parity labels
+  // OE formula line (Geburtsjahr / Birth year + Alter / Age)
+    var oeFormulaYearEl=document.getElementById('oe-formula-year');
+    var oeFormulaAgeEl=document.getElementById('oe-formula-age');
+    if(oeFormulaYearEl)oeFormulaYearEl.textContent=t.oeFormulaYear;
+    if(oeFormulaAgeEl)oeFormulaAgeEl.textContent=t.oeFormulaAge;
+    // Buy link
+    var buyLinkEl=document.getElementById('buy-link-text');
+    if(buyLinkEl)buyLinkEl.textContent=t.buyLink;
+    // OE result/parity labels
   document.querySelector('#oe-result-box div:first-child').textContent=t.oeResult;
   document.querySelector('#oe-parity-box div:first-child').textContent=t.oeLastDigit;
   document.querySelector('#oe-reveal-box div:first-child').innerHTML=t.oeRevealTitle;
@@ -615,7 +628,7 @@ volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
 var speechQueue=[],isSpeaking=false;
 function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
-function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang='de-DE';u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
+function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
 function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
 function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
 (function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);document.getElementById('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
@@ -660,7 +673,7 @@ document.getElementById('vg-show-board').addEventListener('change',function(){vg
 function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';document.getElementById('vg-summary').style.display='none';document.getElementById('vg-summary-rows').innerHTML='';
 var starter=document.getElementById('vg-starter').value;
 // Baue Zugreihenfolge: abwechselnd App[i] -> Nutzer für jedes Spielfeld, dann nächste App
-for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent=T[appLang].vgBoardVs+ac.name;wrap.appendChild(title);
+for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.className='vg-board-title';title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent=T[appLang].vgBoardVs+ac.name;wrap.appendChild(title);
 var counterEl=document.createElement('div');counterEl.style.cssText='font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;text-align:center;';counterEl.textContent='0'+T[appLang].vgMoves;wrap.appendChild(counterEl);
 var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent=T[appLang].vgStarting;wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,current:starter,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);}
 // Erstelle globale Zugreihenfolge
@@ -702,19 +715,19 @@ var game=vgGames[turn.gameIdx];
 vgGames.forEach(function(g){if(!g.over)vgDisable(g,true);});
 vgUpdateAllCounters();
 if(turn.player===P2){
-game.statusEl.textContent=game.ac.name+' denkt...';
+game.statusEl.textContent=game.ac.name+T[appLang].vgThinking;;
 game.statusEl.style.color='rgba(255,255,255,0.85)';
 setTimeout(function(){vgAppMove(game);},900);
 } else {
 // Nutzer ist dran bei game
-game.statusEl.textContent=T[appLang].vgYourTurn;
+game.statusEl.innerHTML=T[appLang].vgYourTurn;
 game.statusEl.style.color='#4dabf7';
 // Nur dieses Spielfeld freischalten
 vgDisable(game,false);
 // Andere Spiele bleiben gesperrt — Klick dort = Warnung
 vgGames.forEach(function(g,gi){
 if(!g.over&&gi!==turn.gameIdx){
-g.statusEl.textContent=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;
+g.statusEl.innerHTML=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;
 g.statusEl.style.color='rgba(255,200,80,0.8)';
 vgSetWrongClickWarning(g,turn.gameIdx);
 }
@@ -783,7 +796,7 @@ var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);retu
 function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
-function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 '+T[appLang].vgWon;rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+T[appLang].vgLost;rColor=g.ac.label;}else{rText='⚪ '+T[appLang].vgDraw;rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+' Z\u00fcge';row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});var t2=T[appLang];total.innerHTML='\uD83C\uDFAE '+T[appLang].vgGrandTotal+' '+': <strong style="color:#51cf66;">'+userWins+' '+t2.vgWins+'<\/strong> \u00b7 <strong style="color:#ff6b6b;">'+appWins+' '+t2.vgLosses+'<\/strong> \u00b7 <strong style="color:rgba(255,255,255,0.5);">'+draws+' '+t2.vgDraws+'<\/strong> \u00b7 '+totalMoves+' '+t2.vgTotal;var _dummy_='REPLACED_TOTAL <strong style="color:#51cf66;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
+function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 '+T[appLang].vgWon;rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+T[appLang].vgLost;rColor=g.ac.label;}else{rText='⚪ '+T[appLang].vgDraw;rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+T[appLang].vgMoves;row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});var t2=T[appLang];total.innerHTML='\uD83C\uDFAE '+T[appLang].vgGrandTotal+' '+': <strong style="color:#51cf66;">'+userWins+' '+t2.vgWins+'<\/strong> \u00b7 <strong style="color:#ff6b6b;">'+appWins+' '+t2.vgLosses+'<\/strong> \u00b7 <strong style="color:rgba(255,255,255,0.5);">'+draws+' '+t2.vgDraws+'<\/strong> \u00b7 '+totalMoves+' '+t2.vgTotal;var _dummy_='REPLACED_TOTAL <strong style="color:#51cf66;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
 function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var t=T[appLang];var msg='';if(winner===P1)msg=t.vgWon+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else if(winner===P2)msg=game.ac.name+t.vgLost+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else msg=t.vgDraw+' ('+game.moves+t.vgMoves+')';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);vgCheckAllDone();}
 function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
 function vgShowLastMove(game,msg){var box=document.getElementById('vg-last-move-box');var txt=document.getElementById('vg-last-move-text');txt.innerHTML=msg;box.style.display='block';}
