@@ -139,12 +139,12 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div class="app-container">
 <div class="app-header"><div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><div style="width:28px;height:28px;border-radius:7px;opacity:0.95;flex-shrink:0;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsTAAALEwEAmpwYAAADLElEQVR4nN2Zb0sUURTGH9h/s7OamamZaWZmppmpmSYREYVESBQRcYgiIiKKiIiIXvZ1fLufya/gyxPuOHdndub+nVlh74UfO3vmPOc5z+6rnQU0Z3j3Lw8CcDlD9/7wIALjgDu/eZCBMtz2L/YJ5Ia8+5N9ApmAWz/YRxCf1p3v7DPohNz8xj6D1sZX9h20Nr6w76C1/pl9B63bn9h3EK595H6zf3D0b//g6Pg1vhachj/CWx+4H/SGkYVMBe7TLghX33OZ5C4f1TuY9pcJwpvvuCxSi2bvRSEd9UVAuPKWi5JaTt4ThSxpng0IV4iLcLJMO1pI2kMyFJrOTNVcU9BcfsNFSHzq7Zx7nSAafaYnnhXPLrojmjdesytiie77duKaLGdR74w8DxfQXHrFLgjzbD36Ztxm5mplXqagef0luyCMs3VynSnTy7xMQXPxBdsiTLN1cplnMkfmaQKCa8/Zltiwp0YusxQepPM0BcHCPtsiDNM1MtAdxhj0ks7TFAQLz9iGrlmqRhrNoQyNjnTeJiC4+pRtEEbpGmk08pBqHem8TUAwv8c2JH5NJCFFvzSgCCrXpuaKkJY7I7jyhG2QhpT360PKtZTnZ7szGnOP2Yb40+ypkaJfG1KhzQ1puzMalx+xDSJkukYajTygWkc6bxPQmH3INgijdI00GnlItY503iagMfOAbRFm6RoZ6Lrh9L2k8zQFjZn7bEvXMFUjl1kKD9J5moLGpV22RRhm6+Qyz2SOzNME1Kd32IXYNKdOrjNlepmXKahf3GYXhHG61o5/EzrOPNa2TbxsQH1qi10R5tF1u+ceWc4S/clZSQ9XUL+wyUWIn+9I7kXfqlqf25N8kFV0R9Qn17kIyceHih7p07oic01BbWKNi5JcyKC3Q1nzTEBtYpXLIr2ctOckpJveBdTGV7hM8v7b6LkfhTTsLwPUzi9zP8hb/oQ4aDZcn3ZBbWyJ+40q5Gn4o3ZukX0H1dEF9h1Uz86z76A6Mse+g+rILPsOjk/1zAz7DDohh6fZZxCfytAU+wh6T6U1yT6BvFMJx9knoDqV5hgPMjA9lWCUB5G8MP8BTXAVxyl85sQAAAAASUVORK5CYII=');background-size:cover;background-repeat:no-repeat;"></div><span id="app-name-label">SynaTest v5.4</span></span></div><div class="app-header-row2"><button id="lang-toggle" title="Sprache wechseln">🌐 English</button><button id="mute-toggle" title="Ton aktivieren">🔇</button><button id="help-toggle" title="Anleitung">❓</button><button id="theme-toggle">Dunkel</button></div></div>
 <div class="tabs">
-<button class="tab-button active" onclick="openTab(event,'date-tab')"><span class="tab-num">1</span>Calendar<br>Prodigy</button>
-<button class="tab-button" onclick="openTab(event,'pi-tab')"><span class="tab-num">2</span>Full Circle<br>Master</button>
-<button class="tab-button" onclick="openTab(event,'cc-tab')"><span class="tab-num">3</span>Card<br>Hacker</button>
-<button class="tab-button" onclick="openTab(event,'vg-tab')"><span class="tab-num">4</span>Foursight<br>Guru</button>
-<button class="tab-button" id="tm-tab-btn" onclick="openTab(event,'tm-tab')"><span class="tab-num">5</span>Time<br>Master<span id="tm-tab-badge" style="display:none;margin-left:4px;font-size:9px;background:#ff6b6b;color:white;border-radius:6px;padding:1px 5px;font-weight:700;vertical-align:middle;animation:tmBadgePulse 1s infinite;">⏱</span></button>
-<button class="tab-button" onclick="openTab(event,'oe-tab')"><span class="tab-num">6</span>Order<br>Equation</button>
+<button class="tab-button active" data-tab="date-tab"><span class="tab-num">1</span>Calendar<br>Prodigy</button>
+<button class="tab-button" data-tab="pi-tab"><span class="tab-num">2</span>Full Circle<br>Master</button>
+<button class="tab-button" data-tab="cc-tab"><span class="tab-num">3</span>Card<br>Hacker</button>
+<button class="tab-button" data-tab="vg-tab"><span class="tab-num">4</span>Foursight<br>Guru</button>
+<button class="tab-button" id="tm-tab-btn" data-tab="tm-tab"><span class="tab-num">5</span>Time<br>Master<span id="tm-tab-badge" style="display:none;margin-left:4px;font-size:9px;background:#ff6b6b;color:white;border-radius:6px;padding:1px 5px;font-weight:700;vertical-align:middle;animation:tmBadgePulse 1s infinite;">⏱</span></button>
+<button class="tab-button" data-tab="oe-tab"><span class="tab-num">6</span>Order<br>Equation</button>
 </div>
 <div id="date-tab" class="tab-content tab-pane active">
 <h2>Zuf&auml;lliges Datum</h2>
@@ -153,6 +153,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div class="input-group"><label for="end-date">Enddatum</label><input type="date" id="end-date"></div>
 <div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-top:-10px;margin-bottom:10px;">⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.</div>
 <div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac">Sternzeichen anzeigen</label></div>
+<div class="checkbox-group"><input type="checkbox" id="cp-weekday-mode"><label for="cp-weekday-mode">Wochentag-Modus</label></div>
 <div class="input-group"><label for="date-format">Datumsformat</label>
 <select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select>
 </div>
@@ -303,6 +304,8 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'"><span id="buy-link-text">Synaptic kaufen</span></a>
 </div>
 <script>
+function openTab(evt,id){var panes=document.querySelectorAll('.tab-pane');panes.forEach(function(p){p.style.display='none';p.classList.remove('active');});var btns=document.querySelectorAll('.tab-button');btns.forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget){evt.currentTarget.classList.add('active');}else{btns.forEach(function(b){if(b.getAttribute('data-tab')===id)b.classList.add('active');});}};
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.tab-button[data-tab]').forEach(function(btn){btn.addEventListener('click',function(e){openTab(e,btn.getAttribute('data-tab'));});});});
 (function(){
 'use strict';
 // ===== SWIPE GESTEN =====
@@ -332,7 +335,7 @@ tabBtns.forEach(function(b,i){b.classList.toggle('active',i===nextIdx);});
 },{passive:true});
 })();
 
-window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
+window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget){evt.currentTarget.classList.add('active');}else{document.querySelectorAll('[data-tab="'+id+'"]').forEach(function(b){b.classList.add('active');});}};document.querySelectorAll('.tab-button[data-tab]').forEach(function(btn){btn.addEventListener('click',function(e){window.openTab(e,btn.getAttribute('data-tab'));});});
 // Stumm-Schaltfläche
 var isMuted=true,appLang='de',isLight=false,globalVolume=0;
 document.getElementById('lang-toggle').addEventListener('click',function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();});
@@ -403,6 +406,8 @@ labelSpeech:'Sprachausgabe aktivieren',
 speechTitle:'Pausen (Sekunden)',
 dStart:'Start',dYM:'nach Jahr',dMD:'nach Monat',dDW:'nach Tag',dWD:'nach Wochentag',dDig:'zw. Ziffern',
 btnGenerate:'Zuf&auml;lliges Datum generieren',
+  cpWeekdayMode:'Wochentag-Modus',cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
+  cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt – rate den Wochentag!',
 btnNext:'N&auml;chster Schritt',btnReset:'Zur&uuml;cksetzen',btnNextDate:'&#x1F4C5; N&auml;chstes Datum',
 ready:'Bereit!',clickNext:'Klicke auf N&auml;chster Schritt',
 seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Zur&uuml;cksetzen.',
@@ -474,6 +479,8 @@ labelSpeech:'Enable speech output',
 speechTitle:'Pauses (seconds)',
 dStart:'Start',dYM:'after year',dMD:'after month',dDW:'after day',dWD:'after weekday',dDig:'between digits',
 btnGenerate:'Generate random date',
+  cpWeekdayMode:'Weekday mode',cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
+  cpWeekdayModeHelp:'The full date is shown – guess the weekday!',
 btnNext:'Next step',btnReset:'Reset',btnNextDate:'&#x1F4C5; Next date',
 ready:'Ready!',clickNext:'Click Next Step',
 seqDone:'Sequence complete.',seqHint:'Next date or reset.',
@@ -548,6 +555,7 @@ document.querySelector('#date-tab h2').innerHTML=t.h1;
 document.querySelector('label[for="start-date"]').textContent=t.labelStart.replace(/&auml;/g,'ä');
 document.querySelector('label[for="end-date"]').textContent=t.labelEnd.replace(/&auml;/g,'ä');
 document.querySelector('label[for="show-zodiac"]').textContent=t.labelZodiac.replace(/&auml;/g,'ä');
+  var cpWdLbl=document.querySelector('label[for="cp-weekday-mode"]');if(cpWdLbl)cpWdLbl.textContent=t.cpWeekdayMode;
 document.querySelector('label[for="date-format"]').textContent=t.labelFormat;
 document.querySelector('#date-format option[value="DMY"]').textContent=t.fmtDMY.replace(/&auml;/g,'ä');
 document.querySelector('#date-format option[value="YMD"]').textContent=t.fmtYMD.replace(/&auml;/g,'ä');
@@ -678,7 +686,26 @@ document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
 function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString(T[appLang].locale,{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub=T[appLang].daysPassed;break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').innerHTML=T[appLang].done;document.getElementById('btn-next').disabled=true;}}
 function cpEndSeq(){var t=T[appLang];document.getElementById('display-area').innerHTML=t.seqDone+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+t.seqHint+'</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').innerHTML=t.btnNext;document.getElementById('btn-next-date').style.display='block';}
-function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML=T[appLang].btnNext;document.getElementById('btn-next-date').style.display='none';}
+function cpShowWeekdayMode(){
+  var fmt=document.getElementById('date-format').value;
+  var d=cpDate;
+  var day=d.getDate();
+  var month=d.toLocaleString(T[appLang].locale,{month:'long'});
+  var year=d.getFullYear();
+  var dateStr=fmt==='YMD'?(year+' · '+month+' · '+day):(day+' · '+month+' · '+year);
+  var area=document.getElementById('display-area');
+  area.innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayHint+'</div><div style="font-size:22px;font-weight:700;margin-bottom:4px;">'+dateStr+'</div><small style="font-size:13px;color:var(--text-light);">'+T[appLang].cpWeekdayModeHelp+'</small>';
+  document.getElementById('btn-next').innerHTML=T[appLang].cpWeekdayReveal;
+  document.getElementById('btn-next').disabled=false;
+  document.getElementById('btn-next').onclick=function(){
+  var wd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
+  area.innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayDone+'</div><div style="font-size:32px;font-weight:800;letter-spacing:-1px;">'+wd+'</div>';
+  document.getElementById('btn-next').disabled=true;
+  document.getElementById('btn-next-date').style.display='block';
+  if(document.getElementById('enable-speech').checked)speak(wd);
+  };
+  }
+  function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML=T[appLang].btnNext;document.getElementById('btn-next').onclick=cpNextStep;document.getElementById('btn-next-date').style.display='none';}
 document.getElementById('btn-next-date').addEventListener('click',function(){
 var sVal=document.getElementById('start-date').value;
 var eVal=document.getElementById('end-date').value;
