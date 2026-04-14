@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v4.2</title>
+<title>SynaTest v4.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -122,19 +122,22 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v4.2</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v4.3</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
 <div class="help-item"><div class="help-item-title">4 &nbsp;Foursight Guru</div><div class="help-item-text">Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.</div></div>
 <div class="help-item"><div class="help-item-title">5 &nbsp;Time Master</div><div class="help-item-text">Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.</div></div>
 <div class="help-item"><div class="help-item-title">6 &nbsp;Order Equation</div><div class="help-item-text">Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.</div></div>
+<div class="help-item"><div class="help-item-title">&#x1F310; &nbsp;Sprachumschalter</div><div class="help-item-text">Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch &ndash; alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.</div></div>
+<div class="help-item"><div class="help-item-title">&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm</div><div class="help-item-text">Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.</div></div>
+<div class="help-item"><div class="help-item-title">&#x263D; &nbsp;Hell / Dunkel</div><div class="help-item-text">Der Theme-Button oben rechts wechselt zwischen Hell- und Dunkel-Modus. Das System-Theme wird beim ersten Start automatisch &uuml;bernommen. Die gew&auml;hlte Einstellung wird gespeichert.</div></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span>SynaTest v4.2</span>
+    <span>SynaTest v4.3</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
 <button id="help-toggle" title="Anleitung">❓</button>
@@ -361,7 +364,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.2',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.3',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -421,14 +424,17 @@ de:{
     {title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.'},
     {title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.'},
     {title:'5 &nbsp;Time Master',text:'Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.'},
-    {title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.'}
+    {title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.'},
+    {title:'&#x1F310; &nbsp;Sprachumschalter',text:'Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch – alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.'},
+    {title:'&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm',text:'Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf (&#x1F507;/&#x1F50A;) im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.'},
+    {title:'&#x263D; &nbsp;Hell / Dunkel',text:'Der Theme-Button oben rechts wechselt zwischen Hell- und Dunkel-Modus. Das System-Theme wird beim ersten Start automatisch &uuml;bernommen. Die gew&auml;hlte Einstellung wird gespeichert.'}
   ],
   zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'Löwe';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Schütze';return'Steinbock';},
   locale:'de-DE'
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.2',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.3',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -488,7 +494,10 @@ en:{
     {title:'3 &nbsp;Card Hacker',text:'The app generates a valid credit card number (Luhn-checked) and omits one random digit. The number is read aloud digit by digit – the missing digit is presented as a question. The answer is revealed at the end. Optionally show the full number.'},
     {title:'4 &nbsp;Foursight Guru',text:'A Connect Four game against up to 4 app players simultaneously. The app plays intelligently: it tries to win and blocks your winning moves. Set who starts and whether the boards are visible. Without board display, the app\'s last move is shown as text. With speech, every move is announced.'},
     {title:'5 &nbsp;Time Master',text:'A precise countdown timer. Enter 2 digits for seconds (e.g. 45 = 45 sec.) or 3 digits for minutes and seconds (e.g. 111 = 1 min. 11 sec.). The ring flashes at every full minute remaining, at 30 and 15 seconds red, from 10 seconds each tick red, from 5 seconds green. END appears at zero.'},
-    {title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year and enters it into their calculator. The app then shows a step-by-step calculation: + a number × a number × a number + (secret age). The result is initially hidden. Next to it, it already shows whether the last digit is even or odd. Clicking Reveal shows the birth year, age and full result.'}
+    {title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year and enters it into their calculator. The app then shows a step-by-step calculation: + a number × a number × a number + (secret age). The result is initially hidden. Next to it, it already shows whether the last digit is even or odd. Clicking Reveal shows the birth year, age and full result.'},
+    {title:'&#x1F310; &nbsp;Language Switch',text:'The language toggle in the top-right header switches the entire app between German and English – all labels, buttons, status messages and the guide are updated instantly. The setting is saved automatically.'},
+    {title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Below the app is the volume slider. The mute button (&#x1F507;/&#x1F50A;) in the header instantly silences or enables speech output. Both settings are saved and restored on next launch.'},
+    {title:'&#x263D; &nbsp;Light / Dark',text:'The theme button in the top right switches between light and dark mode. The system theme is applied automatically on first launch. Your chosen setting is saved.'}
   ],
   zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Aquarius';if((m==2&&d>=20)||(m==3&&d<=20))return'Pisces';if((m==3&&d>=21)||(m==4&&d<=20))return'Aries';if((m==4&&d>=21)||(m==5&&d<=20))return'Taurus';if((m==5&&d>=21)||(m==6&&d<=21))return'Gemini';if((m==6&&d>=22)||(m==7&&d<=22))return'Cancer';if((m==7&&d>=23)||(m==8&&d<=23))return'Leo';if((m==8&&d>=24)||(m==9&&d<=23))return'Virgo';if((m==9&&d>=24)||(m==10&&d<=23))return'Libra';if((m==10&&d>=24)||(m==11&&d<=22))return'Scorpio';if((m==11&&d>=23)||(m==12&&d<=21))return'Sagittarius';return'Capricorn';},
   locale:'en-US'
