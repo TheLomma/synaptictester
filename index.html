@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v4.9</title>
+<title>SynaTest v5.0</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -72,11 +72,11 @@ background:radial-gradient(ellipse at 18% 18%,#0d3a7a 0%,transparent 52%),radial
 #help-close:hover{background:var(--glass-btn-hover);}
 .tabs{display:flex;flex-wrap:wrap;background:linear-gradient(180deg,rgba(255,255,255,0.05) 0%,rgba(0,0,0,0.2) 100%);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 6px;gap:4px;}
 .tabs::-webkit-scrollbar{display:none;}
-.tab-button{flex:1 1 0;min-width:0;padding:7px 4px;border:none;background:transparent;color:var(--text-light);font-size:10px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.5;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}  .tab-button .tab-num{display:block;font-size:14px;font-weight:800;margin-bottom:1px;}
+.tab-button{flex:1 1 0;min-width:0;padding:7px 4px;border:none;background:transparent;color:var(--text-light);font-size:10px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.4;text-align:center;white-space:normal;overflow:visible;word-break:break-word;}  .tab-button .tab-num{display:block;font-size:14px;font-weight:800;margin-bottom:1px;}
 @media(max-width:480px){.tab-button{flex:1 1 calc(33.333% - 4px);max-width:calc(33.333% - 4px);}}
 .tab-button.active{background:rgba(255,255,255,0.13);color:var(--text);font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(0,0,0,0.15);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.18);border-top:1px solid rgba(255,255,255,0.35);}
 .tab-content{padding:24px;}
-.tab-pane{display:none;}
+.tab-pane{display:none;opacity:0;transition:opacity 0.25s ease;}.tab-pane.active{opacity:1;}
 .tab-pane.active{display:block;}
 h2{margin:0 0 20px;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
 .input-group{margin-bottom:16px;}
@@ -123,12 +123,12 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3>&#x2753; Anleitung &ndash; SynaTest v4.9</h3>
+<h3>&#x2753; Anleitung &ndash; SynaTest v5.0</h3>
 <div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
 <div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
 <div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
 <div class="help-item"><div class="help-item-title">4 &nbsp;Foursight Guru</div><div class="help-item-text">Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.</div></div>
-<div class="help-item"><div class="help-item-title">5 &nbsp;Time Master</div><div class="help-item-text">Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.</div></div>
+<div class="help-item"><div class="help-item-title">5 &nbsp;Time Master<\/div><div class="help-item-text">Schnellstart-Buttons (30s, 1&nbsp;Min, 2&nbsp;Min, 5&nbsp;Min) starten den Timer sofort. Oder gib 2 Ziffern f&uuml;r Sekunden (z.&nbsp;B. 45) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.) ein. Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;, das Ger&auml;t vibriert kurz (sofern unterst&uuml;tzt) und der Bildschirm bleibt aktiv (Wake Lock).<\/div></div>
 <div class="help-item"><div class="help-item-title">6 &nbsp;Order Equation</div><div class="help-item-text">Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.</div></div>
 <div class="help-item"><div class="help-item-title">&#x1F310; &nbsp;Sprachumschalter</div><div class="help-item-text">Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch &ndash; alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.</div></div>
 <div class="help-item"><div class="help-item-title">&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm</div><div class="help-item-text">Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.</div></div>
@@ -138,7 +138,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 </div>
 <div class="app-container">
 <div class="app-header">
-    <span style="display:flex;align-items:center;gap:9px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsTAAALEwEAmpwYAAADLElEQVR4nN2Zb0sUURTGH9h/s7OamamZaWZmppmpmSYREYVESBQRcYgiIiKKiIiIXvZ1fLufya/gyxPuOHdndub+nVlh74UfO3vmPOc5z+6rnQU0Z3j3Lw8CcDlD9/7wIALjgDu/eZCBMtz2L/YJ5Ia8+5N9ApmAWz/YRxCf1p3v7DPohNz8xj6D1sZX9h20Nr6w76C1/pl9B63bn9h3EK595H6zf3D0b//g6Pg1vhachj/CWx+4H/SGkYVMBe7TLghX33OZ5C4f1TuY9pcJwpvvuCxSi2bvRSEd9UVAuPKWi5JaTt4ThSxpng0IV4iLcLJMO1pI2kMyFJrOTNVcU9BcfsNFSHzq7Zx7nSAafaYnnhXPLrojmjdesytiie77duKaLGdR74w8DxfQXHrFLgjzbD36Ztxm5mplXqagef0luyCMs3VynSnTy7xMQXPxBdsiTLN1cplnMkfmaQKCa8/Zltiwp0YusxQepPM0BcHCPtsiDNM1MtAdxhj0ks7TFAQLz9iGrlmqRhrNoQyNjnTeJiC4+pRtEEbpGmk08pBqHem8TUAwv8c2JH5NJCFFvzSgCCrXpuaKkJY7I7jyhG2QhpT360PKtZTnZ7szGnOP2Yb40+ypkaJfG1KhzQ1puzMalx+xDSJkukYajTygWkc6bxPQmH3INgijdI00GnlItY503iagMfOAbRFm6RoZ6Lrh9L2k8zQFjZn7bEvXMFUjl1kKD9J5moLGpV22RRhm6+Qyz2SOzNME1Kd32IXYNKdOrjNlepmXKahf3GYXhHG61o5/EzrOPNa2TbxsQH1qi10R5tF1u+ceWc4S/clZSQ9XUL+wyUWIn+9I7kXfqlqf25N8kFV0R9Qn17kIyceHih7p07oic01BbWKNi5JcyKC3Q1nzTEBtYpXLIr2ctOckpJveBdTGV7hM8v7b6LkfhTTsLwPUzi9zP8hb/oQ4aDZcn3ZBbWyJ+40q5Gn4o3ZukX0H1dEF9h1Uz86z76A6Mse+g+rILPsOjk/1zAz7DDohh6fZZxCfytAU+wh6T6U1yT6BvFMJx9knoDqV5hgPMjA9lWCUB5G8MP8BTXAVxyl85sQAAAAASUVORK5CYII=" alt="" width="22" height="22" style="border-radius:6px;opacity:0.92;">SynaTest v4.9</span>
+    <span style="display:flex;align-items:center;gap:9px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsTAAALEwEAmpwYAAADLElEQVR4nN2Zb0sUURTGH9h/s7OamamZaWZmppmpmSYREYVESBQRcYgiIiKKiIiIXvZ1fLufya/gyxPuOHdndub+nVlh74UfO3vmPOc5z+6rnQU0Z3j3Lw8CcDlD9/7wIALjgDu/eZCBMtz2L/YJ5Ia8+5N9ApmAWz/YRxCf1p3v7DPohNz8xj6D1sZX9h20Nr6w76C1/pl9B63bn9h3EK595H6zf3D0b//g6Pg1vhachj/CWx+4H/SGkYVMBe7TLghX33OZ5C4f1TuY9pcJwpvvuCxSi2bvRSEd9UVAuPKWi5JaTt4ThSxpng0IV4iLcLJMO1pI2kMyFJrOTNVcU9BcfsNFSHzq7Zx7nSAafaYnnhXPLrojmjdesytiie77duKaLGdR74w8DxfQXHrFLgjzbD36Ztxm5mplXqagef0luyCMs3VynSnTy7xMQXPxBdsiTLN1cplnMkfmaQKCa8/Zltiwp0YusxQepPM0BcHCPtsiDNM1MtAdxhj0ks7TFAQLz9iGrlmqRhrNoQyNjnTeJiC4+pRtEEbpGmk08pBqHem8TUAwv8c2JH5NJCFFvzSgCCrXpuaKkJY7I7jyhG2QhpT360PKtZTnZ7szGnOP2Yb40+ypkaJfG1KhzQ1puzMalx+xDSJkukYajTygWkc6bxPQmH3INgijdI00GnlItY503iagMfOAbRFm6RoZ6Lrh9L2k8zQFjZn7bEvXMFUjl1kKD9J5moLGpV22RRhm6+Qyz2SOzNME1Kd32IXYNKdOrjNlepmXKahf3GYXhHG61o5/EzrOPNa2TbxsQH1qi10R5tF1u+ceWc4S/clZSQ9XUL+wyUWIn+9I7kXfqlqf25N8kFV0R9Qn17kIyceHih7p07oic01BbWKNi5JcyKC3Q1nzTEBtYpXLIr2ctOckpJveBdTGV7hM8v7b6LkfhTTsLwPUzi9zP8hb/oQ4aDZcn3ZBbWyJ+40q5Gn4o3ZukX0H1dEF9h1Uz86z76A6Mse+g+rILPsOjk/1zAz7DDohh6fZZxCfytAU+wh6T6U1yT6BvFMJx9knoDqV5hgPMjA9lWCUB5G8MP8BTXAVxyl85sQAAAAASUVORK5CYII=" alt="" width="22" height="22" style="border-radius:6px;opacity:0.92;">SynaTest v5.0</span>
 <div style="display:flex;gap:8px;align-items:center;">
 <button id="lang-toggle" title="Sprache wechseln">🌐 English</button>
 <button id="mute-toggle" title="Ton aktivieren">🔇</button>
@@ -340,7 +340,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
     },{passive:true});
   })();
 
-  window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
+  window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');setTimeout(function(){if(!p.classList.contains('active'))p.style.display='none';},260);});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';requestAnimationFrame(function(){requestAnimationFrame(function(){pane.classList.add('active');});});}if(evt&&evt.currentTarget)evt.currentTarget.classList.add('active');};
 // Stumm-Schaltfläche
 var isMuted=true,appLang='de',isLight=false,globalVolume=0;
 document.getElementById('lang-toggle').addEventListener('click',function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();});
@@ -401,7 +401,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 var T={
 de:{
   themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v4.9',
+  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.0',
   helpClose:'Schlie&szlig;en',
   h1:'Zuf&auml;lliges Datum',
   labelStart:'Anfangsdatum',labelEnd:'Enddatum',
@@ -460,7 +460,7 @@ de:{
     {title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.'},
     {title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.'},
     {title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.'},
-    {title:'5 &nbsp;Time Master',text:'Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.'},
+    {title:'5 &nbsp;Time Master',text:'Schnellstart-Buttons (30s, 1 Min, 2 Min, 5 Min) starten den Timer sofort. Oder gib 2 Ziffern f&uuml;r Sekunden (z.&nbsp;B. 45) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.) ein. Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;, das Ger&auml;t vibriert kurz (sofern unterst&uuml;tzt) und der Bildschirm bleibt aktiv (Wake Lock).'},
     {title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.'},
     {title:'&#x1F310; &nbsp;Sprachumschalter',text:'Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch – alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.'},
     {title:'&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm',text:'Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf (&#x1F507;/&#x1F50A;) im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.'},
@@ -471,7 +471,7 @@ de:{
 },
 en:{
   themeLight:'Light',themeDark:'Dark',
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v4.9',
+  helpTitle:'&#x2753; Guide &ndash; SynaTest v5.0',
   helpClose:'Close',
   h1:'Random Date',
   labelStart:'Start date',labelEnd:'End date',
@@ -530,7 +530,7 @@ en:{
     {title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit and reads each one aloud. Choose the direction (forward, backward or random) and set the pause between digits. Optionally show the digit sequence in context to track your progress.'},
     {title:'3 &nbsp;Card Hacker',text:'The app generates a valid credit card number (Luhn-checked) and omits one random digit. The number is read aloud digit by digit – the missing digit is presented as a question. The answer is revealed at the end. Optionally show the full number.'},
     {title:'4 &nbsp;Foursight Guru',text:'A Connect Four game against up to 4 app players simultaneously. The app plays intelligently: it tries to win and blocks your winning moves. Set who starts and whether the boards are visible. Without board display, the app\'s last move is shown as text. With speech, every move is announced.'},
-    {title:'5 &nbsp;Time Master',text:'A precise countdown timer. Enter 2 digits for seconds (e.g. 45 = 45 sec.) or 3 digits for minutes and seconds (e.g. 111 = 1 min. 11 sec.). The ring flashes at every full minute remaining, at 30 and 15 seconds red, from 10 seconds each tick red, from 5 seconds green. END appears at zero.'},
+    {title:'5 &nbsp;Time Master',text:'Quick-start buttons (30s, 1 min, 2 min, 5 min) launch the timer instantly. Or enter 2 digits for seconds (e.g. 45) or 3 digits for minutes and seconds (e.g. 111 = 1 min 11 sec.). The ring flashes at every full minute remaining, at 30 and 15 seconds red, from 10 seconds each tick red, from 5 seconds green. At zero END appears, the device vibrates briefly (if supported) and the screen stays active (Wake Lock).'},
     {title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year and enters it into their calculator. The app then shows a step-by-step calculation: + a number × a number × a number + (secret age). The result is initially hidden. Next to it, it already shows whether the last digit is even or odd. Clicking Reveal shows the birth year, age and full result.'},
     {title:'&#x1F310; &nbsp;Language Switch',text:'The language toggle in the top-right header switches the entire app between German and English – all labels, buttons, status messages and the guide are updated instantly. The setting is saved automatically.'},
     {title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Below the app is the volume slider. The mute button (&#x1F507;/&#x1F50A;) in the header instantly silences or enables speech output. Both settings are saved and restored on next launch.'},
@@ -914,7 +914,7 @@ tmStartBtn.addEventListener('click',function(){
   if(!parsed||parsed.s>59){alert(T[appLang].tmInvalid+'. '+T[appLang].tmSecMax);return;}
   var totalSec=parsed.m*60+parsed.s;
   if(totalSec<=0){alert(T[appLang].tmZero);return;}
-  tmTotalMs=totalSec*1000;
+  tmTotalMs=totalSec*1000;tmRequestWakeLock();
   tmEndTime=performance.now()+tmTotalMs;
   tmRunning=true;
   tmShowBadge(true);
@@ -1001,7 +1001,7 @@ function tmHandleNotification(remSec){
   }
 }
 
-function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}
+function tmDone(){tmReleaseWakeLock();try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}
   tmShowBadge(false);
   tmRunning=false;
   cancelAnimationFrame(tmRaf);
@@ -1012,7 +1012,7 @@ function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,20
   tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';
 }
 
-tmResetBtn.addEventListener('click',function(){
+tmResetBtn.addEventListener('click',function(){tmReleaseWakeLock();
   document.getElementById('tm-hint').textContent='';
   document.getElementById('tm-start').disabled=false;
   tmShowBadge(false);
@@ -1143,7 +1143,26 @@ function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext
 function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent=T[appLang].ccShown;document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
 function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccGen;document.getElementById('cc-status').textContent=T[appLang].ccReady;document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
 })();
-// ===== SERVICE WORKER REGISTRIERUNG =====
+// ===== WAKE LOCK API =====
+  var tmWakeLock=null;
+  async function tmRequestWakeLock(){
+    if('wakeLock' in navigator){
+      try{
+        tmWakeLock=await navigator.wakeLock.request('screen');
+      }catch(e){}
+    }
+  }
+  function tmReleaseWakeLock(){
+    if(tmWakeLock){tmWakeLock.release().catch(function(){});tmWakeLock=null;}
+  }
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='visible'&&tmWakeLock===null){
+      var tmRunningCheck=document.getElementById('tm-reset');
+      if(tmRunningCheck&&tmRunningCheck.style.display!=='none')tmRequestWakeLock();
+    }
+  });
+
+  // ===== SERVICE WORKER REGISTRIERUNG =====
   if('serviceWorker' in navigator){
     window.addEventListener('load',function(){
       navigator.serviceWorker.register('sw.js')
