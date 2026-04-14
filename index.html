@@ -1021,7 +1021,8 @@ document.getElementById('oe-start').addEventListener('click',function(){
   document.getElementById('oe-reveal').disabled=false;
 
   var delay=parseFloat(document.getElementById('oe-delay').value)*1000;
-  var steps=[
+  document.getElementById('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> <b style="color:#ffd43b;">'+oeA+'</b> <span style="color:#4dabf7;">×</span> <b style="color:#ffd43b;">'+oeB+'</b> <span style="color:#4dabf7;">×</span> <b style="color:#ffd43b;">'+oeC+'</b> <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
+    var steps=[
     {label:T[appLang].oeStep1Label,value:'████',sub:T[appLang].oeStep1Sub,speak:T[appLang].oeStep1Speak},
     {label:T[appLang].oeStep2Label,value:'+ '+oeA,sub:T[appLang].oeStep2Sub,speak:'Plus '+oeA},
     {label:T[appLang].oeStep3Label,value:'× '+oeB,sub:T[appLang].oeStep3Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeB},
@@ -1076,7 +1077,7 @@ document.getElementById('oe-reset').addEventListener('click',function(){
   oeRunning=false;
   clearTimeout(oeTimeout);
   clearSpeech();
-  oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;
+  oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;document.getElementById('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">×</span> B <span style="color:#4dabf7;">×</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
   document.getElementById('oe-start').style.display='block';
   document.getElementById('oe-sequence').style.display='none';
   document.getElementById('oe-step-label').textContent='';
