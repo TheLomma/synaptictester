@@ -229,6 +229,12 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
   <label for="tm-input">Zeit eingeben (2–3 Ziffern)</label>
   <input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" data-placeholder-de="z.B. 111 oder 45" data-placeholder-en="e.g. 111 or 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
 </div>
+<div id="tm-presets" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+  <button type="button" class="btn-dark" id="tm-pre-30" style="flex:1;min-width:70px;font-size:13px;font-weight:700;padding:9px 8px;border-radius:14px;">30s</button>
+  <button type="button" class="btn-dark" id="tm-pre-60" style="flex:1;min-width:70px;font-size:13px;font-weight:700;padding:9px 8px;border-radius:14px;">1 Min</button>
+  <button type="button" class="btn-dark" id="tm-pre-120" style="flex:1;min-width:70px;font-size:13px;font-weight:700;padding:9px 8px;border-radius:14px;">2 Min</button>
+  <button type="button" class="btn-dark" id="tm-pre-300" style="flex:1;min-width:70px;font-size:13px;font-weight:700;padding:9px 8px;border-radius:14px;">5 Min</button>
+</div>
 <div id="tm-hint" style="font-size:13px;font-weight:600;margin-bottom:10px;min-height:18px;"></div>
 <button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
 <button id="tm-reset" class="btn-dark" style="width:100%;display:none;">Reset</button>
@@ -829,7 +835,13 @@ var tmStartBtn=document.getElementById('tm-start');
 var tmResetBtn=document.getElementById('tm-reset');
 var tmInput=document.getElementById('tm-input');
 
-// Nur Ziffern erlauben
+// Preset-Buttons
+  document.getElementById('tm-pre-30').addEventListener('click',function(){if(tmRunning)return;tmInput.value='30';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+  document.getElementById('tm-pre-60').addEventListener('click',function(){if(tmRunning)return;tmInput.value='160';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+  document.getElementById('tm-pre-120').addEventListener('click',function(){if(tmRunning)return;tmInput.value='200';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+  document.getElementById('tm-pre-300').addEventListener('click',function(){if(tmRunning)return;tmInput.value='500';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+
+  // Nur Ziffern erlauben
 tmInput.addEventListener('input',function(){
   this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);
   var val=this.value;
@@ -961,7 +973,7 @@ function tmHandleNotification(remSec){
   }
 }
 
-function tmDone(){
+function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}
   tmShowBadge(false);
   tmRunning=false;
   cancelAnimationFrame(tmRaf);
