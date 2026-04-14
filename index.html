@@ -3,172 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v5.4</title>
+<title>SynaTest v5.5</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#030810">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
---ease:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
---glass-bg:rgba(12,12,30,0.52);
---glass-border:rgba(255,255,255,0.14);
---glass-border-top:rgba(255,255,255,0.32);
---glass-shadow:0 32px 80px rgba(0,0,0,0.75),0 8px 24px rgba(0,0,0,0.5);
---glass-blur:blur(44px) saturate(210%) brightness(1.06);
---glass-btn:rgba(255,255,255,0.09);
---glass-btn-hover:rgba(255,255,255,0.24);
---glass-input:rgba(255,255,255,0.06);
---glass-display:rgba(0,0,0,0.36);
---text:rgba(255,255,255,0.92);
---text-light:rgba(255,255,255,0.40);
---accent:#5ac8fa;
---accent2:#bf5af2;
---red:#ff6b6b;
---green:#30d158;
-
-}
-body.light-mode{
---glass-bg:rgba(255,255,255,0.18);
---glass-border-top:rgba(255,255,255,0.50);
---glass-border:rgba(255,255,255,0.20);
---glass-shadow:0 32px 80px rgba(0,0,0,0.35),0 8px 24px rgba(0,0,0,0.2);
---glass-btn:rgba(255,255,255,0.14);
---glass-btn-hover:rgba(255,255,255,0.18);
---glass-input:rgba(255,255,255,0.12);
---glass-display:rgba(255,255,255,0.10);
---text:rgba(255,255,255,0.95);
---text-light:rgba(255,255,255,0.55);
---tab-active:rgba(255,255,255,0.15);
-background:radial-gradient(ellipse at 15% 15%,#1a3a6e 0%,transparent 55%),radial-gradient(ellipse at 85% 10%,#2a1a5e 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,#0a2a5a 0%,transparent 50%),linear-gradient(135deg,#0d1f3d 0%,#1a1030 50%,#0d1f3d 100%);
-}
-body{
-transition:background 0.45s cubic-bezier(0.25,0.46,0.45,0.94),color 0.45s ease;
-font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',sans-serif;
-min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-padding:env(safe-area-inset-top,16px) max(16px,env(safe-area-inset-right)) env(safe-area-inset-bottom,60px) max(16px,env(safe-area-inset-left));padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(60px,env(safe-area-inset-bottom));
-background:radial-gradient(ellipse at 18% 18%,#0d3a7a 0%,transparent 52%),radial-gradient(ellipse at 82% 8%,#2d0a6e 0%,transparent 48%),radial-gradient(ellipse at 55% 85%,#04385a 0%,transparent 48%),radial-gradient(ellipse at 28% 72%,#1a0a4a 0%,transparent 40%),linear-gradient(145deg,#020710 0%,#050d1e 50%,#020710 100%);
-}
-.app-container{width:100%;max-width:580px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-top:1px solid var(--glass-border-top);border-radius:32px;box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,0.22),inset 0 -1px 0 rgba(0,0,0,0.25);overflow:hidden;transition:background 0.45s cubic-bezier(0.25,0.46,0.45,0.94),box-shadow 0.45s ease,border-color 0.45s ease;position:relative;}
-.app-header{display:flex;flex-direction:column;gap:10px;padding:14px 16px 12px;background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.02) 100%);border-bottom:1px solid rgba(255,255,255,0.08);position:relative;}.app-header-row1{display:flex;justify-content:center;align-items:center;width:100%;}.app-header-row2{display:flex;justify-content:center;gap:8px;width:100%;}.app-header-row2 button{flex:1;}@media(min-width:520px){.app-header{flex-direction:row;justify-content:space-between;align-items:center;padding:16px 22px 14px;gap:0;}.app-header-row1{width:auto;flex:0 0 auto;justify-content:flex-start;}.app-header-row2{width:auto;flex:0 0 auto;gap:10px;}.app-header-row2 button{flex:none;}}
-.app-header span{font-size:17px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
-#theme-toggle{min-width:68px;text-align:center;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;backdrop-filter:blur(20px);transition:var(--ease);box-shadow:0 2px 10px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.14);}
-#theme-toggle:hover{background:rgba(255,255,255,0.16);box-shadow:0 4px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.2);}
-#lang-toggle,#mute-toggle,#help-toggle{min-width:40px;text-align:center;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 10px;font-size:15px;cursor:pointer;backdrop-filter:blur(20px);transition:var(--ease);box-shadow:0 2px 10px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.14);}
-#lang-toggle:hover,#mute-toggle:hover,#help-toggle:hover{background:rgba(255,255,255,0.16);box-shadow:0 4px 18px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.2);}
-#help-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.55);backdrop-filter:blur(28px) saturate(180%);justify-content:center;align-items:center;padding:20px;}
+:root{--ease:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);--glass-bg:rgba(12,12,30,0.52);--glass-border:rgba(255,255,255,0.14);--glass-border-top:rgba(255,255,255,0.32);--glass-shadow:0 32px 80px rgba(0,0,0,0.75),0 8px 24px rgba(0,0,0,0.5);--glass-blur:blur(44px) saturate(210%) brightness(1.06);--glass-btn:rgba(255,255,255,0.09);--glass-btn-hover:rgba(255,255,255,0.24);--glass-input:rgba(255,255,255,0.06);--glass-display:rgba(0,0,0,0.36);--text:rgba(255,255,255,0.92);--text-light:rgba(255,255,255,0.40);--accent:#5ac8fa;--accent2:#bf5af2;--red:#ff6b6b;--green:#30d158;}
+body.light-mode{--glass-bg:rgba(255,255,255,0.18);--glass-border-top:rgba(255,255,255,0.50);--glass-border:rgba(255,255,255,0.20);--glass-shadow:0 32px 80px rgba(0,0,0,0.35),0 8px 24px rgba(0,0,0,0.2);--glass-btn:rgba(255,255,255,0.14);--glass-btn-hover:rgba(255,255,255,0.18);--glass-input:rgba(255,255,255,0.12);--glass-display:rgba(255,255,255,0.10);--text:rgba(255,255,255,0.95);--text-light:rgba(255,255,255,0.55);background:radial-gradient(ellipse at 15% 15%,#1a3a6e 0%,transparent 55%),radial-gradient(ellipse at 85% 10%,#2a1a5e 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,#0a2a5a 0%,transparent 50%),linear-gradient(135deg,#0d1f3d 0%,#1a1030 50%,#0d1f3d 100%);}
+body{transition:background 0.45s ease,color 0.45s ease;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 16px 60px;background:radial-gradient(ellipse at 18% 18%,#0d3a7a 0%,transparent 52%),radial-gradient(ellipse at 82% 8%,#2d0a6e 0%,transparent 48%),radial-gradient(ellipse at 55% 85%,#04385a 0%,transparent 48%),linear-gradient(145deg,#020710 0%,#050d1e 50%,#020710 100%);}
+.app-container{width:100%;max-width:580px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-top:1px solid var(--glass-border-top);border-radius:32px;box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,0.22);overflow:hidden;}
+.app-header{display:flex;flex-direction:column;gap:10px;padding:14px 16px 12px;background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.02) 100%);border-bottom:1px solid rgba(255,255,255,0.08);}
+.app-header-row1{display:flex;justify-content:center;align-items:center;}
+.app-header-row2{display:flex;justify-content:center;gap:8px;}
+.app-header-row2 button{flex:1;}
+@media(min-width:520px){.app-header{flex-direction:row;justify-content:space-between;align-items:center;padding:16px 22px 14px;gap:0;}.app-header-row1{width:auto;}.app-header-row2{width:auto;}.app-header-row2 button{flex:none;}}
+.app-header span{font-size:17px;font-weight:600;color:var(--text);}
+#theme-toggle{min-width:68px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--ease);}
+#lang-toggle,#mute-toggle,#help-toggle{min-width:40px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:22px;color:var(--text);padding:7px 10px;font-size:15px;cursor:pointer;transition:var(--ease);}
+#help-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.55);backdrop-filter:blur(28px);justify-content:center;align-items:center;padding:20px;}
 #help-modal.open{display:flex;}
-#help-modal-inner{width:100%;max-width:560px;max-height:85vh;overflow-y:auto;background:rgba(8,12,36,0.86);backdrop-filter:blur(44px) saturate(180%);border:1px solid rgba(255,255,255,0.14);border-top:1px solid rgba(255,255,255,0.30);border-radius:28px;padding:28px 24px;box-shadow:0 40px 100px rgba(0,0,0,0.9),inset 0 1px 0 rgba(255,255,255,0.18);}
-#help-modal-inner h3{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;letter-spacing:-0.5px;}
-.help-item{margin-bottom:12px;padding:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-top:1px solid rgba(255,255,255,0.16);border-radius:18px;backdrop-filter:blur(10px);}
-.help-item-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;letter-spacing:0.3px;}
+#help-modal-inner{width:100%;max-width:560px;max-height:85vh;overflow-y:auto;background:rgba(8,12,36,0.92);border:1px solid rgba(255,255,255,0.14);border-top:1px solid rgba(255,255,255,0.30);border-radius:28px;padding:28px 24px;box-shadow:0 40px 100px rgba(0,0,0,0.9);}
+#help-modal-inner h3{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;}
+.help-item{margin-bottom:12px;padding:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:18px;}
+.help-item-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;}
 .help-item-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
-#help-close{width:100%;margin-top:8px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.26);border-radius:16px;padding:13px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:var(--ease);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);}
-#help-close:hover{background:var(--glass-btn-hover);}
-.tabs{display:flex;flex-wrap:wrap;background:linear-gradient(180deg,rgba(255,255,255,0.05) 0%,rgba(0,0,0,0.2) 100%);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px 6px;gap:4px;}
-.tabs::-webkit-scrollbar{display:none;}
-.tab-button{flex:1 1 0;min-width:0;padding:7px 4px;border:none;background:transparent;color:var(--text-light);font-size:10px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.4;text-align:center;white-space:normal;overflow:visible;word-break:break-word;}  .tab-button .tab-num{display:block;font-size:14px;font-weight:800;margin-bottom:1px;}
+#help-close{width:100%;margin-top:8px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:13px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;}
+.tabs{display:flex;flex-wrap:wrap;background:linear-gradient(180deg,rgba(255,255,255,0.05) 0%,rgba(0,0,0,0.2) 100%);border-bottom:1px solid rgba(255,255,255,0.07);padding:6px;gap:4px;}
+.tab-button{flex:1 1 0;min-width:0;padding:7px 4px;border:none;background:transparent;color:var(--text-light);font-size:10px;font-weight:500;border-radius:14px;cursor:pointer;transition:var(--ease);line-height:1.4;text-align:center;word-break:break-word;}
+.tab-button .tab-num{display:block;font-size:14px;font-weight:800;margin-bottom:1px;}
 @media(max-width:480px){.tab-button{flex:1 1 calc(33.333% - 4px);max-width:calc(33.333% - 4px);}}
-.tab-button.active{background:rgba(255,255,255,0.13);color:var(--text);font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(0,0,0,0.15);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.18);border-top:1px solid rgba(255,255,255,0.35);}
+.tab-button.active{background:rgba(255,255,255,0.13);color:var(--text);font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.18);border-top:1px solid rgba(255,255,255,0.35);}
 .tab-content{padding:24px;}
 .tab-pane{display:none;}
 .tab-pane.active{display:block;}
 h2{margin:0 0 20px;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
 .input-group{margin-bottom:16px;}
 .input-group label{display:block;margin-bottom:7px;font-size:13px;font-weight:500;color:var(--text-light);}
-.input-group input[type=date],.input-group input[type=number],.input-group select{transition:background 0.45s ease,border-color 0.35s ease,color 0.35s ease,box-shadow 0.35s ease;width:100%;padding:11px 14px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.12);border-top:1px solid rgba(255,255,255,0.22);border-radius:16px;color:var(--text);font-size:15px;font-family:inherit;backdrop-filter:blur(20px);transition:var(--ease);-webkit-appearance:none;appearance:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 2px 8px rgba(0,0,0,0.2);}
+.input-group input[type=date],.input-group input[type=number],.input-group select{width:100%;padding:11px 14px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.12);border-top:1px solid rgba(255,255,255,0.22);border-radius:16px;color:var(--text);font-size:15px;font-family:inherit;-webkit-appearance:none;appearance:none;}
 .input-group input[type=number]{width:90px;}
-.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--accent);border-top-color:var(--accent);background:rgba(90,200,250,0.08);box-shadow:0 0 0 3px rgba(90,200,250,0.22),inset 0 1px 0 rgba(255,255,255,0.1);}
+.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--accent);background:rgba(90,200,250,0.08);}
 .input-group select option{background:#1a2a4a;color:white;}
-.checkbox-group{display:flex;align-items:center;margin-bottom:14px;cursor:pointer;gap:10px;}
+.checkbox-group{display:flex;align-items:center;margin-bottom:14px;gap:10px;}
 .checkbox-group input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);cursor:pointer;}
-.checkbox-group label{font-size:14px;color:var(--text);cursor:pointer;font-weight:400;}
+.checkbox-group label{font-size:14px;color:var(--text);cursor:pointer;}
 .button-group{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
-button{padding:13px 18px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.16);border-top:1px solid rgba(255,255,255,0.28);border-radius:18px;cursor:pointer;transition:var(--ease);color:white;font-family:inherit;letter-spacing:-0.2px;backdrop-filter:blur(20px);min-height:44px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 8px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.12);}
+button{padding:13px 18px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.16);border-top:1px solid rgba(255,255,255,0.28);border-radius:18px;cursor:pointer;transition:var(--ease);color:white;font-family:inherit;backdrop-filter:blur(20px);min-height:44px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 2px 8px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.12);}
 button:disabled{opacity:0.35;cursor:not-allowed;}
 button:active:not(:disabled){transform:scale(0.97);}
 @keyframes tmBadgePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 @keyframes haptic-pulse{0%{box-shadow:0 0 0 0 rgba(77,171,247,0.55)}50%{box-shadow:0 0 0 10px rgba(77,171,247,0)}100%{box-shadow:0 0 0 0 rgba(77,171,247,0)}}
 button.haptic{animation:haptic-pulse 0.35s ease-out;}
 .btn-primary{background:linear-gradient(145deg,rgba(90,200,250,0.55),rgba(90,200,250,0.25));border-color:rgba(90,200,250,0.35);border-top-color:rgba(90,200,250,0.55);box-shadow:0 4px 20px rgba(90,200,250,0.2),inset 0 1px 0 rgba(255,255,255,0.2);}
-.btn-primary:hover:not(:disabled){background:linear-gradient(145deg,rgba(90,200,250,0.72),rgba(90,200,250,0.4));box-shadow:0 6px 28px rgba(90,200,250,0.35),inset 0 1px 0 rgba(255,255,255,0.25);}
-.btn-dark{background:rgba(0,0,0,0.32);border-color:rgba(255,255,255,0.12);border-top-color:rgba(255,255,255,0.22);color:white;box-shadow:0 2px 8px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08);}
-.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}
-#btn-generate,#btn-next,#btn-next-date{background:linear-gradient(145deg,rgba(90,200,250,0.55),rgba(90,200,250,0.25));border-color:rgba(90,200,250,0.35);border-top-color:rgba(90,200,250,0.55);box-shadow:0 4px 20px rgba(90,200,250,0.2),inset 0 1px 0 rgba(255,255,255,0.2);}
+.btn-dark{background:rgba(0,0,0,0.32);border-color:rgba(255,255,255,0.12);border-top-color:rgba(255,255,255,0.22);color:white;}
+#btn-generate,#btn-next,#btn-next-date{background:linear-gradient(145deg,rgba(90,200,250,0.55),rgba(90,200,250,0.25));border-color:rgba(90,200,250,0.35);border-top-color:rgba(90,200,250,0.55);}
 #btn-reset{background:var(--glass-btn);}
-#display-area{margin-top:20px;padding:24px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;min-height:70px;font-size:28px;font-weight:700;text-align:center;color:var(--text);display:flex;justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(24px);letter-spacing:-0.5px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 4px 20px rgba(0,0,0,0.3);}
+#display-area{margin-top:20px;padding:24px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;min-height:70px;font-size:28px;font-weight:700;text-align:center;color:var(--text);display:flex;justify-content:center;align-items:center;flex-direction:column;}
 #speech-settings{display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:16px;margin-top:10px;}
 #speech-settings h4{color:var(--text);font-size:14px;margin-bottom:14px;}
 #speech-settings .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 #speech-settings .input-group{font-size:13px;margin-bottom:4px;}
 .vier-gewinnt-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px;}
-.column-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:10px;aspect-ratio:1;font-size:13px;font-weight:700;color:white;backdrop-filter:blur(8px);}
-
-@media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}@keyframes drop{from{transform:translateY(-180px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-#pi-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;font-size:clamp(28px,10vw,42px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;backdrop-filter:blur(24px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 4px 20px rgba(0,0,0,0.3);}
-#pi-context-box{display:none;margin-top:10px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:15px;line-height:2;word-break:break-all;color:var(--text);backdrop-filter:blur(10px);}
-#cc-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;font-size:clamp(18px,6vw,36px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;backdrop-filter:blur(24px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 4px 20px rgba(0,0,0,0.3);}
-#cc-answer-box{display:none;margin:12px 0;padding:20px;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:18px;text-align:center;backdrop-filter:blur(10px);}
-#cc-answer{font-size:72px;font-weight:900;color:var(--red);letter-spacing:-2px;text-shadow:0 0 30px rgba(255,107,107,0.5);}
-#cc-number-box{display:none;margin-top:8px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:clamp(13px,4vw,19px);letter-spacing:clamp(1px,0.5vw,3px);text-align:center;color:var(--text);word-break:break-all;backdrop-filter:blur(10px);}
-@media(max-width:400px){.tab-button{font-size:8.5px;padding:6px 2px;}h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}@media(max-width:375px){.app-header span{font-size:13px;}#theme-toggle{min-width:58px;font-size:12px;padding:6px 10px;}#display-area{font-size:22px;padding:16px;}#tm-ring{width:min(180px,60vw)!important;height:min(180px,60vw)!important;}#tm-time{font-size:clamp(32px,11vw,52px)!important;}}@media(min-width:600px){body{padding:40px 32px 60px;}.tab-button{flex:1 1 0;max-width:none;font-size:12px;padding:8px 6px;}}@media(hover:hover){#theme-toggle:hover{background:var(--glass-btn-hover);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn-hover);}.btn-primary:hover:not(:disabled){background:linear-gradient(135deg,rgba(77,171,247,0.8),rgba(116,199,236,0.6));}.btn-dark:hover:not(:disabled){background:rgba(0,0,0,0.45);}#help-close:hover{background:var(--glass-btn-hover);}}@media(hover:none){#theme-toggle:hover{background:var(--glass-btn);}#mute-toggle:hover,#help-toggle:hover{background:var(--glass-btn);}}
+@keyframes drop{from{transform:translateY(-180px);opacity:0}to{transform:translateY(0);opacity:1}}
+#pi-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;font-size:clamp(28px,10vw,42px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;}
+#pi-context-box{display:none;margin-top:10px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:15px;line-height:2;word-break:break-all;color:var(--text);}
+#cc-status{margin:16px 0;padding:20px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.20);border-radius:22px;font-size:clamp(18px,6vw,36px);font-weight:800;text-align:center;color:var(--text);min-height:2em;display:flex;align-items:center;justify-content:center;}
+#cc-answer-box{display:none;margin:12px 0;padding:20px;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:18px;text-align:center;}
+#cc-answer{font-size:72px;font-weight:900;color:var(--red);letter-spacing:-2px;}
+#cc-number-box{display:none;margin-top:8px;padding:16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-family:monospace;font-size:clamp(13px,4vw,19px);text-align:center;color:var(--text);word-break:break-all;}
+@media(max-width:400px){h2{font-size:18px;}.tab-content{padding:16px;}#cc-answer{font-size:48px;}}
+@media(min-width:600px){body{padding:40px 32px 60px;}.tab-button{font-size:12px;padding:8px 6px;}}
 </style>
 </head>
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 >&#x2753; Anleitung &ndash; SynaTest v5.4</h3>
-<div class="help-item"><div class="help-item-title">1 &nbsp;Calendar Prodigy</div><div class="help-item-text">W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.</div></div>
-<div class="help-item"><div class="help-item-title">2 &nbsp;Full Circle Master</div><div class="help-item-text">Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.</div></div>
-<div class="help-item"><div class="help-item-title">3 &nbsp;Card Hacker</div><div class="help-item-text">Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.</div></div>
-<div class="help-item"><div class="help-item-title">4 &nbsp;Foursight Guru</div><div class="help-item-text">Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.</div></div>
-<div class="help-item"><div class="help-item-title">5 &nbsp;Time Master</div><div class="help-item-text">Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.</div></div>
-<div class="help-item"><div class="help-item-title">6 &nbsp;Order Equation</div><div class="help-item-text">Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.</div></div>
-<div class="help-item"><div class="help-item-title">&#x1F310; &nbsp;Sprachumschalter</div><div class="help-item-text">Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch &ndash; alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.</div></div>
-<div class="help-item"><div class="help-item-title">&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm</div><div class="help-item-text">Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.</div></div>
-<div class="help-item"><div class="help-item-title">&#x263D; &nbsp;Hell / Dunkel</div><div class="help-item-text">Der Theme-Button oben rechts wechselt zwischen Hell- und Dunkel-Modus. Das System-Theme wird beim ersten Start automatisch &uuml;bernommen. Die gew&auml;hlte Einstellung wird gespeichert.</div></div>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.5</h3>
+<div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
-<div class="app-header"><div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><div style="width:28px;height:28px;border-radius:7px;opacity:0.95;flex-shrink:0;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsTAAALEwEAmpwYAAADLElEQVR4nN2Zb0sUURTGH9h/s7OamamZaWZmppmpmSYREYVESBQRcYgiIiKKiIiIXvZ1fLufya/gyxPuOHdndub+nVlh74UfO3vmPOc5z+6rnQU0Z3j3Lw8CcDlD9/7wIALjgDu/eZCBMtz2L/YJ5Ia8+5N9ApmAWz/YRxCf1p3v7DPohNz8xj6D1sZX9h20Nr6w76C1/pl9B63bn9h3EK595H6zf3D0b//g6Pg1vhachj/CWx+4H/SGkYVMBe7TLghX33OZ5C4f1TuY9pcJwpvvuCxSi2bvRSEd9UVAuPKWi5JaTt4ThSxpng0IV4iLcLJMO1pI2kMyFJrOTNVcU9BcfsNFSHzq7Zx7nSAafaYnnhXPLrojmjdesytiie77duKaLGdR74w8DxfQXHrFLgjzbD36Ztxm5mplXqagef0luyCMs3VynSnTy7xMQXPxBdsiTLN1cplnMkfmaQKCa8/Zltiwp0YusxQepPM0BcHCPtsiDNM1MtAdxhj0ks7TFAQLz9iGrlmqRhrNoQyNjnTeJiC4+pRtEEbpGmk08pBqHem8TUAwv8c2JH5NJCFFvzSgCCrXpuaKkJY7I7jyhG2QhpT360PKtZTnZ7szGnOP2Yb40+ypkaJfG1KhzQ1puzMalx+xDSJkukYajTygWkc6bxPQmH3INgijdI00GnlItY503iagMfOAbRFm6RoZ6Lrh9L2k8zQFjZn7bEvXMFUjl1kKD9J5moLGpV22RRhm6+Qyz2SOzNME1Kd32IXYNKdOrjNlepmXKahf3GYXhHG61o5/EzrOPNa2TbxsQH1qi10R5tF1u+ceWc4S/clZSQ9XUL+wyUWIn+9I7kXfqlqf25N8kFV0R9Qn17kIyceHih7p07oic01BbWKNi5JcyKC3Q1nzTEBtYpXLIr2ctOckpJveBdTGV7hM8v7b6LkfhTTsLwPUzi9zP8hb/oQ4aDZcn3ZBbWyJ+40q5Gn4o3ZukX0H1dEF9h1Uz86z76A6Mse+g+rILPsOjk/1zAz7DDohh6fZZxCfytAU+wh6T6U1yT6BvFMJx9knoDqV5hgPMjA9lWCUB5G8MP8BTXAVxyl85sQAAAAASUVORK5CYII=');background-size:cover;background-repeat:no-repeat;"></div><span id="app-name-label">SynaTest v5.4</span></span></div><div class="app-header-row2"><button id="lang-toggle" title="Sprache wechseln">🌐 English</button><button id="mute-toggle" title="Ton aktivieren">🔇</button><button id="help-toggle" title="Anleitung">❓</button><button id="theme-toggle">Dunkel</button></div></div>
+<div class="app-header">
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.5</span></span></div>
+<div class="app-header-row2">
+<button id="lang-toggle">&#x1F310; English</button>
+<button id="mute-toggle">&#x1F507;</button>
+<button id="help-toggle">&#x2753;</button>
+<button id="theme-toggle">Dunkel</button>
+</div>
+</div>
 <div class="tabs">
 <button class="tab-button active" data-tab="date-tab"><span class="tab-num">1</span>Calendar<br>Prodigy</button>
 <button class="tab-button" data-tab="pi-tab"><span class="tab-num">2</span>Full Circle<br>Master</button>
 <button class="tab-button" data-tab="cc-tab"><span class="tab-num">3</span>Card<br>Hacker</button>
 <button class="tab-button" data-tab="vg-tab"><span class="tab-num">4</span>Foursight<br>Guru</button>
-<button class="tab-button" id="tm-tab-btn" data-tab="tm-tab"><span class="tab-num">5</span>Time<br>Master<span id="tm-tab-badge" style="display:none;margin-left:4px;font-size:9px;background:#ff6b6b;color:white;border-radius:6px;padding:1px 5px;font-weight:700;vertical-align:middle;animation:tmBadgePulse 1s infinite;">⏱</span></button>
+<button class="tab-button" data-tab="tm-tab"><span class="tab-num">5</span>Time<br>Master<span id="tm-tab-badge" style="display:none;margin-left:4px;font-size:9px;background:#ff6b6b;color:white;border-radius:6px;padding:1px 5px;font-weight:700;vertical-align:middle;animation:tmBadgePulse 1s infinite;">&#x23F1;</span></button>
 <button class="tab-button" data-tab="oe-tab"><span class="tab-num">6</span>Order<br>Equation</button>
 </div>
+
+<!-- TAB 1: Calendar Prodigy -->
 <div id="date-tab" class="tab-content tab-pane active">
-<h2>Zuf&auml;lliges Datum</h2>
+<h2 id="cp-h2">Zuf&auml;lliges Datum</h2>
 <div id="setup-view">
-<div class="input-group"><label for="start-date">Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
-<div class="input-group"><label for="end-date">Enddatum</label><input type="date" id="end-date"></div>
-<div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-top:-10px;margin-bottom:10px;">⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.</div>
-<div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac">Sternzeichen anzeigen</label></div>
-<div class="checkbox-group"><input type="checkbox" id="cp-weekday-mode"><label for="cp-weekday-mode">Wochentag-Modus</label></div>
-<div class="input-group"><label for="date-format">Datumsformat</label>
-<select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select>
-</div>
-<div class="checkbox-group" style="margin-top:20px;"><input type="checkbox" id="enable-speech"><label for="enable-speech">Sprachausgabe aktivieren</label></div>
+<div class="input-group"><label for="start-date" id="lbl-start-date">Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
+<div class="input-group"><label for="end-date" id="lbl-end-date">Enddatum</label><input type="date" id="end-date"></div>
+<div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-top:-10px;margin-bottom:10px;">&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.</div>
+<div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac" id="lbl-zodiac">Sternzeichen anzeigen</label></div>
+<div class="checkbox-group"><input type="checkbox" id="cp-weekday-mode"><label for="cp-weekday-mode" id="lbl-cp-weekday-mode">Wochentag-Modus</label></div>
+<div class="input-group"><label for="date-format" id="lbl-date-format">Datumsformat</label>
+<select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select></div>
+<div class="checkbox-group" style="margin-top:20px;"><input type="checkbox" id="enable-speech"><label for="enable-speech" id="lbl-enable-speech">Sprachausgabe aktivieren</label></div>
 <div id="speech-settings">
-<h4>Pausen (Sekunden)</h4>
+<h4 id="lbl-speech-title">Pausen (Sekunden)</h4>
 <div class="grid">
-<div class="input-group"><label for="delay-initial">Start</label><input type="number" id="delay-initial" value="5" min="0"></div>
-<div class="input-group"><label for="delay-year-month">nach Jahr</label><input type="number" id="delay-year-month" value="10" min="0"></div>
-<div class="input-group"><label for="delay-month-day">nach Monat</label><input type="number" id="delay-month-day" value="10" min="0"></div>
-<div class="input-group"><label for="delay-day-weekday">nach Tag</label><input type="number" id="delay-day-weekday" value="10" min="0"></div>
-<div class="input-group"><label for="delay-weekday-days">nach Wochentag</label><input type="number" id="delay-weekday-days" value="10" min="0"></div>
-<div class="input-group"><label for="delay-digit">zw. Ziffern</label><input type="number" id="delay-digit" value="3" min="0"></div>
-</div>
-</div>
+<div class="input-group"><label for="delay-initial" id="lbl-delay-initial">Start</label><input type="number" id="delay-initial" value="5" min="0"></div>
+<div class="input-group"><label for="delay-year-month" id="lbl-delay-ym">nach Jahr</label><input type="number" id="delay-year-month" value="10" min="0"></div>
+<div class="input-group"><label for="delay-month-day" id="lbl-delay-md">nach Monat</label><input type="number" id="delay-month-day" value="10" min="0"></div>
+<div class="input-group"><label for="delay-day-weekday" id="lbl-delay-dw">nach Tag</label><input type="number" id="delay-day-weekday" value="10" min="0"></div>
+<div class="input-group"><label for="delay-weekday-days" id="lbl-delay-wd">nach Wochentag</label><input type="number" id="delay-weekday-days" value="10" min="0"></div>
+<div class="input-group"><label for="delay-digit" id="lbl-delay-dig">zw. Ziffern</label><input type="number" id="delay-digit" value="3" min="0"></div>
+</div></div>
 <button id="btn-generate" class="btn-primary" style="width:100%;margin-top:16px;">Zuf&auml;lliges Datum generieren</button>
 </div>
 <div id="result-view" style="display:none;">
@@ -177,25 +133,49 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <button id="btn-next">N&auml;chster Schritt</button>
 <button id="btn-reset">Zur&uuml;cksetzen</button>
 <button id="btn-next-date" style="display:none;grid-column:1/-1;">&#x1F4C5; N&auml;chstes Datum</button>
+</div></div>
 </div>
+
+<!-- TAB 2: Pi -->
+<div id="pi-tab" class="tab-content tab-pane" style="display:none;">
+<h2 id="pi-h2">Full Circle Master</h2>
+<div class="input-group"><label for="pi-direction" id="lbl-pi-dir">Leserichtung</label>
+<select id="pi-direction"><option value="random" selected>Zuf&auml;llig</option><option value="forward">Vorw&auml;rts</option><option value="backward">R&uuml;ckw&auml;rts</option></select></div>
+<div class="input-group"><label for="pi-delay" id="lbl-pi-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="pi-delay" value="5" min="1" max="30" style="width:80px;"></div>
+<button id="pi-start" class="btn-primary" style="width:100%;">Starten</button>
+<button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
+<div id="pi-status">Bereit.</div>
+<div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx" id="lbl-pi-show">Zahlen anzeigen</label></div>
+<div id="pi-context-box"></div>
 </div>
+
+<!-- TAB 3: Card Hacker -->
+<div id="cc-tab" class="tab-content tab-pane" style="display:none;">
+<h2 id="cc-h2">Card Hacker</h2>
+<div class="input-group"><label for="cc-delay" id="lbl-cc-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
+<button id="cc-main" class="btn-primary" style="width:100%;">Karte generieren</button>
+<button id="cc-reset-btn" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
+<div id="cc-status">Bereit.</div>
+<div id="cc-answer-box"><div id="lbl-cc-missing" style="font-size:13px;color:var(--text-light);margin-bottom:6px;">Fehlende Ziffer</div><div id="cc-answer"></div></div>
+<div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="cc-show-num"><label for="cc-show-num" id="lbl-cc-show">Nummer anzeigen</label></div>
+<div id="cc-number-box"></div>
 </div>
+
+<!-- TAB 4: Foursight Guru -->
 <div id="vg-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Foursight Guru</h2>
+<h2 id="vg-h2">Foursight Guru</h2>
 <div class="vier-gewinnt-controls">
-<div class="input-group"><label for="vg-starter">Wer beginnt?</label>
-<select id="vg-starter"><option value="user">Benutzer</option><option value="app" selected>App</option></select>
-</div>
-<div class="input-group"><label for="vg-num-players">Anzahl App-Spieler</label>
-<select id="vg-num-players"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
-</div>
-<div class="checkbox-group"><input type="checkbox" id="vg-show-board"><label for="vg-show-board">Spielfelder anzeigen</label></div>
-<div class="checkbox-group"><input type="checkbox" id="vg-speech"><label for="vg-speech">Sprachausgabe f&uuml;r App</label></div>
+<div class="input-group"><label for="vg-starter" id="lbl-vg-starter">Wer beginnt?</label>
+<select id="vg-starter"><option value="user">Benutzer</option><option value="app" selected>App</option></select></div>
+<div class="input-group"><label for="vg-num-players" id="lbl-vg-players">Anzahl App-Spieler</label>
+<select id="vg-num-players"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+<div class="checkbox-group"><input type="checkbox" id="vg-show-board"><label for="vg-show-board" id="lbl-vg-show-board">Spielfelder anzeigen</label></div>
+<div class="checkbox-group"><input type="checkbox" id="vg-speech"><label for="vg-speech" id="lbl-vg-speech">Sprachausgabe f&uuml;r App</label></div>
 </div>
 <div id="vg-container"></div>
 <button id="vg-reset" class="btn-dark" style="width:100%;margin-top:20px;">Neues Spiel</button>
 <div id="vg-summary" style="display:none;margin-top:16px;padding:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:18px;">
-<div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:14px;">&#x1F3C6; Spielzusammenfassung</div>
+<div id="vg-summary-title" style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:14px;">&#x1F3C6; Spielzusammenfassung</div>
 <div id="vg-summary-rows" style="display:flex;flex-direction:column;gap:8px;"></div>
 <div id="vg-summary-total" style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:var(--text-light);"></div>
 </div>
@@ -204,24 +184,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="vg-click-hint" style="font-size:13px;color:var(--text-light);margin-top:4px;"></div>
 </div>
 </div>
-<div id="pi-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Full Circle Master</h2>
-<div class="input-group"><label for="pi-direction">Leserichtung</label>
-<select id="pi-direction"><option value="random" selected>Zuf&auml;llig</option><option value="forward">Vorw&auml;rts</option><option value="backward">R&uuml;ckw&auml;rts</option></select>
-</div>
-<div class="input-group"><label for="pi-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="pi-delay" value="5" min="1" max="30" style="width:80px;"></div>
-<button id="pi-start" class="btn-primary" style="width:100%;">Starten</button>
-<button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
-<div id="pi-status">Bereit.</div>
-<div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx">Zahlen anzeigen</label></div>
-<div id="pi-context-box"></div>
-</div>
+
+<!-- TAB 5: Time Master -->
 <div id="tm-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Time Master</h2>
-<p style="font-size:13px;color:var(--text-light);margin-bottom:18px;">2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden</p>
+<h2 id="tm-h2">Time Master</h2>
+<p id="tm-hint-text" style="font-size:13px;color:var(--text-light);margin-bottom:18px;">2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden</p>
 <div class="input-group">
-<label for="tm-input">Zeit eingeben (2–3 Ziffern)</label>
-<input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" data-placeholder-de="z.B. 111 oder 45" data-placeholder-en="e.g. 111 or 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
+<label for="tm-input" id="lbl-tm-input">Zeit eingeben (2–3 Ziffern)</label>
+<input type="text" id="tm-input" maxlength="3" inputmode="numeric" pattern="[0-9]*" placeholder="z.B. 111 oder 45" style="width:120px;font-size:28px;font-weight:800;text-align:center;letter-spacing:4px;padding:12px 16px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.15);border-top:1px solid rgba(255,255,255,0.28);border-radius:14px;color:var(--text);font-family:inherit;">
 </div>
 <div id="tm-presets" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
 <button type="button" class="btn-dark" id="tm-pre-30" style="flex:1;min-width:70px;font-size:13px;font-weight:700;padding:9px 8px;border-radius:14px;">30s</button>
@@ -233,92 +203,249 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <button id="tm-start" class="btn-primary" style="width:100%;margin-bottom:10px;">Start</button>
 <button id="tm-reset" class="btn-dark" style="width:100%;display:none;">Reset</button>
 <div id="tm-display" style="display:none;margin-top:20px;">
-<div id="tm-ring" style="margin:0 auto 16px;width:200px;height:200px;border-radius:50%;border:6px solid rgba(77,171,247,0.3);display:flex;align-items:center;justify-content:center;position:relative;transition:border-color 0.2s,box-shadow 0.2s;">
+<div id="tm-ring" style="margin:0 auto 16px;width:200px;height:200px;border-radius:50%;border:6px solid rgba(77,171,247,0.3);display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,box-shadow 0.2s;">
 <div id="tm-time" style="font-size:52px;font-weight:900;color:var(--text);letter-spacing:-2px;font-variant-numeric:tabular-nums;">0:00</div>
 </div>
 <div id="tm-label" style="text-align:center;font-size:14px;font-weight:600;color:var(--text-light);min-height:22px;"></div>
 </div>
 </div>
+
+<!-- TAB 6: Order Equation -->
 <div id="oe-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Order Equation</h2>
-<p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.</p>
+<h2 id="oe-h2">Order Equation</h2>
+<p id="oe-hint-text" style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.</p>
 <div class="input-group">
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px;"><div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-min" id="oe-age-min-label">Alter von</label><input type="number" id="oe-age-min" value="20" min="5" max="90" style="width:80px;"></div><div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-max" id="oe-age-max-label">Alter bis</label><input type="number" id="oe-age-max" value="60" min="5" max="90" style="width:80px;"></div></div>
-<label for="oe-delay">Pause zwischen Schritten (Sekunden)</label>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
+<div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-min" id="oe-age-min-label">Alter von</label><input type="number" id="oe-age-min" value="20" min="5" max="90" style="width:80px;"></div>
+<div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-max" id="oe-age-max-label">Alter bis</label><input type="number" id="oe-age-max" value="60" min="5" max="90" style="width:80px;"></div>
+</div>
+<label for="oe-delay" id="lbl-oe-delay">Pause zwischen Schritten (Sekunden)</label>
 <input type="number" id="oe-delay" value="5" min="1" max="30" style="width:80px;">
 </div>
 <div id="oe-formula-hint" style="margin-bottom:14px;padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;">
-<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">🧮 Rechenweg für die Person</div>
-<div id="oe-formula-line" style="font-size:14px;color:var(--text);font-weight:600;letter-spacing:0.2px;"><span id="oe-formula-year">Geburtsjahr</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">&times;</span> B <span style="color:#4dabf7;">&times;</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">Alter</span></div>
-<div style="font-size:12px;color:var(--text-light);margin-top:6px;">A, B, C = zufällige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten</div>
+<div id="lbl-oe-formula-title" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">&#x1F9EE; Rechenweg f&uuml;r die Person</div>
+<div id="oe-formula-line" style="font-size:14px;color:var(--text);font-weight:600;"><span id="oe-formula-year">Geburtsjahr</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">&times;</span> B <span style="color:#4dabf7;">&times;</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">Alter</span></div>
+<div id="lbl-oe-formula-sub" style="font-size:12px;color:var(--text-light);margin-top:6px;">A, B, C = zuf&auml;llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten</div>
 </div>
 <button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
 <div id="oe-sequence" style="display:none;margin-top:18px;">
-<div id="oe-step-box" style="margin-bottom:14px;padding:22px 18px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;backdrop-filter:blur(10px);">
+<div id="oe-step-box" style="margin-bottom:14px;padding:22px 18px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;">
 <div id="oe-step-label" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;"></div>
 <div id="oe-step-value" style="font-size:42px;font-weight:800;color:var(--text);letter-spacing:-1px;"></div>
 <div id="oe-step-sub" style="font-size:13px;color:var(--text-light);margin-top:6px;"></div>
 </div>
 <div id="oe-result-area" style="display:none;">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-<div id="oe-result-box" style="flex:1;padding:24px 16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;backdrop-filter:blur(10px);">
-<div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">Ergebnis</div>
-<div id="oe-result-value" style="font-size:36px;font-weight:800;color:var(--accent);letter-spacing:-1px;">████████</div>
+<div id="oe-result-box" style="flex:1;padding:24px 16px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;">
+<div id="lbl-oe-result" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">Ergebnis</div>
+<div id="oe-result-value" style="font-size:36px;font-weight:800;color:var(--accent);letter-spacing:-1px;">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</div>
 </div>
 <div id="oe-parity-box" style="padding:16px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:18px;text-align:center;min-width:90px;">
-<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Letzte Ziffer</div>
+<div id="lbl-oe-last-digit" style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Letzte Ziffer</div>
 <div id="oe-parity-value" style="font-size:16px;font-weight:700;color:var(--text);"></div>
 </div>
 </div>
 <button id="oe-reveal" class="btn-primary" style="width:100%;">Anzeigen</button>
-<div id="oe-reveal-box" style="display:none;margin-top:14px;padding:20px;background:rgba(77,171,247,0.1);border:1px solid rgba(77,171,247,0.3);border-radius:18px;backdrop-filter:blur(10px);">
-<div style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Aufl&ouml;sung</div>
+<div id="oe-reveal-box" style="display:none;margin-top:14px;padding:20px;background:rgba(77,171,247,0.1);border:1px solid rgba(77,171,247,0.3);border-radius:18px;">
+<div id="lbl-oe-reveal-title" style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Aufl&ouml;sung</div>
 <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:12px;">
-<div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Dein Geburtsjahr</div><div id="oe-reveal-year" style="font-size:28px;font-weight:800;color:#51cf66;"></div></div>
-<div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Dein Alter</div><div id="oe-reveal-age" style="font-size:28px;font-weight:800;color:#ff6b6b;"></div></div>
-<div style="text-align:center;"><div style="font-size:11px;color:var(--text-light);">Vollst. Ergebnis</div><div id="oe-reveal-result" style="font-size:28px;font-weight:800;color:var(--accent);"></div></div>
+<div style="text-align:center;"><div id="lbl-oe-year" style="font-size:11px;color:var(--text-light);">Dein Geburtsjahr</div><div id="oe-reveal-year" style="font-size:28px;font-weight:800;color:#51cf66;"></div></div>
+<div style="text-align:center;"><div id="lbl-oe-age" style="font-size:11px;color:var(--text-light);">Dein Alter</div><div id="oe-reveal-age" style="font-size:28px;font-weight:800;color:#ff6b6b;"></div></div>
+<div style="text-align:center;"><div id="lbl-oe-full-result" style="font-size:11px;color:var(--text-light);">Vollst. Ergebnis</div><div id="oe-reveal-result" style="font-size:28px;font-weight:800;color:var(--accent);"></div></div>
 </div>
 </div>
 </div>
 <button id="oe-reset" class="btn-dark" style="width:100%;margin-top:12px;">Neu starten</button>
 </div>
 </div>
-<div id="cc-tab" class="tab-content tab-pane" style="display:none;">
-<h2>Card Hacker</h2>
-<div class="input-group"><label for="cc-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
-<button id="cc-main" class="btn-primary" style="width:100%;">Karte generieren</button>
-<button id="cc-reset" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
-<div id="cc-status">Bereit.</div>
-<div id="cc-answer-box"><div style="font-size:13px;color:var(--text-light);margin-bottom:6px;">Fehlende Ziffer</div><div id="cc-answer"></div></div>
-<div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="cc-show-num"><label for="cc-show-num">Nummer anzeigen</label></div>
-<div id="cc-number-box"></div>
-</div>
-</div>
-<div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-top:1px solid rgba(255,255,255,0.22);border-radius:20px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;">
-<span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;">&#x1F50A; Lautst&auml;rke</span>
+
+</div><!-- end app-container -->
+
+<div style="width:100%;max-width:580px;margin-top:12px;padding:12px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-top:1px solid rgba(255,255,255,0.22);border-radius:20px;display:flex;align-items:center;gap:14px;">
+<span id="lbl-volume" style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);white-space:nowrap;">&#x1F50A; Lautst&auml;rke</span>
 <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0" style="flex:1;accent-color:#4dabf7;cursor:pointer;">
-<span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">100%</span>
+<span id="vol-label" style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);min-width:36px;text-align:right;">0%</span>
 </div>
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
-
-<a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.2px;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.11)';this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.45)'"><span id="buy-link-text">Synaptic kaufen</span></a>
+<a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;"><span id="buy-link-text">Synaptic kaufen</span></a>
 </div>
+
 <script>
-function openTab(evt,id){var panes=document.querySelectorAll('.tab-pane');panes.forEach(function(p){p.style.display='none';p.classList.remove('active');});var btns=document.querySelectorAll('.tab-button');btns.forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget){evt.currentTarget.classList.add('active');}else{btns.forEach(function(b){if(b.getAttribute('data-tab')===id)b.classList.add('active');});}};
-document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.tab-button[data-tab]').forEach(function(btn){btn.addEventListener('click',function(e){openTab(e,btn.getAttribute('data-tab'));});});});
 (function(){
 'use strict';
-// ===== SWIPE GESTEN =====
+
+// ===== STATE =====
+var isMuted=true, appLang='de', isLight=false, globalVolume=0;
+var ccState='idle', ccFull='', ccMissIdx=-1, ccMissDig='', ccTimeout=null;
+var piRunning=false, piTimeout=null, piStart=0, piCur=0, piDir='forward';
+var SEQ=20;
+var ROWS=6,COLS=7,P1='user',P2='app';
+var vgGames=[], vgTurnQueue=[], vgTurnIndex=0;
+var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
+
+// ===== TRANSLATIONS =====
+var T={
+de:{
+themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.5',helpClose:'Schlie&szlig;en',
+cpH2:'Zuf&auml;lliges Datum',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
+labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
+labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
+labelSpeech:'Sprachausgabe aktivieren',speechTitle:'Pausen (Sekunden)',
+dStart:'Start',dYM:'nach Jahr',dMD:'nach Monat',dDW:'nach Tag',dWD:'nach Wochentag',dDig:'zw. Ziffern',
+btnGenerate:'Zuf&auml;lliges Datum generieren',btnNext:'N&auml;chster Schritt',btnReset:'Zur&uuml;cksetzen',btnNextDate:'&#x1F4C5; N&auml;chstes Datum',
+cpReady:'Bereit!',seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Zur&uuml;cksetzen.',
+speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fertig',
+alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
+cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
+cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
+cpDateWarn:'&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.',
+piH2:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf\u00e4llig',piForward:'Vorw\u00e4rts',piBackward:'R\u00fcckw\u00e4rts',
+piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',
+ccH2:'Card Hacker',ccDelay:'Pause zwischen Ziffern (Sekunden)',ccGen:'Karte generieren',ccReset:'Neu starten',ccReady:'Bereit.',
+ccMissing:'Fehlende Ziffer',ccRead:'Vorlesen',ccReading:'Liest vor...',ccSolution:'L\u00f6sung anzeigen',
+ccDone:'Vorlesen beendet.',ccShown:'L\u00f6sung angezeigt.',ccFinished:'Fertig',ccShow:'Nummer anzeigen',
+ccDigits:' Ziffern \u00b7 Bereit',
+vgH2:'Foursight Guru',vgWho:'Wer beginnt?',vgUser:'Benutzer',vgApp:'App',
+vgPlayers:'Anzahl App-Spieler',vgShowBoard:'Spielfelder anzeigen',vgSpeech:'Sprachausgabe f\u00fcr App',
+vgNewGame:'Neues Spiel',vgSummaryTitle:'&#x1F3C6; Spielzusammenfassung',
+vgWon:'Du hast gewonnen!',vgLost:' hat gewonnen!',vgDraw:'Unentschieden!',
+vgMoves:' Z\u00fcge',vgThinking:' denkt...',vgYourTurn:'\u2b07 Dein Zug hier!',
+vgWait:'\u23F3 Warte \u2013 erst bei ',vgWaitPlay:' spielen',
+vgWrong:'\u26a0\ufe0f Falsches Spielfeld! Bitte zuerst bei ',vgWrongAt:' spielen.',
+vgSetsCol:' setzt in Spalte ',vgClickCol:'Klicke auf eine Spalte, um deinen Zug zu machen.',
+vgWins:'Siege',vgLosses:'Niederlagen',vgDraws:'Unentschieden',vgTotal:'Z\u00fcge total',
+vgBoardVs:'Spielfeld gegen ',vgStarting:'Startet...',vgGrandTotal:'Gesamt',
+vgMovesTotal:' Z\u00fcge gesamt (Du: ',vgMovesApp:', ',vgMovesLag:' Zug',vgMovesLagP:' Z\u00fcge',vgMovesLagSuf:' im R\u00fcckstand',
+tmH2:'Time Master',tmHint:'2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden',
+tmLabel:'Zeit eingeben (2\u20133 Ziffern)',tmStart:'Start',tmReset:'Reset',tmEnd:'ENDE',
+tmMin:' Min. ',tmSec:' Sek.',tmInvalid:'Ung\u00fcltige Eingabe',tmSecMax:'\u26a0\ufe0f Sekunden max. 59!',tmZero:'\u26a0\ufe0f Zeit muss gr\u00f6\u00dfer als 0 sein',
+tmMin1:'Noch ',tmMinSuf:' Minute',tmMinSufP:' Minuten',tmSec30:'\u26a1 Noch 30 Sekunden!',tmSec15:'\u26a1 Noch 15 Sekunden!',
+oeH2:'Order Equation',oeHint:'Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein \u2013 und folge dann den Anweisungen.',
+oeDelay:'Pause zwischen Schritten (Sekunden)',oeStart:'Starten',oeReset:'Neu starten',
+oeFormulaTitle:'&#x1F9EE; Rechenweg f\u00fcr die Person',
+oeFormulaSub:'A, B, C = zuf\u00e4llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten',
+oeResult:'Ergebnis',oeLastDigit:'Letzte Ziffer',oeEven:'Gerade \u2713',oeOdd:'Ungerade \u2713',
+oeReveal:'Anzeigen',oeRevealTitle:'Aufl\u00f6sung',oeYear:'Dein Geburtsjahr',oeAge:'Dein Alter',oeFullResult:'Vollst. Ergebnis',
+oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',oeAgeMin:'Alter von',oeAgeMax:'Alter bis',
+oeStep1Label:'Schritt 1 \u2013 Gib ein (zensiert)',oeStep1Sub:'Dein Geburtsjahr (4-stellig) \u2192 Taschenrechner',oeStep1Speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.',
+oeStep2Label:'Schritt 2 \u2013 Plus',oeStep2Sub:'Addiere diese zweistellige Zahl',
+oeStep3Label:'Schritt 3 \u2013 Mal',oeStep3Sub:'Multipliziere mit dieser Zahl',
+oeStep4Label:'Schritt 4 \u2013 Mal',oeStep4Sub:'Multipliziere erneut mit dieser Zahl',
+oeStep5Label:'Schritt 5 \u2013 Plus (zensiert)',oeStep5Sub:'Addiere dein aktuelles Alter',oeStep5Speak:'Addiere jetzt dein aktuelles Alter \u2013 diese Zahl bleibt geheim.',
+oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCalcSub:'Berechne & zeige mir das Ergebnis!',
+oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
+volLabel:'&#x1F50A; Lautst\u00e4rke',buyLink:'Synaptic kaufen',
+helpItems:[
+{title:'1 &nbsp;Calendar Prodigy',text:'W\u00e4hle ein Start- und Enddatum. Die App generiert ein zuf\u00e4lliges Datum aus diesem Zeitraum. Klicke danach Schritt f\u00fcr Schritt auf \u201eN\u00e4chster Schritt\u201c, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen aufzudecken.'},
+{title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f\u00fcr Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W\u00e4hle die Leserichtung und stelle die Pause ein.'},
+{title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g\u00fcltige Kreditkartennummer (Luhn-gepr\u00fcft) und l\u00e4sst eine zuf\u00e4llige Ziffer weg. Die fehlende Stelle wird als Frage pr\u00e4sentiert.'},
+{title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent und blockiert deine Gewinnz\u00fcge.'},
+{title:'5 &nbsp;Time Master',text:'Ein pr\u00e4ziser Countdown-Timer. 2 Ziffern = Sekunden, 3 Ziffern = Minuten+Sekunden.'},
+{title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr. Die App zeigt Schritt f\u00fcr Schritt eine Rechnung. Das Ergebnis enth\u00fcllt das Geburtsjahr und Alter.'},
+{title:'&#x1F310; &nbsp;Sprachumschalter',text:'Wechselt die gesamte App zwischen Deutsch und Englisch.'},
+{title:'&#x1F50A; &nbsp;Lautst\u00e4rke &amp; Stumm',text:'Lautst\u00e4rke-Schieberegler und Stumm-Knopf steuern die Sprachausgabe.'},
+{title:'\u263D &nbsp;Hell / Dunkel',text:'Wechselt zwischen Hell- und Dunkel-Modus.'}
+],
+zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';},
+locale:'de-DE'
+},
+en:{
+themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v5.5',helpClose:'Close',
+cpH2:'Random Date',labelStart:'Start date',labelEnd:'End date',
+labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
+labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
+labelSpeech:'Enable speech output',speechTitle:'Pauses (seconds)',
+dStart:'Start',dYM:'after year',dMD:'after month',dDW:'after day',dWD:'after weekday',dDig:'between digits',
+btnGenerate:'Generate random date',btnNext:'Next step',btnReset:'Reset',btnNextDate:'&#x1F4C5; Next date',
+cpReady:'Ready!',seqDone:'Sequence complete.',seqHint:'Next date or reset.',
+speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
+alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
+cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
+cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
+cpDateWarn:'&#x26A0;&#xFE0F; End date is in the future \u2013 automatically corrected to yesterday.',
+piH2:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
+piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',
+ccH2:'Card Hacker',ccDelay:'Pause between digits (seconds)',ccGen:'Generate card',ccReset:'Restart',ccReady:'Ready.',
+ccMissing:'Missing digit',ccRead:'Read aloud',ccReading:'Reading...',ccSolution:'Show solution',
+ccDone:'Reading complete.',ccShown:'Solution shown.',ccFinished:'Done',ccShow:'Show number',
+ccDigits:' digits \u00b7 Ready',
+vgH2:'Foursight Guru',vgWho:'Who starts?',vgUser:'User',vgApp:'App',
+vgPlayers:'Number of app players',vgShowBoard:'Show boards',vgSpeech:'Speech for app',
+vgNewGame:'New game',vgSummaryTitle:'&#x1F3C6; Game summary',
+vgWon:'You won!',vgLost:' won!',vgDraw:'Draw!',
+vgMoves:' moves',vgThinking:' thinking...',vgYourTurn:'\u2b07 Your turn here!',
+vgWait:'\u23F3 Wait \u2013 play at ',vgWaitPlay:' first',
+vgWrong:'\u26a0\ufe0f Wrong board! Please play at ',vgWrongAt:' first.',
+vgSetsCol:' plays column ',vgClickCol:'Click a column to make your move.',
+vgWins:'Wins',vgLosses:'Losses',vgDraws:'Draws',vgTotal:'moves total',
+vgBoardVs:'Board vs. ',vgStarting:'Starting...',vgGrandTotal:'Total',
+vgMovesTotal:' moves total (You: ',vgMovesApp:', ',vgMovesLag:' move',vgMovesLagP:' moves',vgMovesLagSuf:' behind',
+tmH2:'Time Master',tmHint:'2 digits = seconds &nbsp;|&nbsp; 3 digits = 1st digit minutes + 2 digits seconds',
+tmLabel:'Enter time (2\u20133 digits)',tmStart:'Start',tmReset:'Reset',tmEnd:'END',
+tmMin:' min. ',tmSec:' sec.',tmInvalid:'Invalid input',tmSecMax:'\u26a0\ufe0f Seconds max. 59!',tmZero:'\u26a0\ufe0f Time must be greater than 0',
+tmMin1:'',tmMinSuf:' minute',tmMinSufP:' minutes',tmSec30:'\u26a1 30 seconds left!',tmSec15:'\u26a1 15 seconds left!',
+oeH2:'Order Equation',oeHint:'Think of your birth year. Enter it in your calculator \u2013 then follow the instructions.',
+oeDelay:'Pause between steps (seconds)',oeStart:'Start',oeReset:'Restart',
+oeFormulaTitle:'&#x1F9EE; Calculation for the person',
+oeFormulaSub:'A, B, C = random two-digit numbers &nbsp;|&nbsp; mind operator precedence',
+oeResult:'Result',oeLastDigit:'Last digit',oeEven:'Even \u2713',oeOdd:'Odd \u2713',
+oeReveal:'Reveal',oeRevealTitle:'Solution',oeYear:'Your birth year',oeAge:'Your age',oeFullResult:'Full result',
+oeFormulaYear:'Birth year',oeFormulaAge:'Age',oeAgeMin:'Age from',oeAgeMax:'Age to',
+oeStep1Label:'Step 1 \u2013 Enter (hidden)',oeStep1Sub:'Your birth year (4 digits) \u2192 calculator',oeStep1Speak:'Enter your four-digit birth year into the calculator.',
+oeStep2Label:'Step 2 \u2013 Plus',oeStep2Sub:'Add this two-digit number',
+oeStep3Label:'Step 3 \u2013 Times',oeStep3Sub:'Multiply by this number',
+oeStep4Label:'Step 4 \u2013 Times',oeStep4Sub:'Multiply again by this number',
+oeStep5Label:'Step 5 \u2013 Plus (hidden)',oeStep5Sub:'Add your current age',oeStep5Speak:'Now add your current age \u2013 this number stays secret.',
+oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCalcSub:'Calculate & show me the result!',
+oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
+volLabel:'&#x1F50A; Volume',buyLink:'Buy Synaptic',
+helpItems:[
+{title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date. Click Next Step to reveal day, month, year, weekday, days passed and optionally the zodiac sign.'},
+{title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit. Choose direction and set the pause between digits.'},
+{title:'3 &nbsp;Card Hacker',text:'Generates a valid credit card number (Luhn-checked) with one digit missing. The missing digit is revealed at the end.'},
+{title:'4 &nbsp;Foursight Guru',text:'Connect Four against up to 4 app players. The app plays intelligently and blocks your winning moves.'},
+{title:'5 &nbsp;Time Master',text:'Precise countdown timer. 2 digits = seconds, 3 digits = minutes+seconds.'},
+{title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year. The app shows a step-by-step calculation that reveals year and age.'},
+{title:'&#x1F310; &nbsp;Language Switch',text:'Switches the entire app between German and English instantly.'},
+{title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Volume slider and mute button control speech output.'},
+{title:'\u263D &nbsp;Light / Dark',text:'Switches between light and dark mode.'}
+],
+zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Aquarius';if((m==2&&d>=20)||(m==3&&d<=20))return'Pisces';if((m==3&&d>=21)||(m==4&&d<=20))return'Aries';if((m==4&&d>=21)||(m==5&&d<=20))return'Taurus';if((m==5&&d>=21)||(m==6&&d<=21))return'Gemini';if((m==6&&d>=22)||(m==7&&d<=22))return'Cancer';if((m==7&&d>=23)||(m==8&&d<=23))return'Leo';if((m==8&&d>=24)||(m==9&&d<=23))return'Virgo';if((m==9&&d>=24)||(m==10&&d<=23))return'Libra';if((m==10&&d>=24)||(m==11&&d<=22))return'Scorpio';if((m==11&&d>=23)||(m==12&&d<=21))return'Sagittarius';return'Capricorn';},
+locale:'en-US'
+}
+};
+
+// ===== HELPERS =====
+var speechQueue=[],isSpeaking=false;
+function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
+function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
+function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
+function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
+function gi(id){return document.getElementById(id);}
+function qs(sel){return document.querySelector(sel);}
+
+// ===== TABS =====
+function openTab(id){
+var panes=document.querySelectorAll('.tab-pane');
+panes.forEach(function(p){p.style.display='none';p.classList.remove('active');});
+var btns=document.querySelectorAll('.tab-button');
+btns.forEach(function(b){b.classList.remove('active');});
+var pane=gi(id);
+if(pane){pane.style.display='block';pane.classList.add('active');}
+btns.forEach(function(b){if(b.getAttribute('data-tab')===id)b.classList.add('active');});
+}
+document.querySelectorAll('.tab-button').forEach(function(btn){
+btn.addEventListener('click',function(){openTab(btn.getAttribute('data-tab'));});
+});
+
+// ===== SWIPE =====
 (function(){
 var tabIds=['date-tab','pi-tab','cc-tab','vg-tab','tm-tab','oe-tab'];
-var tabBtns=document.querySelectorAll('.tab-button');
 var container=document.querySelector('.app-container');
 var touchStartX=0,touchStartY=0,swipeLocked=false;
-container.addEventListener('touchstart',function(e){
-touchStartX=e.touches[0].clientX;
-touchStartY=e.touches[0].clientY;
-swipeLocked=false;
-},{passive:true});
+container.addEventListener('touchstart',function(e){touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;swipeLocked=false;},{passive:true});
 container.addEventListener('touchend',function(e){
 if(swipeLocked)return;
 var dx=e.changedTouches[0].clientX-touchStartX;
@@ -330,839 +457,404 @@ if(curIdx===-1)return;
 var nextIdx=dx<0?Math.min(curIdx+1,tabIds.length-1):Math.max(curIdx-1,0);
 if(nextIdx===curIdx)return;
 swipeLocked=true;
-openTab(null,tabIds[nextIdx]);
-tabBtns.forEach(function(b,i){b.classList.toggle('active',i===nextIdx);});
+openTab(tabIds[nextIdx]);
 },{passive:true});
 })();
 
-window.openTab=function(evt,id){document.querySelectorAll('.tab-pane').forEach(function(p){p.style.display='none';p.classList.remove('active');});document.querySelectorAll('.tab-button').forEach(function(b){b.classList.remove('active');});var pane=document.getElementById(id);if(pane){pane.style.display='block';pane.classList.add('active');}if(evt&&evt.currentTarget){evt.currentTarget.classList.add('active');}else{document.querySelectorAll('[data-tab="'+id+'"]').forEach(function(b){b.classList.add('active');});}};document.querySelectorAll('.tab-button[data-tab]').forEach(function(btn){btn.addEventListener('click',function(e){window.openTab(e,btn.getAttribute('data-tab'));});});
-// Stumm-Schaltfläche
-var isMuted=true,appLang='de',isLight=false,globalVolume=0;
-document.getElementById('lang-toggle').addEventListener('click',function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();});
-document.getElementById('mute-toggle').addEventListener('click',function(){
-isMuted=!isMuted;
-globalVolume=isMuted?0:parseFloat(document.getElementById('vol-slider').value);document.getElementById('vol-slider').value=isMuted?0:1;document.getElementById('vol-label').textContent=isMuted?'0%':Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';
-this.textContent=isMuted?'🔇':'🔊';
-this.style.color=isMuted?'#ff6b6b':'var(--text)';
-if(isMuted&&window.speechSynthesis)window.speechSynthesis.cancel();
-});
-// Anleitung
-document.getElementById('help-toggle').addEventListener('click',function(){
-document.getElementById('help-modal').classList.add('open');
-});
-document.getElementById('help-close').addEventListener('click',function(){
-document.getElementById('help-modal').classList.remove('open');
-});
-document.getElementById('help-modal').addEventListener('click',function(e){
-if(e.target===this)this.classList.remove('open');
-});
-// ===== LOCALSTORAGE SETTINGS =====
-function saveSettings(){
-try{
-localStorage.setItem('syna_lang',appLang);
-localStorage.setItem('syna_theme',isLight?'light':'dark');
-localStorage.setItem('syna_vol',document.getElementById('vol-slider').value);
-localStorage.setItem('syna_muted',isMuted?'1':'0');
-}catch(e){}
-}
-function loadSettings(){
-try{
-var lang=localStorage.getItem('syna_lang');if(lang&&(lang==='de'||lang==='en'))appLang=lang;
-var theme=localStorage.getItem('syna_theme');if(theme)isLight=(theme==='light');
-var vol=localStorage.getItem('syna_vol');if(vol!==null){document.getElementById('vol-slider').value=vol;globalVolume=parseFloat(vol);}
-var muted=localStorage.getItem('syna_muted');if(muted!==null){isMuted=(muted==='1');}
-}catch(e){}
-}
-// ===== SYSTEM THEME DETECTION =====
-(function(){
-var saved=null;try{saved=localStorage.getItem('syna_theme');}catch(e){}
-var sysDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-if(!saved){isLight=!sysDark;}
-else{isLight=(saved==='light');}
-})();
-document.getElementById('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;saveSettings();});
-if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){
-try{var saved=localStorage.getItem('syna_theme');}catch(ex){var saved=null;}
-if(!saved){isLight=!e.matches;document.body.classList.toggle('light-mode',isLight);document.getElementById('theme-toggle').textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;}
-});}
-// Apply loaded settings
+// ===== SETTINGS =====
+function saveSettings(){try{localStorage.setItem('syna_lang',appLang);localStorage.setItem('syna_theme',isLight?'light':'dark');localStorage.setItem('syna_vol',gi('vol-slider').value);localStorage.setItem('syna_muted',isMuted?'1':'0');}catch(e){}}
+function loadSettings(){try{var lang=localStorage.getItem('syna_lang');if(lang&&(lang==='de'||lang==='en'))appLang=lang;var theme=localStorage.getItem('syna_theme');if(theme)isLight=(theme==='light');var vol=localStorage.getItem('syna_vol');if(vol!==null){gi('vol-slider').value=vol;globalVolume=parseFloat(vol);}var muted=localStorage.getItem('syna_muted');if(muted!==null)isMuted=(muted==='1');}catch(e){}}
+
+// Detect system theme
+(function(){var saved=null;try{saved=localStorage.getItem('syna_theme');}catch(e){}if(!saved){isLight=false;}else{isLight=(saved==='light');}})();
 loadSettings();
 document.body.classList.toggle('light-mode',isLight);
-document.getElementById('mute-toggle').textContent=isMuted?'🔇':'🔊';
-document.getElementById('mute-toggle').style.color=isMuted?'#ff6b6b':'var(--text)';
-if(isMuted){globalVolume=0;document.getElementById('vol-slider').value=0;document.getElementById('vol-label').textContent='0%';}
-else{document.getElementById('vol-label').textContent=Math.round(parseFloat(document.getElementById('vol-slider').value)*100)+'%';}
-var T={
-de:{
-themeLight:'Hell',themeDark:'Dunkel',
-  helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.4',
-helpClose:'Schlie&szlig;en',
-h1:'Zuf&auml;lliges Datum',
-labelStart:'Anfangsdatum',labelEnd:'Enddatum',
-labelZodiac:'Sternzeichen anzeigen',
-labelFormat:'Datumsformat',
-fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
-labelSpeech:'Sprachausgabe aktivieren',
-speechTitle:'Pausen (Sekunden)',
-dStart:'Start',dYM:'nach Jahr',dMD:'nach Monat',dDW:'nach Tag',dWD:'nach Wochentag',dDig:'zw. Ziffern',
-btnGenerate:'Zuf&auml;lliges Datum generieren',
-  cpWeekdayMode:'Wochentag-Modus',cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
-  cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt – rate den Wochentag!',
-btnNext:'N&auml;chster Schritt',btnReset:'Zur&uuml;cksetzen',btnNextDate:'&#x1F4C5; N&auml;chstes Datum',
-ready:'Bereit!',clickNext:'Klicke auf N&auml;chster Schritt',
-seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Zur&uuml;cksetzen.',
-speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fertig',
-alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
-vgTitle:'Foursight Guru',vgWho:'Wer beginnt?',vgUser:'Benutzer',vgApp:'App',
-vgPlayers:'Anzahl App-Spieler',vgShowBoard:'Spielfelder anzeigen',vgSpeech:'Sprachausgabe f&uuml;r App',
-vgNewGame:'Neues Spiel',vgSummaryTitle:'&#x1F3C6; Spielzusammenfassung',
-vgWon:'Du hast gewonnen!',vgLost:' hat gewonnen!',vgDraw:'Unentschieden!',
-vgMoves:' Z&uuml;ge',vgThinking:' denkt...',vgYourTurn:'⬇ Dein Zug hier!',
-vgWait:'&#x23F3; Warte – erst bei ',vgWaitPlay:' spielen',
-vgWrong:'&#x26A0;&#xFE0F; Falsches Spielfeld! Bitte zuerst bei ',vgWrongAt:' spielen.',
-vgSetsCol:' setzt in Spalte ',vgClickCol:'Klicke auf eine Spalte, um deinen Zug zu machen.',
-vgWins:'Siege',vgLosses:'Niederlagen',vgDraws:'Unentschieden',vgTotal:'Z&uuml;ge total',
-piTitle:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf&auml;llig',piForward:'Vorw&auml;rts',piBackward:'R&uuml;ckw&auml;rts',
-piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',
-ccTitle:'Card Hacker',ccDelay:'Pause zwischen Ziffern (Sekunden)',ccGen:'Karte generieren',ccReset:'Neu starten',ccReady:'Bereit.',
-ccMissing:'Fehlende Ziffer',ccRead:'Vorlesen',ccReading:'Liest vor...',ccSolution:'L&ouml;sung anzeigen',
-ccDone:'Vorlesen beendet.',ccShown:'L&ouml;sung angezeigt.',ccFinished:'Fertig',ccShow:'Nummer anzeigen',
-tmTitle:'Time Master',tmHint:'2 Ziffern = Sekunden &nbsp;|&nbsp; 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden',
-tmLabel:'Zeit eingeben (2–3 Ziffern)',tmStart:'Start',tmReset:'Reset',tmEnd:'ENDE',
-tmMin:' Min. ',tmSec:' Sek.',tmInvalid:'Ung&uuml;ltige Eingabe',tmSecMax:'&#x26A0;&#xFE0F; Sekunden max. 59!',tmZero:'&#x26A0;&#xFE0F; Zeit muss gr&ouml;&szlig;er als 0 sein',
-tmMin1:'Noch ',tmMinSuf:' Minute',tmMinSufP:' Minuten',tmSec30:'&#x26A1; Noch 30 Sekunden!',tmSec15:'&#x26A1; Noch 15 Sekunden!',
-oeTitle:'Order Equation',oeHint:'Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.',
-oeDelay:'Pause zwischen Schritten (Sekunden)',oeStart:'Starten',oeReset:'Neu starten',
-oeFormulaTitle:'&#x1F9EE; Rechenweg f&uuml;r die Person',
-oeFormulaSub:'A, B, C = zuf&auml;llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten',
-oeResult:'Ergebnis',oeLastDigit:'Letzte Ziffer',oeEven:'Gerade &#x2713;',oeOdd:'Ungerade &#x2713;',
-oeReveal:'Anzeigen',oeRevealTitle:'Aufl&ouml;sung',oeYear:'Dein Geburtsjahr',oeAge:'Dein Alter',oeFullResult:'Vollst. Ergebnis',
-oeStep1Label:'Schritt 1 – Gib ein (zensiert)',oeStep1Sub:'Dein Geburtsjahr (4-stellig) → Taschenrechner',oeStep1Speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.',
-oeStep2Label:'Schritt 2 – Plus',oeStep2Sub:'Addiere diese zweistellige Zahl',
-oeStep3Label:'Schritt 3 – Mal',oeStep3Sub:'Multipliziere mit dieser Zahl',
-oeStep4Label:'Schritt 4 – Mal',oeStep4Sub:'Multipliziere erneut mit dieser Zahl',
-oeStep5Label:'Schritt 5 – Plus (zensiert)',oeStep5Sub:'Addiere dein aktuelles Alter',oeStep5Speak:'Addiere jetzt dein aktuelles Alter – diese Zahl bleibt geheim.',
-oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCalcSub:'Berechne & zeige mir das Ergebnis!',
-oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
-vgBoardVs:'Spielfeld gegen ',vgStarting:'Startet...',
-vgMovesTotal:' Züge gesamt (Du: ',vgMovesApp:', ',vgMovesLag:' Zug',vgMovesLagP:' Züge',vgMovesLagSuf:' im Rückstand',
-vgGrandTotal:'Gesamt',
-ccDigits:' Ziffern \u00b7 Bereit',
-cpReady:'Bereit!',cpClickNext:'Klicke auf Nächster Schritt',
-buyLink:'Synaptic kaufen',oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',oeAgeMin:'Alter von',oeAgeMax:'Alter bis',
-volLabel:'&#x1F50A; Lautst&auml;rke',langBtn:'&#x1F310; English',
-helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.'},
-{title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f&uuml;r Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W&auml;hle die Leserichtung (vorw&auml;rts, r&uuml;ckw&auml;rts oder zuf&auml;llig) und stelle die Pause zwischen den Ziffern ein. Optional kannst du die Zahlenreihe im Kontext einblenden lassen, um deinen Fortschritt zu verfolgen.'},
-{title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g&uuml;ltige Kreditkartennummer (Luhn-gepr&uuml;ft) und l&auml;sst eine zuf&auml;llige Ziffer weg. Die Nummer wird Ziffer f&uuml;r Ziffer vorgelesen &ndash; die fehlende Stelle wird als Frage pr&auml;sentiert. Die Antwort (fehlende Ziffer) wird am Ende aufgedeckt. Optional kann die vollst&auml;ndige Nummer angezeigt werden.'},
-{title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent: Sie versucht zu gewinnen und blockiert deine Gewinnz&uuml;ge. Lege fest, wer beginnt und ob die Spielfelder sichtbar sind. Ohne Spielfeldanzeige wird der letzte Zug der App als Text eingeblendet. Mit Sprachausgabe wird jeder Zug angesagt.'},
-{title:'5 &nbsp;Time Master',text:'Ein pr&auml;ziser Countdown-Timer. Gib 2 Ziffern f&uuml;r Sekunden ein (z.&nbsp;B. 45 = 45&nbsp;Sek.) oder 3 Ziffern f&uuml;r Minuten und Sekunden (z.&nbsp;B. 111 = 1&nbsp;Min. 11&nbsp;Sek.). Der Ring blinkt bei jeder vollen Restminute, bei 30 und 15 Sekunden rot, ab 10&nbsp;Sekunden bei jedem Tick rot, ab 5&nbsp;Sekunden gr&uuml;n. Am Ende erscheint &bdquo;ENDE&ldquo;.'},
-{title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in ihren Taschenrechner ein. Die App zeigt dann Schritt f&uuml;r Schritt eine Rechnung an: + eine Zahl &times; eine Zahl &times; eine Zahl + (geheimes Alter). Das Ergebnis wird zun&auml;chst verborgen angezeigt. Daneben steht bereits, ob die letzte Ziffer gerade oder ungerade ist. Nach Klick auf &bdquo;Anzeigen&ldquo; werden Geburtsjahr, Alter und vollst&auml;ndiges Ergebnis aufgedeckt.'},
-{title:'&#x1F310; &nbsp;Sprachumschalter',text:'Oben rechts im Header befindet sich der Sprachumschalter. Ein Klick wechselt die gesamte App zwischen Deutsch und Englisch – alle Labels, Buttons, Statusmeldungen und die Anleitung werden sofort aktualisiert. Die Einstellung wird gespeichert.'},
-{title:'&#x1F50A; &nbsp;Lautst&auml;rke &amp; Stumm',text:'Unterhalb der App befindet sich der Lautst&auml;rke-Schieberegler. Der Stumm-Knopf (&#x1F507;/&#x1F50A;) im Header schaltet die Sprachausgabe sofort aus oder ein. Beide Einstellungen werden gespeichert und beim n&auml;chsten Start wiederhergestellt.'},
-{title:'&#x263D; &nbsp;Hell / Dunkel',text:'Der Theme-Button oben rechts wechselt zwischen Hell- und Dunkel-Modus. Das System-Theme wird beim ersten Start automatisch &uuml;bernommen. Die gew&auml;hlte Einstellung wird gespeichert.'}
-],
-zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'Löwe';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Schütze';return'Steinbock';},
-locale:'de-DE'
-},
-en:{
-themeLight:'Light',themeDark:'Dark',
-  
-  helpTitle:'&#x2753; Guide &ndash; SynaTest v5.4',
-helpClose:'Close',
-h1:'Random Date',
-labelStart:'Start date',labelEnd:'End date',
-labelZodiac:'Show zodiac sign',
-labelFormat:'Date format',
-fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
-labelSpeech:'Enable speech output',
-speechTitle:'Pauses (seconds)',
-dStart:'Start',dYM:'after year',dMD:'after month',dDW:'after day',dWD:'after weekday',dDig:'between digits',
-btnGenerate:'Generate random date',
-  cpWeekdayMode:'Weekday mode',cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
-  cpWeekdayModeHelp:'The full date is shown – guess the weekday!',
-btnNext:'Next step',btnReset:'Reset',btnNextDate:'&#x1F4C5; Next date',
-ready:'Ready!',clickNext:'Click Next Step',
-seqDone:'Sequence complete.',seqHint:'Next date or reset.',
-speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
-alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
-vgTitle:'Foursight Guru',vgWho:'Who starts?',vgUser:'User',vgApp:'App',
-vgPlayers:'Number of app players',vgShowBoard:'Show boards',vgSpeech:'Speech for app',
-vgNewGame:'New game',vgSummaryTitle:'&#x1F3C6; Game summary',
-vgWon:'You won!',vgLost:' won!',vgDraw:'Draw!',
-vgMoves:' moves',vgThinking:' thinking...',vgYourTurn:'⬇ Your turn here!',
-vgWait:'&#x23F3; Wait – play at ',vgWaitPlay:' first',
-vgWrong:'&#x26A0;&#xFE0F; Wrong board! Please play at ',vgWrongAt:' first.',
-vgSetsCol:' plays column ',vgClickCol:'Click a column to make your move.',
-vgWins:'Wins',vgLosses:'Losses',vgDraws:'Draws',vgTotal:'moves total',
-piTitle:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
-piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',
-ccTitle:'Card Hacker',ccDelay:'Pause between digits (seconds)',ccGen:'Generate card',ccReset:'Restart',ccReady:'Ready.',
-ccMissing:'Missing digit',ccRead:'Read aloud',ccReading:'Reading...',ccSolution:'Show solution',
-ccDone:'Reading complete.',ccShown:'Solution shown.',ccFinished:'Done',ccShow:'Show number',
-tmTitle:'Time Master',tmHint:'2 digits = seconds &nbsp;|&nbsp; 3 digits = 1st digit minutes + 2 digits seconds',
-tmLabel:'Enter time (2–3 digits)',tmStart:'Start',tmReset:'Reset',tmEnd:'END',
-tmMin:' min. ',tmSec:' sec.',tmInvalid:'Invalid input',tmSecMax:'&#x26A0;&#xFE0F; Seconds max. 59!',tmZero:'&#x26A0;&#xFE0F; Time must be greater than 0',
-tmMin1:'',tmMinSuf:' minute',tmMinSufP:' minutes',tmSec30:'&#x26A1; 30 seconds left!',tmSec15:'&#x26A1; 15 seconds left!',
-oeTitle:'Order Equation',oeHint:'Think of your birth year. Enter it in your calculator – then follow the instructions.',
-oeDelay:'Pause between steps (seconds)',oeStart:'Start',oeReset:'Restart',
-oeFormulaTitle:'&#x1F9EE; Calculation for the person',
-oeFormulaSub:'A, B, C = random two-digit numbers &nbsp;|&nbsp; mind operator precedence',
-oeResult:'Result',oeLastDigit:'Last digit',oeEven:'Even &#x2713;',oeOdd:'Odd &#x2713;',
-oeReveal:'Reveal',oeRevealTitle:'Solution',oeYear:'Your birth year',oeAge:'Your age',oeFullResult:'Full result',
-oeStep1Label:'Step 1 – Enter (hidden)',oeStep1Sub:'Your birth year (4 digits) → calculator',oeStep1Speak:'Enter your four-digit birth year into the calculator.',
-oeStep2Label:'Step 2 – Plus',oeStep2Sub:'Add this two-digit number',
-oeStep3Label:'Step 3 – Times',oeStep3Sub:'Multiply by this number',
-oeStep4Label:'Step 4 – Times',oeStep4Sub:'Multiply again by this number',
-oeStep5Label:'Step 5 – Plus (hidden)',oeStep5Sub:'Add your current age',oeStep5Speak:'Now add your current age – this number stays secret.',
-oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCalcSub:'Calculate & show me the result!',
-oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
-vgBoardVs:'Board vs. ',vgStarting:'Starting...',
-vgMovesTotal:' moves total (You: ',vgMovesApp:', ',vgMovesLag:' move',vgMovesLagP:' moves',vgMovesLagSuf:' behind',
-vgGrandTotal:'Total',
-ccDigits:' digits \u00b7 Ready',
-cpReady:'Ready!',cpClickNext:'Click Next Step',
-buyLink:'Buy Synaptic',oeFormulaYear:'Birth year',oeFormulaAge:'Age',oeAgeMin:'Age from',oeAgeMax:'Age to',
-volLabel:'&#x1F50A; Volume',langBtn:'&#x1F310; Deutsch',
-helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date from that range. Then click "Next Step" to reveal the day, month, year, weekday, number of days passed and optionally the zodiac sign. With speech enabled, everything is read aloud with configurable pauses.'},
-{title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit and reads each one aloud. Choose the direction (forward, backward or random) and set the pause between digits. Optionally show the digit sequence in context to track your progress.'},
-{title:'3 &nbsp;Card Hacker',text:'The app generates a valid credit card number (Luhn-checked) and omits one random digit. The number is read aloud digit by digit – the missing digit is presented as a question. The answer is revealed at the end. Optionally show the full number.'},
-{title:'4 &nbsp;Foursight Guru',text:'A Connect Four game against up to 4 app players simultaneously. The app plays intelligently: it tries to win and blocks your winning moves. Set who starts and whether the boards are visible. Without board display, the app\'s last move is shown as text. With speech, every move is announced.'},
-{title:'5 &nbsp;Time Master',text:'A precise countdown timer. Enter 2 digits for seconds (e.g. 45 = 45 sec.) or 3 digits for minutes and seconds (e.g. 111 = 1 min. 11 sec.). The ring flashes at every full minute remaining, at 30 and 15 seconds red, from 10 seconds each tick red, from 5 seconds green. END appears at zero.'},
-{title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year and enters it into their calculator. The app then shows a step-by-step calculation: + a number × a number × a number + (secret age). The result is initially hidden. Next to it, it already shows whether the last digit is even or odd. Clicking Reveal shows the birth year, age and full result.'},
-{title:'&#x1F310; &nbsp;Language Switch',text:'The language toggle in the top-right header switches the entire app between German and English – all labels, buttons, status messages and the guide are updated instantly. The setting is saved automatically.'},
-{title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Below the app is the volume slider. The mute button (&#x1F507;/&#x1F50A;) in the header instantly silences or enables speech output. Both settings are saved and restored on next launch.'},
-{title:'&#x263D; &nbsp;Light / Dark',text:'The theme button in the top right switches between light and dark mode. The system theme is applied automatically on first launch. Your chosen setting is saved.'}
-],
-zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Aquarius';if((m==2&&d>=20)||(m==3&&d<=20))return'Pisces';if((m==3&&d>=21)||(m==4&&d<=20))return'Aries';if((m==4&&d>=21)||(m==5&&d<=20))return'Taurus';if((m==5&&d>=21)||(m==6&&d<=21))return'Gemini';if((m==6&&d>=22)||(m==7&&d<=22))return'Cancer';if((m==7&&d>=23)||(m==8&&d<=23))return'Leo';if((m==8&&d>=24)||(m==9&&d<=23))return'Virgo';if((m==9&&d>=24)||(m==10&&d<=23))return'Libra';if((m==10&&d>=24)||(m==11&&d<=22))return'Scorpio';if((m==11&&d>=23)||(m==12&&d<=21))return'Sagittarius';return'Capricorn';},
-locale:'en-US'
-}
-};
+gi('mute-toggle').textContent=isMuted?'\uD83D\uDD07':'\uD83D\uDD0A';
+gi('mute-toggle').style.color=isMuted?'#ff6b6b':'var(--text)';
+if(isMuted){globalVolume=0;gi('vol-slider').value=0;gi('vol-label').textContent='0%';}
+else{gi('vol-label').textContent=Math.round(parseFloat(gi('vol-slider').value)*100)+'%';}
 
+// ===== APPLY LANG =====
 function appApplyLang(){
 var t=T[appLang];
-// Header
-document.getElementById('lang-toggle').innerHTML=t.langBtn;
-document.getElementById('theme-toggle').textContent=isLight?t.themeLight:t.themeDark;
-// Help modal
-document.querySelector('#help-modal-inner h3').innerHTML=t.helpTitle;
-document.getElementById('help-close').innerHTML=t.helpClose;
-var items=document.querySelectorAll('.help-item');
-t.helpItems.forEach(function(hi,i){if(items[i]){items[i].querySelector('.help-item-title').innerHTML=hi.title;items[i].querySelector('.help-item-text').innerHTML=hi.text;}});
+gi('lang-toggle').innerHTML=t.langBtn;
+gi('theme-toggle').textContent=isLight?t.themeLight:t.themeDark;
+gi('help-title').innerHTML=t.helpTitle;
+gi('help-close').innerHTML=t.helpClose;
+// Help items
+var hic=gi('help-items-container');hic.innerHTML='';
+t.helpItems.forEach(function(hi){var d=document.createElement('div');d.className='help-item';d.innerHTML='<div class="help-item-title">'+hi.title+'</div><div class="help-item-text">'+hi.text+'</div>';hic.appendChild(d);});
 // Calendar Prodigy
-document.querySelector('#date-tab h2').innerHTML=t.h1;
-document.querySelector('label[for="start-date"]').textContent=t.labelStart.replace(/&auml;/g,'ä');
-document.querySelector('label[for="end-date"]').textContent=t.labelEnd.replace(/&auml;/g,'ä');
-document.querySelector('label[for="show-zodiac"]').textContent=t.labelZodiac.replace(/&auml;/g,'ä');
-  var cpWdLbl=document.querySelector('label[for="cp-weekday-mode"]');if(cpWdLbl)cpWdLbl.textContent=t.cpWeekdayMode;
-document.querySelector('label[for="date-format"]').textContent=t.labelFormat;
-document.querySelector('#date-format option[value="DMY"]').textContent=t.fmtDMY.replace(/&auml;/g,'ä');
-document.querySelector('#date-format option[value="YMD"]').textContent=t.fmtYMD.replace(/&auml;/g,'ä');
-document.querySelector('label[for="enable-speech"]').innerHTML=t.labelSpeech;
-document.querySelector('#speech-settings h4').innerHTML=t.speechTitle;
-document.getElementById('btn-generate').innerHTML=t.btnGenerate;
-document.getElementById('btn-next').innerHTML=t.btnNext;
-document.getElementById('btn-reset').innerHTML=t.btnReset;
-document.getElementById('btn-next-date').innerHTML=t.btnNextDate;
+gi('cp-h2').innerHTML=t.cpH2;
+gi('lbl-start-date').textContent=t.labelStart;
+gi('lbl-end-date').textContent=t.labelEnd;
+gi('lbl-zodiac').textContent=t.labelZodiac;
+gi('lbl-cp-weekday-mode').textContent=t.cpWeekdayMode;
+gi('lbl-date-format').textContent=t.labelFormat;
+qs('#date-format option[value="DMY"]').textContent=t.fmtDMY;
+qs('#date-format option[value="YMD"]').textContent=t.fmtYMD;
+gi('lbl-enable-speech').innerHTML=t.labelSpeech;
+gi('lbl-speech-title').innerHTML=t.speechTitle;
+gi('lbl-delay-initial').textContent=t.dStart;
+gi('lbl-delay-ym').textContent=t.dYM;
+gi('lbl-delay-md').textContent=t.dMD;
+gi('lbl-delay-dw').textContent=t.dDW;
+gi('lbl-delay-wd').textContent=t.dWD;
+gi('lbl-delay-dig').textContent=t.dDig;
+gi('btn-generate').innerHTML=t.btnGenerate;
+gi('btn-next').innerHTML=t.btnNext;
+gi('btn-reset').innerHTML=t.btnReset;
+gi('btn-next-date').innerHTML=t.btnNextDate;
+gi('cp-date-warning').innerHTML=t.cpDateWarn;
 // Pi
-document.querySelector('#pi-tab h2').innerHTML=t.piTitle;
-document.querySelector('label[for="pi-direction"]').innerHTML=t.piDir;
-document.querySelector('#pi-direction option[value="random"]').textContent=t.piRandom;
-document.querySelector('#pi-direction option[value="forward"]').textContent=t.piForward;
-document.querySelector('#pi-direction option[value="backward"]').textContent=t.piBackward;
-document.getElementById('pi-start').innerHTML=t.piStart;
-document.getElementById('pi-stop').innerHTML=t.piStop;
-document.querySelector('label[for="pi-show-ctx"]').innerHTML=t.piShow;
+gi('pi-h2').innerHTML=t.piH2;
+gi('lbl-pi-dir').innerHTML=t.piDir;
+qs('#pi-direction option[value="random"]').textContent=t.piRandom;
+qs('#pi-direction option[value="forward"]').textContent=t.piForward;
+qs('#pi-direction option[value="backward"]').textContent=t.piBackward;
+gi('lbl-pi-delay').innerHTML=t.piDelay;
+gi('pi-start').innerHTML=t.piStart;
+gi('pi-stop').innerHTML=t.piStop;
+gi('lbl-pi-show').innerHTML=t.piShow;
+if(!piRunning)gi('pi-status').textContent=t.piReady;
 // CC
-document.querySelector('#cc-tab h2').innerHTML=t.ccTitle;
-document.getElementById('cc-main').innerHTML=ccState==='idle'?t.ccGen:ccState==='ready'?t.ccRead:ccState==='done'?t.ccSolution:t.ccFinished;
-document.getElementById('cc-reset').innerHTML=t.ccReset;
-document.querySelector('label[for="cc-show-num"]').innerHTML=t.ccShow;
-document.querySelector('#cc-answer-box div:first-child').innerHTML=t.ccMissing;
+gi('cc-h2').innerHTML=t.ccH2;
+gi('lbl-cc-delay').innerHTML=t.ccDelay;
+gi('cc-main').innerHTML=ccState==='idle'?t.ccGen:ccState==='ready'?t.ccRead:ccState==='done'?t.ccSolution:t.ccFinished;
+gi('cc-reset-btn').innerHTML=t.ccReset;
+gi('lbl-cc-missing').innerHTML=t.ccMissing;
+gi('lbl-cc-show').innerHTML=t.ccShow;
+if(ccState==='idle')gi('cc-status').textContent=t.ccReady;
 // VG
-document.querySelector('#vg-tab h2').innerHTML=t.vgTitle;
-document.getElementById('vg-reset').innerHTML=t.vgNewGame;
-// TM
-document.querySelector('#tm-tab h2').innerHTML=t.tmTitle;
-document.querySelector('#tm-tab p').innerHTML=t.tmHint;
-document.querySelector('label[for="tm-input"]').innerHTML=t.tmLabel;
-document.getElementById('tm-start').innerHTML=t.tmStart;
-document.getElementById('tm-reset').innerHTML=t.tmReset;
-// OE
-document.querySelector('#oe-tab h2').innerHTML=t.oeTitle;
-document.querySelector('#oe-tab p').innerHTML=t.oeHint;
-document.getElementById('oe-start').innerHTML=t.oeStart;
-document.querySelector('label[for="oe-delay"]').innerHTML=t.oeDelay;
-document.getElementById('oe-reset').innerHTML=t.oeReset;
-document.getElementById('oe-reveal').innerHTML=t.oeReveal;
-document.querySelector('#oe-formula-hint div:first-child').innerHTML=t.oeFormulaTitle;
-document.querySelector('#oe-formula-hint div:last-child').innerHTML=t.oeFormulaSub;
-// Vol label
-document.querySelector('span[style*="white-space"]').innerHTML=t.volLabel;
-// VG static hint
-var vgHint=document.getElementById('vg-click-hint');
-if(vgHint)vgHint.textContent=t.vgClickCol;
-// VG starter options
-document.querySelector('#vg-starter option[value="user"]').textContent=t.vgUser;
-document.querySelector('#vg-starter option[value="app"]').textContent=t.vgApp;
-document.querySelector('label[for="vg-show-board"]').innerHTML=t.vgShowBoard;
-document.querySelector('label[for="vg-speech"]').innerHTML=t.vgSpeech;
-document.querySelector('label[for="vg-num-players"]').innerHTML=t.vgPlayers;
-document.querySelector('label[for="vg-starter"]').innerHTML=t.vgWho;
-// VG summary title
-var sumTitle=document.querySelector('#vg-summary div:first-child');
-if(sumTitle)sumTitle.innerHTML=t.vgSummaryTitle;
+gi('vg-h2').innerHTML=t.vgH2;
+gi('lbl-vg-starter').innerHTML=t.vgWho;
+qs('#vg-starter option[value="user"]').textContent=t.vgUser;
+qs('#vg-starter option[value="app"]').textContent=t.vgApp;
+gi('lbl-vg-players').innerHTML=t.vgPlayers;
+gi('lbl-vg-show-board').innerHTML=t.vgShowBoard;
+gi('lbl-vg-speech').innerHTML=t.vgSpeech;
+gi('vg-reset').innerHTML=t.vgNewGame;
+gi('vg-summary-title').innerHTML=t.vgSummaryTitle;
+gi('vg-click-hint').textContent=t.vgClickCol;
 document.querySelectorAll('.vg-board-title').forEach(function(el,i){if(vgGames[i])el.textContent=t.vgBoardVs+vgGames[i].ac.name;});
 if(typeof vgUpdateAllCounters==='function')vgUpdateAllCounters();
-if(vgGames.length&&vgTurnIndex<vgTurnQueue.length){var _ct=vgTurnQueue[vgTurnIndex];vgGames.forEach(function(g,gi){if(g.over)return;if(gi===_ct.gameIdx&&_ct.player==='user'){g.statusEl.textContent=t.vgYourTurn;}else if(gi!==_ct.gameIdx){g.statusEl.textContent=t.vgWait+vgGames[_ct.gameIdx].ac.name+t.vgWaitPlay;}});}
-// CC status if idle
-if(ccState==='idle')document.getElementById('cc-status').textContent=t.ccReady;
-// Pi status if not running
-if(!piRunning)document.getElementById('pi-status').textContent=t.piReady;
-// CP warning
-document.getElementById('cp-date-warning').textContent=appLang==='de'?'⚠️ Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.':'⚠️ End date is in the future – automatically corrected to yesterday.';
-// OE formula line (Geburtsjahr / Birth year + Alter / Age)
-var oeFormulaYearEl=document.getElementById('oe-formula-year');
-var oeFormulaAgeEl=document.getElementById('oe-formula-age');
-if(oeFormulaYearEl)oeFormulaYearEl.textContent=t.oeFormulaYear;
-if(oeFormulaAgeEl)oeFormulaAgeEl.textContent=t.oeFormulaAge;
-// OE age range labels
-var _oeLblMin=document.getElementById('oe-age-min-label');if(_oeLblMin)_oeLblMin.textContent=t.oeAgeMin;
-var _oeLblMax=document.getElementById('oe-age-max-label');if(_oeLblMax)_oeLblMax.textContent=t.oeAgeMax;
-// TM input placeholder
-var tmInputEl=document.getElementById('tm-input');
-if(tmInputEl)tmInputEl.placeholder=appLang==='de'?'z.B. 111 oder 45':'e.g. 111 or 45';
-// Buy link
-var buyLinkEl=document.getElementById('buy-link-text');
-if(buyLinkEl)buyLinkEl.textContent=t.buyLink;
-// OE result/parity labels
-document.querySelector('#oe-result-box div:first-child').textContent=t.oeResult;
-document.querySelector('#oe-parity-box div:first-child').textContent=t.oeLastDigit;
-document.querySelector('#oe-reveal-box div:first-child').innerHTML=t.oeRevealTitle;
-var revealDivs=document.querySelectorAll('#oe-reveal-box > div > div > div');
-if(revealDivs[0])revealDivs[0].textContent=t.oeYear;
-if(revealDivs[2])revealDivs[2].textContent=t.oeAge;
-if(revealDivs[4])revealDivs[4].textContent=t.oeFullResult;
-// Speech settings labels (Calendar Prodigy)
-document.querySelector('label[for="delay-initial"]').textContent=t.dStart;
-document.querySelector('label[for="delay-year-month"]').textContent=t.dYM;
-document.querySelector('label[for="delay-month-day"]').textContent=t.dMD;
-document.querySelector('label[for="delay-day-weekday"]').textContent=t.dDW;
-document.querySelector('label[for="delay-weekday-days"]').textContent=t.dWD;
-document.querySelector('label[for="delay-digit"]').textContent=t.dDig;
-// Pi delay label
-document.querySelector('label[for="pi-delay"]').innerHTML=t.piDelay;
-// CC delay label
-document.querySelector('label[for="cc-delay"]').innerHTML=t.ccDelay;
-// OE delay label
-document.querySelector('label[for="oe-delay"]').innerHTML=t.oeDelay;
-// TM label
-document.querySelector('label[for="tm-input"]').innerHTML=t.tmLabel;
+// TM
+gi('tm-h2').innerHTML=t.tmH2;
+gi('tm-hint-text').innerHTML=t.tmHint;
+gi('lbl-tm-input').innerHTML=t.tmLabel;
+gi('tm-start').innerHTML=t.tmStart;
+gi('tm-reset').innerHTML=t.tmReset;
+gi('tm-input').placeholder=appLang==='de'?'z.B. 111 oder 45':'e.g. 111 or 45';
+// OE
+gi('oe-h2').innerHTML=t.oeH2;
+gi('oe-hint-text').innerHTML=t.oeHint;
+gi('lbl-oe-delay').innerHTML=t.oeDelay;
+gi('oe-start').innerHTML=t.oeStart;
+gi('oe-reset').innerHTML=t.oeReset;
+gi('oe-reveal').innerHTML=t.oeReveal;
+gi('lbl-oe-formula-title').innerHTML=t.oeFormulaTitle;
+gi('lbl-oe-formula-sub').innerHTML=t.oeFormulaSub;
+gi('oe-formula-year').textContent=t.oeFormulaYear;
+gi('oe-formula-age').textContent=t.oeFormulaAge;
+gi('oe-age-min-label').textContent=t.oeAgeMin;
+gi('oe-age-max-label').textContent=t.oeAgeMax;
+gi('lbl-oe-result').textContent=t.oeResult;
+gi('lbl-oe-last-digit').textContent=t.oeLastDigit;
+gi('lbl-oe-reveal-title').innerHTML=t.oeRevealTitle;
+gi('lbl-oe-year').textContent=t.oeYear;
+gi('lbl-oe-age').textContent=t.oeAge;
+gi('lbl-oe-full-result').textContent=t.oeFullResult;
+// Vol / Buy
+gi('lbl-volume').innerHTML=t.volLabel;
+gi('buy-link-text').textContent=t.buyLink;
 }
 
-// Lautstärke-Slider mit Stumm-Sync
+// ===== HEADER BUTTONS =====
+gi('lang-toggle').addEventListener('click',function(){appLang=appLang==='de'?'en':'de';appApplyLang();saveSettings();});
+gi('theme-toggle').addEventListener('click',function(){isLight=!isLight;document.body.classList.toggle('light-mode',isLight);this.textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;saveSettings();});
+gi('mute-toggle').addEventListener('click',function(){
+isMuted=!isMuted;
+if(isMuted){globalVolume=0;gi('vol-slider').value=0;gi('vol-label').textContent='0%';}
+else{globalVolume=parseFloat(gi('vol-slider').value)||1;gi('vol-slider').value=globalVolume;gi('vol-label').textContent=Math.round(globalVolume*100)+'%';}
+this.textContent=isMuted?'\uD83D\uDD07':'\uD83D\uDD0A';
+this.style.color=isMuted?'#ff6b6b':'var(--text)';
+if(isMuted&&window.speechSynthesis)window.speechSynthesis.cancel();
+saveSettings();
+});
+gi('help-toggle').addEventListener('click',function(){gi('help-modal').classList.add('open');});
+gi('help-close').addEventListener('click',function(){gi('help-modal').classList.remove('open');});
+gi('help-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+gi('vol-slider').addEventListener('input',function(){globalVolume=parseFloat(this.value);gi('vol-label').textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;gi('mute-toggle').textContent='\uD83D\uDD0A';gi('mute-toggle').style.color='var(--text)';}});
+gi('vol-slider').addEventListener('change',function(){saveSettings();});
 
-var volSlider=document.getElementById('vol-slider');volSlider.addEventListener('change',function(){saveSettings();});
-var volLabel=document.getElementById('vol-label');
-volSlider.addEventListener('input',function(){globalVolume=parseFloat(this.value);volLabel.textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;document.getElementById('mute-toggle').textContent='🔊';document.getElementById('mute-toggle').style.color='var(--text)';}});
+// Haptic
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});}});
-var speechQueue=[],isSpeaking=false;
-function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
-function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
-function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
-function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
-(function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);document.getElementById('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
+
+if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){try{var saved=localStorage.getItem('syna_theme');}catch(ex){var saved=null;}if(!saved){isLight=!e.matches;document.body.classList.toggle('light-mode',isLight);gi('theme-toggle').textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;}});}
+
+// ===== CALENDAR PRODIGY =====
 var cpStep=0,cpDate=null;
 var cpToday=new Date();
 var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
-document.getElementById('enable-speech').addEventListener('change',function(){document.getElementById('speech-settings').style.display=this.checked?'block':'none';});
-document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert(T[appLang].alertDates);return;}var s=new Date(sVal),e=new Date(eVal);
-var yesterday=new Date(cpTodayOnly.getTime()-864e5);
-if(e>yesterday){e=yesterday;var yStr=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');document.getElementById('end-date').value=yStr;}
-if(isNaN(s)||isNaN(e)||s>=e){alert(T[appLang].alertOrder);return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML=T[appLang].btnNext;if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{var _cpWd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});document.getElementById('display-area').innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:4px;">'+_cpWd+'<\/div>Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'<\/small>';}});
-document.getElementById('btn-next').addEventListener('click',cpNextStep);
-document.getElementById('btn-reset').addEventListener('click',cpReset);
-function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
-function cpNextStep(){if(!cpDate)return;cpStep++;var steps=cpGetSteps();if(cpStep>steps.length){cpEndSeq();return;}var name=steps[cpStep-1];var content='',sub='';switch(name){case 'year':content=cpDate.getFullYear();break;case 'month':content=cpDate.toLocaleString(T[appLang].locale,{month:'long'});break;case 'day':content=cpDate.getDate();break;case 'weekday':content=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});break;case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub=T[appLang].daysPassed;break;case 'zodiac':content=cpZodiac(cpDate);break;default:cpEndSeq();return;}document.getElementById('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');if(cpStep>=steps.length){document.getElementById('btn-next').innerHTML=T[appLang].done;document.getElementById('btn-next').disabled=true;}}
-function cpEndSeq(){var t=T[appLang];document.getElementById('display-area').innerHTML=t.seqDone+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+t.seqHint+'</small>';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').innerHTML=t.btnNext;document.getElementById('btn-next-date').style.display='block';}
-function cpShowWeekdayMode(){
-  var fmt=document.getElementById('date-format').value;
-  var d=cpDate;
-  var day=d.getDate();
-  var month=d.toLocaleString(T[appLang].locale,{month:'long'});
-  var year=d.getFullYear();
-  var dateStr=fmt==='YMD'?(year+' · '+month+' · '+day):(day+' · '+month+' · '+year);
-  var area=document.getElementById('display-area');
-  area.innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayHint+'</div><div style="font-size:22px;font-weight:700;margin-bottom:4px;">'+dateStr+'</div><small style="font-size:13px;color:var(--text-light);">'+T[appLang].cpWeekdayModeHelp+'</small>';
-  document.getElementById('btn-next').innerHTML=T[appLang].cpWeekdayReveal;
-  document.getElementById('btn-next').disabled=false;
-  document.getElementById('btn-next').onclick=function(){
-  var wd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
-  area.innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayDone+'</div><div style="font-size:32px;font-weight:800;letter-spacing:-1px;">'+wd+'</div>';
-  document.getElementById('btn-next').disabled=true;
-  document.getElementById('btn-next-date').style.display='block';
-  if(document.getElementById('enable-speech').checked)speak(wd);
-  };
-  }
-  function cpReset(){clearSpeech();cpStep=0;cpDate=null;document.getElementById('setup-view').style.display='block';document.getElementById('result-view').style.display='none';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML=T[appLang].btnNext;document.getElementById('btn-next').onclick=cpNextStep;document.getElementById('btn-next-date').style.display='none';}
-document.getElementById('btn-next-date').addEventListener('click',function(){
-var sVal=document.getElementById('start-date').value;
-var eVal=document.getElementById('end-date').value;
+(function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);gi('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
+gi('enable-speech').addEventListener('change',function(){gi('speech-settings').style.display=this.checked?'block':'none';});
+gi('btn-generate').addEventListener('click',function(){
+var sVal=gi('start-date').value,eVal=gi('end-date').value;
+if(!sVal||!eVal){alert(T[appLang].alertDates);return;}
 var s=new Date(sVal),e=new Date(eVal);
+var yesterday=new Date(cpTodayOnly.getTime()-864e5);
+if(e>yesterday){e=yesterday;gi('end-date').value=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');}
+if(isNaN(s)||isNaN(e)||s>=e){alert(T[appLang].alertOrder);return;}
 cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));
-cpStep=0;
-document.getElementById('btn-next').disabled=false;
-document.getElementById('btn-next').innerHTML=T[appLang].btnNext;
-document.getElementById('btn-next-date').style.display='none';
-if(document.getElementById('enable-speech').checked){
-cpRunSpeech();
-} else {
-document.getElementById('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'<\/small>';
-}
+cpStep=0;gi('setup-view').style.display='none';gi('result-view').style.display='block';
+gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;
+gi('btn-next-date').style.display='none';
+if(gi('cp-weekday-mode').checked){cpShowWeekdayMode();}
+else if(gi('enable-speech').checked){cpRunSpeech();}
+else{gi('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'</small>';}
 });
-function cpRunSpeech(){document.getElementById('btn-next').disabled=true;document.getElementById('display-area').textContent=T[appLang].speechStarting;clearSpeech();var d={initial:parseInt(document.getElementById('delay-initial').value)*1000,ym:parseInt(document.getElementById('delay-year-month').value)*1000,md:parseInt(document.getElementById('delay-month-day').value)*1000,dw:parseInt(document.getElementById('delay-day-weekday').value)*1000,wd:parseInt(document.getElementById('delay-weekday-days').value)*1000,digit:parseInt(document.getElementById('delay-digit').value)*1000};var fmt=document.getElementById('date-format').value;var year=cpDate.getFullYear().toString();var month=cpDate.toLocaleString(T[appLang].locale,{month:'long'});var day=cpDate.getDate().toString();var weekday=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));var diffDigits=diff.toString().split('');var showZ=document.getElementById('show-zodiac').checked;var steps=cpGetSteps();var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];var area=document.getElementById('display-area');function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].daysPassed+'<\/small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);}
+gi('btn-next').addEventListener('click',cpNextStep);
+gi('btn-reset').addEventListener('click',cpReset);
+gi('btn-next-date').addEventListener('click',function(){
+var s=new Date(gi('start-date').value),e=new Date(gi('end-date').value);
+cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));
+cpStep=0;gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;gi('btn-next-date').style.display='none';
+if(gi('cp-weekday-mode').checked){cpShowWeekdayMode();}
+else if(gi('enable-speech').checked){cpRunSpeech();}
+else{gi('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'</small>';}
+});
+function cpGetSteps(){var fmt=gi('date-format').value,z=gi('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
+function cpNextStep(){
+if(!cpDate)return;
+cpStep++;
+var steps=cpGetSteps();
+if(cpStep>steps.length){cpEndSeq();return;}
+var name=steps[cpStep-1],content='',sub='';
+switch(name){
+case 'year':content=cpDate.getFullYear();break;
+case 'month':content=cpDate.toLocaleString(T[appLang].locale,{month:'long'});break;
+case 'day':content=cpDate.getDate();break;
+case 'weekday':content=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});break;
+case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub=T[appLang].daysPassed;break;
+case 'zodiac':content=cpZodiac(cpDate);break;
+default:cpEndSeq();return;
+}
+gi('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');
+if(cpStep>=steps.length){gi('btn-next').innerHTML=T[appLang].done;gi('btn-next').disabled=true;}
+}
+function cpEndSeq(){gi('display-area').innerHTML=T[appLang].seqDone+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].seqHint+'</small>';gi('btn-next').disabled=true;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next-date').style.display='block';}
+function cpShowWeekdayMode(){
+var fmt=gi('date-format').value,d=cpDate,day=d.getDate(),month=d.toLocaleString(T[appLang].locale,{month:'long'}),year=d.getFullYear();
+var dateStr=fmt==='YMD'?(year+' \u00b7 '+month+' \u00b7 '+day):(day+' \u00b7 '+month+' \u00b7 '+year);
+gi('display-area').innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayHint+'</div><div style="font-size:22px;font-weight:700;margin-bottom:4px;">'+dateStr+'</div><small style="font-size:13px;color:var(--text-light);">'+T[appLang].cpWeekdayModeHelp+'</small>';
+gi('btn-next').innerHTML=T[appLang].cpWeekdayReveal;gi('btn-next').disabled=false;
+gi('btn-next').onclick=function(){
+var wd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
+gi('display-area').innerHTML='<div style="font-size:13px;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayDone+'</div><div style="font-size:32px;font-weight:800;">'+wd+'</div>';
+gi('btn-next').disabled=true;gi('btn-next-date').style.display='block';
+if(gi('enable-speech').checked)speak(wd);
+};
+}
+function cpReset(){clearSpeech();cpStep=0;cpDate=null;gi('setup-view').style.display='block';gi('result-view').style.display='none';gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;gi('btn-next-date').style.display='none';}
+function cpRunSpeech(){
+gi('btn-next').disabled=true;gi('display-area').textContent=T[appLang].speechStarting;clearSpeech();
+var d={initial:parseInt(gi('delay-initial').value)*1000,ym:parseInt(gi('delay-year-month').value)*1000,md:parseInt(gi('delay-month-day').value)*1000,dw:parseInt(gi('delay-day-weekday').value)*1000,wd:parseInt(gi('delay-weekday-days').value)*1000,digit:parseInt(gi('delay-digit').value)*1000};
+var fmt=gi('date-format').value;
+var year=cpDate.getFullYear().toString(),month=cpDate.toLocaleString(T[appLang].locale,{month:'long'}),day=cpDate.getDate().toString(),weekday=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
+var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));
+var diffDigits=diff.toString().split('');
+var showZ=gi('show-zodiac').checked;
+var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];
+var area=gi('display-area');
+function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}
+setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].daysPassed+'</small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);
+}
 function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
-var ROWS=6,COLS=7,P1='user',P2='app';
-var vgGames=[];
-var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{name:'App 3',label:'#f783ac'},{name:'App 4',label:'#ffd43b'}];
-var vgTurnQueue=[];  // globale Zugreihenfolge: [{gameIdx, player},...]
-var vgTurnIndex=0;  // aktueller Schritt in der Queue
-document.getElementById('vg-reset').addEventListener('click',vgInit);
-document.getElementById('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=document.getElementById('vg-show-board').checked?'grid':'none';});});
-function vgInit(){var n=parseInt(document.getElementById('vg-num-players').value);var container=document.getElementById('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;document.getElementById('vg-last-move-box').style.display='none';document.getElementById('vg-summary').style.display='none';document.getElementById('vg-summary-rows').innerHTML='';
-var starter=document.getElementById('vg-starter').value;
-// Baue Zugreihenfolge: abwechselnd App[i] -> Nutzer für jedes Spielfeld, dann nächste App
-for(var i=0;i<n;i++){var ac=APP_COLORS[i];var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';var title=document.createElement('div');title.className='vg-board-title';title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent=T[appLang].vgBoardVs+ac.name;wrap.appendChild(title);
+
+// ===== PI =====
+var PI='14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912983367336244065664308602139494639522473719070217986094370277053921717629317675238467481846766940513200056812714526356082778577134275778960917363717872146844090122495343014654958537105079227968925892354201995611212902196086403441815981362977477130996051870721134999999837297804995105973173281609631859502445945534690830264252230825334468503526193118817101000313783875288658753320838142061717766914730359825349042875546873115956286388235378759375195778185778053217122680661300192787661119590921642019893809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095176237';
+gi('pi-start').addEventListener('click',function(){
+if(piRunning)return;
+var max=PI.length-SEQ-10;piStart=Math.floor(Math.random()*max);
+var dv=gi('pi-direction').value;
+piDir=dv==='random'?(Math.random()<0.5?'forward':'backward'):dv;
+piCur=piDir==='forward'?piStart:piStart+SEQ-1;
+piRunning=true;gi('pi-start').style.display='none';gi('pi-stop').style.display='block';gi('pi-status').textContent='...';
+if(gi('pi-show-ctx').checked)piUpdateCtx();piStep();
+});
+gi('pi-stop').addEventListener('click',piStop);
+gi('pi-show-ctx').addEventListener('change',function(){gi('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
+function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];gi('pi-status').textContent=digit;if(gi('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(gi('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
+function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-start').style.display='block';gi('pi-stop').style.display='none';gi('pi-status').textContent=T[appLang].piStopped;}
+function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
+
+// ===== CARD HACKER =====
+var CC_TYPES=[{name:'Visa',prefix:'4',len:16},{name:'Mastercard',prefix:'51',len:16},{name:'Amex',prefix:'34',len:15},{name:'Discover',prefix:'6011',len:16}];
+gi('cc-show-num').addEventListener('change',function(){gi('cc-number-box').style.display=this.checked?'block':'none';});
+gi('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate();else if(ccState==='ready')ccRead();else if(ccState==='done')ccShowSolution();});
+gi('cc-reset-btn').addEventListener('click',ccReset);
+function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
+function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}var num2=prefix;while(num2.length<length-1)num2+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num2.length-1;i>=0;i--){var n=parseInt(num2[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return num2+((10-(sum%10))%10);}
+function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
+function ccRead(){ccState='reading';gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(gi('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccSolution;gi('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){gi('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{gi('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
+function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
+function ccShowSolution(){gi('cc-answer').textContent=ccMissDig;gi('cc-answer-box').style.display='block';gi('cc-status').textContent=T[appLang].ccShown;gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
+function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccGen;gi('cc-status').textContent=T[appLang].ccReady;gi('cc-answer-box').style.display='none';gi('cc-number-box').style.display='none';gi('cc-number-box').innerHTML='';gi('cc-show-num').checked=false;}
+
+// ===== FOURSIGHT GURU =====
+gi('vg-reset').addEventListener('click',vgInit);
+gi('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=gi('vg-show-board').checked?'grid':'none';});});
+function vgInit(){
+var n=parseInt(gi('vg-num-players').value);
+var container=gi('vg-container');container.innerHTML='';vgGames=[];vgTurnQueue=[];vgTurnIndex=0;
+gi('vg-last-move-box').style.display='none';gi('vg-summary').style.display='none';gi('vg-summary-rows').innerHTML='';
+var starter=gi('vg-starter').value;
+for(var i=0;i<n;i++){
+var ac=APP_COLORS[i];
+var wrap=document.createElement('div');wrap.style.cssText='margin-bottom:24px;padding:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;';
+var title=document.createElement('div');title.className='vg-board-title';title.style.cssText='font-size:14px;font-weight:700;color:'+ac.label+';margin-bottom:10px;';title.textContent=T[appLang].vgBoardVs+ac.name;wrap.appendChild(title);
 var counterEl=document.createElement('div');counterEl.style.cssText='font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:6px;text-align:center;';counterEl.textContent='0'+T[appLang].vgMoves;wrap.appendChild(counterEl);
-var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent=T[appLang].vgStarting;wrap.appendChild(statusEl);var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);var boardEl=document.createElement('div');var showB=document.getElementById('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);container.appendChild(wrap);var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,current:starter,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);}
-// Erstelle globale Zugreihenfolge
-vgBuildTurnQueue();
-vgExecuteTurn();}
+var statusEl=document.createElement('div');statusEl.style.cssText='margin-bottom:8px;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);text-align:center;';statusEl.textContent=T[appLang].vgStarting;wrap.appendChild(statusEl);
+var colBtns=document.createElement('div');colBtns.style.cssText='display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;';wrap.appendChild(colBtns);
+var boardEl=document.createElement('div');var showB=gi('vg-show-board').checked;boardEl.style.cssText='display:'+(showB?'grid':'none')+';grid-template-columns:repeat(7,1fr);gap:4px;background:rgba(0,30,100,0.3);border:1px solid rgba(77,171,247,0.15);padding:8px;border-radius:14px;';wrap.appendChild(boardEl);
+container.appendChild(wrap);
+var game={board:Array(ROWS).fill(null).map(function(){return Array(COLS).fill(null);}),over:false,moves:0,userMoves:0,appMoves:0,boardEl:boardEl,colBtns:colBtns,statusEl:statusEl,counterEl:counterEl,ac:ac,idx:i};
+vgGames.push(game);vgRenderBoard(game);vgRenderColBtns(game);
+}
+vgBuildTurnQueue();vgExecuteTurn();
+}
 function vgRenderBoard(game){game.boardEl.innerHTML='';for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){var cell=document.createElement('div');cell.style.cssText='aspect-ratio:1;background:rgba(0,0,0,0.35);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.07);';cell.dataset.r=r;cell.dataset.c=c;if(game.board[r][c]){var p=document.createElement('div');var isU=game.board[r][c]===P1;p.style.cssText='width:85%;height:85%;border-radius:50%;background:'+(isU?'radial-gradient(circle at 35% 35%,#ffe066,#f59f00)':'radial-gradient(circle at 35% 35%,'+game.ac.label+'cc,'+game.ac.label+'88)')+';box-shadow:0 2px 8px rgba(0,0,0,0.4);animation:drop 0.3s ease;';cell.appendChild(p);}game.boardEl.appendChild(cell);}}
 function vgRenderColBtns(game){game.colBtns.innerHTML='';for(var c=0;c<COLS;c++){var btn=document.createElement('button');btn.style.cssText='background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:white;cursor:pointer;padding:2px;';btn.textContent='\u2193'+(c+1);btn.dataset.col=c;btn.addEventListener('click',(function(g){return function(e){vgColClick(e,g);};})(game));game.colBtns.appendChild(btn);}}
-function vgBuildTurnQueue(){
-var n=vgGames.length;
-var starter=document.getElementById('vg-starter').value;
-// Pro Runde: alle n App-Züge verschachtelt mit Nutzer-Zügen
-// Reihenfolge: wenn starter=app: App0,Nutzer@0, App1,Nutzer@1, ..., dann wieder
-// wenn starter=user: Nutzer@0,App0, Nutzer@1,App1, ...
-vgTurnQueue=[];
-// Wir bauen eine Endlos-Queue (bis alle Spiele vorbei)
-// Strategie: Runde für Runde, jede Runde = n*(App+Nutzer)-Paare
-var maxRounds=ROWS*COLS; // max mögliche Züge
-for(var round=0;round<maxRounds;round++){
-for(var i=0;i<n;i++){
-if(starter==='app'){
-vgTurnQueue.push({gameIdx:i,player:P2});
-vgTurnQueue.push({gameIdx:i,player:P1});
-} else {
-vgTurnQueue.push({gameIdx:i,player:P1});
-vgTurnQueue.push({gameIdx:i,player:P2});
-}
-}
-}
-}
+function vgBuildTurnQueue(){var n=vgGames.length,starter=gi('vg-starter').value;vgTurnQueue=[];var maxRounds=ROWS*COLS;for(var round=0;round<maxRounds;round++){for(var i=0;i<n;i++){if(starter==='app'){vgTurnQueue.push({gameIdx:i,player:P2});vgTurnQueue.push({gameIdx:i,player:P1});}else{vgTurnQueue.push({gameIdx:i,player:P1});vgTurnQueue.push({gameIdx:i,player:P2});}}}}
 function vgExecuteTurn(){
-// Überspringe abgeschlossene Spiele
-while(vgTurnIndex<vgTurnQueue.length){var t=vgTurnQueue[vgTurnIndex];var g=vgGames[t.gameIdx];if(!g){vgTurnIndex++;continue;}if(g.over){vgTurnIndex++;continue;}if(vgFull(g)){vgEnd(g,null);vgTurnIndex++;continue;}break;}// Alle Spiele beendet?
-if(vgTurnIndex>=vgTurnQueue.length){var allDone=vgGames.every(function(g){return g.over;});if(!allDone){// Queue erschöpft aber Spiele laufen noch – erweitern
-vgGames.forEach(function(g){if(!g.over){vgEnd(g,null);}});return;}return;}
-if(vgTurnIndex>=vgTurnQueue.length)return;
-var turn=vgTurnQueue[vgTurnIndex];
-var game=vgGames[turn.gameIdx];
-// Alle Spiele sperren
+while(vgTurnIndex<vgTurnQueue.length){var t=vgTurnQueue[vgTurnIndex];var g=vgGames[t.gameIdx];if(!g){vgTurnIndex++;continue;}if(g.over){vgTurnIndex++;continue;}if(vgFull(g)){vgEnd(g,null);vgTurnIndex++;continue;}break;}
+if(vgTurnIndex>=vgTurnQueue.length){vgGames.forEach(function(g){if(!g.over)vgEnd(g,null);});return;}
+var turn=vgTurnQueue[vgTurnIndex];var game=vgGames[turn.gameIdx];
 vgGames.forEach(function(g){if(!g.over)vgDisable(g,true);});
 vgUpdateAllCounters();
 if(turn.player===P2){
-game.statusEl.textContent=game.ac.name+T[appLang].vgThinking;;
-game.statusEl.style.color='rgba(255,255,255,0.85)';
+game.statusEl.textContent=game.ac.name+T[appLang].vgThinking;game.statusEl.style.color='rgba(255,255,255,0.85)';
 setTimeout(function(){vgAppMove(game);},900);
-} else {
-// Nutzer ist dran bei game
-game.statusEl.innerHTML=T[appLang].vgYourTurn;
-game.statusEl.style.color='#4dabf7';
-// Nur dieses Spielfeld freischalten
+}else{
+game.statusEl.innerHTML=T[appLang].vgYourTurn;game.statusEl.style.color='#4dabf7';
 vgDisable(game,false);
-// Andere Spiele bleiben gesperrt — Klick dort = Warnung
-vgGames.forEach(function(g,gi){
-if(!g.over&&gi!==turn.gameIdx){
-g.statusEl.innerHTML=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;
-g.statusEl.style.color='rgba(255,200,80,0.8)';
-vgSetWrongClickWarning(g,turn.gameIdx);
-}
-});
+vgGames.forEach(function(g,gi2){if(!g.over&&gi2!==turn.gameIdx){g.statusEl.innerHTML=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;g.statusEl.style.color='rgba(255,200,80,0.8)';vgSetWrongClick(g,turn.gameIdx);}});
 }
 }
-function vgSetWrongClickWarning(game,correctIdx){
-game.colBtns.querySelectorAll('button').forEach(function(b){
-b.disabled=false; // kurz freischalten für Klick-Event
-b.onclick=function(){
-var box=document.getElementById('vg-last-move-box');
-var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[correctIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
-box.style.display='block';
-setTimeout(function(){box.style.display='none';},3000);
-};
-b.disabled=true; // wieder sperren, aber onclick bleibt
-});
-// Eigentlich wollen wir, dass der Button klickbar ist aber disabled-Stil verhindert das.
-// Lösung: Button nicht disabled, aber eigene Klick-Logik
-game.colBtns.querySelectorAll('button').forEach(function(b){
-b.disabled=false;
-b.style.opacity='0.35';
-b.style.cursor='not-allowed';
-});
-}
-function vgUpdateAllCounters(){
-var n=vgGames.length;
-// Finde maximale Nutzer-Züge über alle Spiele
-var maxUserMoves=0;
-vgGames.forEach(function(g){if(g.userMoves>maxUserMoves)maxUserMoves=g.userMoves;});
-vgGames.forEach(function(g){
-if(g.over)return;
-var lag=maxUserMoves-g.userMoves;
-var txt=g.moves+T[appLang].vgMovesTotal+g.userMoves+T[appLang].vgMovesApp+g.ac.name+': '+g.appMoves+')';
-if(lag>0)txt+=' · '+lag+(lag>1?T[appLang].vgMovesLagP:T[appLang].vgMovesLag)+T[appLang].vgMovesLagSuf;
-g.counterEl.textContent=txt;
-});
-}
-
-function vgColClick(e,game){
-// Prüfe ob dieses Spiel gerade dran ist
-if(vgTurnIndex<vgTurnQueue.length){
-var t=vgTurnQueue[vgTurnIndex];
-if(t.gameIdx!==game.idx||t.player!==P1){
-// Falsches Spielfeld
-var box=document.getElementById('vg-last-move-box');
-var txt=document.getElementById('vg-last-move-text');
-txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[t.gameIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;
-box.style.display='block';
-setTimeout(function(){box.style.display='none';},3000);
-return;
-}
-}
-if(game.over)return;
-var col=parseInt(e.target.dataset.col);
-var row=vgFindRow(game,col);
-if(row!==-1){document.getElementById('vg-last-move-box').style.display='none';vgDrop(game,row,col,P1);}}
+function vgSetWrongClick(game,correctIdx){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=false;b.style.opacity='0.35';b.style.cursor='not-allowed';b.onclick=function(){var box=gi('vg-last-move-box'),txt=gi('vg-last-move-text');txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[correctIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;box.style.display='block';setTimeout(function(){box.style.display='none';},3000);};});}
+function vgUpdateAllCounters(){var maxU=0;vgGames.forEach(function(g){if(g.userMoves>maxU)maxU=g.userMoves;});vgGames.forEach(function(g){if(g.over)return;var lag=maxU-g.userMoves;var txt=g.moves+T[appLang].vgMovesTotal+g.userMoves+T[appLang].vgMovesApp+g.ac.name+': '+g.appMoves+')';if(lag>0)txt+=' \u00b7 '+lag+(lag>1?T[appLang].vgMovesLagP:T[appLang].vgMovesLag)+T[appLang].vgMovesLagSuf;g.counterEl.textContent=txt;});}
+function vgColClick(e,game){if(vgTurnIndex<vgTurnQueue.length){var t=vgTurnQueue[vgTurnIndex];if(t.gameIdx!==game.idx||t.player!==P1){var box=gi('vg-last-move-box'),txt=gi('vg-last-move-text');txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[t.gameIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;box.style.display='block';setTimeout(function(){box.style.display='none';},3000);return;}}if(game.over)return;var col=parseInt(e.target.dataset.col);var row=vgFindRow(game,col);if(row!==-1){gi('vg-last-move-box').style.display='none';vgDrop(game,row,col,P1);}}
 function vgDrop(game,row,col,player){game.board[row][col]=player;game.moves++;if(player===P1)game.userMoves++;else game.appMoves++;vgRenderBoard(game);if(vgCheckWin(game,player)){vgEnd(game,player);vgTurnIndex++;vgExecuteTurn();return;}if(vgFull(game)){vgEnd(game,null);vgTurnIndex++;vgExecuteTurn();return;}vgTurnIndex++;vgExecuteTurn();}
 function vgFindRow(game,col){for(var r=ROWS-1;r>=0;r--)if(game.board[r][col]===null)return r;return -1;}
-function vgAIBestCol(game,player){// 1. Gewinnen wenn möglich
-for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=player;var wins=vgCheckWinSilent(game,player);game.board[r][c]=null;if(wins)return c;}}// 2. Blockieren wenn Gegner gewinnen kann
-var opp=P1;for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=opp;var oWins=vgCheckWinSilent(game,opp);game.board[r][c]=null;if(oWins)return c;}}// 3. Mitte bevorzugen
-var center=Math.floor(COLS/2);if(vgFindRow(game,center)!==-1)return center;// 4. Zufällig aus verfügbaren
-var avail=[];for(var c=0;c<COLS;c++)if(vgFindRow(game,c)!==-1)avail.push(c);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c]))return true;for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3]))return true;for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3]))return true;return false;}function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+T[appLang].vgSetsCol+(col+1)+'.';if(document.getElementById('vg-speech').checked)speak(moveMsg);var boardHidden=!document.getElementById('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){vgShowLastMove(game,moveMsg);}}
-function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);game.winDir='Horizontal';return true;}for(var c=0;c<COLS;c++)for(var r=0;r<=ROWS-4;r++)if(ok(b[r][c],b[r+1][c],b[r+2][c],b[r+3][c])){vgHighlight(game,[[r,c],[r+1,c],[r+2,c],[r+3,c]]);game.winDir='Vertikal';return true;}for(var r=0;r<=ROWS-4;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r+1][c+1],b[r+2][c+2],b[r+3][c+3])){vgHighlight(game,[[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);game.winDir='Diagonal';return true;}for(var r=3;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r-1][c+1],b[r-2][c+2],b[r-3][c+3])){vgHighlight(game,[[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]]);game.winDir='Diagonal';return true;}return false;}
+function vgAIBestCol(game,player){for(var c=0;c<COLS;c++){var r=vgFindRow(game,c);if(r!==-1){game.board[r][c]=player;var w=vgCheckWinSilent(game,player);game.board[r][c]=null;if(w)return c;}}var opp=P1;for(var c2=0;c2<COLS;c2++){var r2=vgFindRow(game,c2);if(r2!==-1){game.board[r2][c2]=opp;var w2=vgCheckWinSilent(game,opp);game.board[r2][c2]=null;if(w2)return c2;}}var center=Math.floor(COLS/2);if(vgFindRow(game,center)!==-1)return center;var avail=[];for(var c3=0;c3<COLS;c3++)if(vgFindRow(game,c3)!==-1)avail.push(c3);return avail.length?avail[Math.floor(Math.random()*avail.length)]:-1;}
+function vgCheckWinSilent(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3]))return true;for(var c2=0;c2<COLS;c2++)for(var r2=0;r2<=ROWS-4;r2++)if(ok(b[r2][c2],b[r2+1][c2],b[r2+2][c2],b[r2+3][c2]))return true;for(var r3=0;r3<=ROWS-4;r3++)for(var c3=0;c3<=COLS-4;c3++)if(ok(b[r3][c3],b[r3+1][c3+1],b[r3+2][c3+2],b[r3+3][c3+3]))return true;for(var r4=3;r4<ROWS;r4++)for(var c4=0;c4<=COLS-4;c4++)if(ok(b[r4][c4],b[r4-1][c4+1],b[r4-2][c4+2],b[r4-3][c4+3]))return true;return false;}
+function vgAppMove(game){if(game.over)return;var col=vgAIBestCol(game,P2);if(col===-1)return;var row=vgFindRow(game,col);if(row===-1)return;var moveMsg=game.ac.name+T[appLang].vgSetsCol+(col+1)+'.';if(gi('vg-speech').checked)speak(moveMsg);var boardHidden=!gi('vg-show-board').checked;vgDrop(game,row,col,P2);if(boardHidden&&!game.over){var box=gi('vg-last-move-box'),txt=gi('vg-last-move-text');txt.innerHTML=moveMsg;box.style.display='block';}}
+function vgCheckWin(game,player){var b=game.board;function ok(a,b2,c,d){return a!==null&&a===b2&&a===c&&a===d&&a===player;}for(var r=0;r<ROWS;r++)for(var c=0;c<=COLS-4;c++)if(ok(b[r][c],b[r][c+1],b[r][c+2],b[r][c+3])){vgHighlight(game,[[r,c],[r,c+1],[r,c+2],[r,c+3]]);return true;}for(var c2=0;c2<COLS;c2++)for(var r2=0;r2<=ROWS-4;r2++)if(ok(b[r2][c2],b[r2+1][c2],b[r2+2][c2],b[r2+3][c2])){vgHighlight(game,[[r2,c2],[r2+1,c2],[r2+2,c2],[r2+3,c2]]);return true;}for(var r3=0;r3<=ROWS-4;r3++)for(var c3=0;c3<=COLS-4;c3++)if(ok(b[r3][c3],b[r3+1][c3+1],b[r3+2][c3+2],b[r3+3][c3+3])){vgHighlight(game,[[r3,c3],[r3+1,c3+1],[r3+2,c3+2],[r3+3,c3+3]]);return true;}for(var r4=3;r4<ROWS;r4++)for(var c4=0;c4<=COLS-4;c4++)if(ok(b[r4][c4],b[r4-1][c4+1],b[r4-2][c4+2],b[r4-3][c4+3])){vgHighlight(game,[[r4,c4],[r4-1,c4+1],[r4-2,c4+2],[r4-3,c4+3]]);return true;}return false;}
 function vgHighlight(game,cells){cells.forEach(function(rc){var el=game.boardEl.querySelector('[data-r="'+rc[0]+'"][data-c="'+rc[1]+'"]');if(el)el.style.boxShadow='0 0 0 3px rgba(255,255,255,0.8)';});}
 function vgFull(game){return game.board[0].every(function(c){return c!==null;});}
-function vgCheckAllDone(){if(!vgGames.length)return;var allDone=vgGames.every(function(g){return g.over;});if(!allDone)return;var userWins=0,appWins=0,draws=0,totalMoves=0;vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});var summary=document.getElementById('vg-summary');var rows=document.getElementById('vg-summary-rows');var total=document.getElementById('vg-summary-total');rows.innerHTML='';vgGames.forEach(function(g){var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;var resultEl=document.createElement('span');var rText='',rColor='';if(g.winner===P1){rText='🟢 '+T[appLang].vgWon;rColor='#51cf66';}else if(g.winner===P2){rText='🔴 '+g.ac.name+T[appLang].vgLost;rColor=g.ac.label;}else{rText='⚪ '+T[appLang].vgDraw;rColor='rgba(255,255,255,0.5)';}resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+T[appLang].vgMoves;row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);});var t2=T[appLang];total.innerHTML='\uD83C\uDFAE '+T[appLang].vgGrandTotal+' '+': <strong style="color:#51cf66;">'+userWins+' '+t2.vgWins+'<\/strong> \u00b7 <strong style="color:#ff6b6b;">'+appWins+' '+t2.vgLosses+'<\/strong> \u00b7 <strong style="color:rgba(255,255,255,0.5);">'+draws+' '+t2.vgDraws+'<\/strong> \u00b7 '+totalMoves+' '+t2.vgTotal;">'+userWins+' Siege</strong> · <strong style="color:#ff6b6b;">'+appWins+' Niederlagen</strong> · <strong style="color:rgba(255,255,255,0.5);">'+draws+' Unentschieden</strong> · '+totalMoves+' Züge total';summary.style.display='block';}
-function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var t=T[appLang];var msg='';if(winner===P1)msg=t.vgWon+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else if(winner===P2)msg=game.ac.name+t.vgLost+' '+(game.winDir||'')+' ('+game.moves+t.vgMoves+')';else msg=t.vgDraw+' ('+game.moves+t.vgMoves+')';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(document.getElementById('vg-speech').checked)speak(msg);vgCheckAllDone();}
-function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;});}
-function vgShowLastMove(game,msg){var box=document.getElementById('vg-last-move-box');var txt=document.getElementById('vg-last-move-text');txt.innerHTML=msg;box.style.display='block';}
-vgInit();
-// Pi-Nachkommastellen: 1000 Stellen (Index 0 = erste Stelle nach dem Komma)
-// Gesamtlänge: 1000 Ziffern | Verwendung: vorwärts, rückwärts oder zufällig ab Position piStart
-var PI='14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912983367336244065664308602139494639522473719070217986094370277053921717629317675238467481846766940513200056812714526356082778577134275778960917363717872146844090122495343014654958537105079227968925892354201995611212902196086403441815981362977477130996051870721134999999837297804995105973173281609631859502445945534690830264252230825334468503526193118817101000313783875288658753320838142061717766914730359825349042875546873115956286388235378759375195778185778053217122680661300192787661119590921642019893809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095176237';
-var SEQ=20,piRunning=false,piTimeout=null,piStart=0,piCur=0,piDir='forward';
-document.getElementById('pi-start').addEventListener('click',function(){if(piRunning)return;var max=PI.length-SEQ-10;piStart=Math.floor(Math.random()*max);var dv=document.getElementById('pi-direction').value;piDir=dv==='random'?(Math.random()<0.5?'forward':'backward'):dv;piCur=piDir==='forward'?piStart:piStart+SEQ-1;piRunning=true;document.getElementById('pi-start').style.display='none';document.getElementById('pi-stop').style.display='block';document.getElementById('pi-status').textContent='...';if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();piStep();});
-document.getElementById('pi-stop').addEventListener('click',piStop);
-document.getElementById('pi-show-ctx').addEventListener('change',function(){document.getElementById('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
-function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];document.getElementById('pi-status').textContent=digit;if(document.getElementById('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(document.getElementById('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
-function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();document.getElementById('pi-start').style.display='block';document.getElementById('pi-stop').style.display='none';document.getElementById('pi-status').textContent=T[appLang].piStopped;}
-function piUpdateCtx(){var from=Math.max(0,piStart-10);var to=Math.min(PI.length,piStart+SEQ+10);var chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i;var inSeq=abs>=piStart&&abs<piStart+SEQ;var isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}document.getElementById('pi-context-box').innerHTML=html;}
-// ===== TIMEMASTER =====
+function vgEnd(game,winner){game.over=true;game.winner=winner;vgDisable(game,true);var t=T[appLang];var msg='';if(winner===P1)msg=t.vgWon;else if(winner===P2)msg=game.ac.name+t.vgLost;else msg=t.vgDraw;msg+=' ('+game.moves+t.vgMoves+')';game.statusEl.textContent=msg;game.statusEl.style.color=winner===P1?'#51cf66':winner===P2?game.ac.label:'rgba(255,255,255,0.7)';if(gi('vg-speech').checked)speak(msg);vgCheckAllDone();}
+function vgDisable(game,dis){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=dis;if(!dis){b.style.opacity='1';b.style.cursor='pointer';}});}
+function vgCheckAllDone(){
+if(!vgGames.length)return;
+var allDone=vgGames.every(function(g){return g.over;});
+if(!allDone)return;
+var userWins=0,appWins=0,draws=0,totalMoves=0;
+vgGames.forEach(function(g){totalMoves+=g.moves;if(g.winner===P1)userWins++;else if(g.winner===P2)appWins++;else draws++;});
+var summary=gi('vg-summary'),rows=gi('vg-summary-rows'),total=gi('vg-summary-total');
+rows.innerHTML='';
+vgGames.forEach(function(g){
+var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;margin-bottom:4px;';
+var nameEl=document.createElement('span');nameEl.style.color=g.ac.label;nameEl.textContent='vs. '+g.ac.name;
+var resultEl=document.createElement('span');var rText='',rColor='';
+if(g.winner===P1){rText='\uD83D\uDFE2 '+T[appLang].vgWon;rColor='#51cf66';}
+else if(g.winner===P2){rText='\uD83D\uDD34 '+g.ac.name+T[appLang].vgLost;rColor=g.ac.label;}
+else{rText='\u26AA '+T[appLang].vgDraw;rColor='rgba(255,255,255,0.5)';}
+resultEl.style.color=rColor;resultEl.style.fontWeight='700';resultEl.textContent=rText;
+var movesEl=document.createElement('span');movesEl.style.color='rgba(255,255,255,0.35)';movesEl.style.fontSize='11px';movesEl.textContent=g.moves+T[appLang].vgMoves;
+row.appendChild(nameEl);row.appendChild(resultEl);row.appendChild(movesEl);rows.appendChild(row);
+});
+var t2=T[appLang];
+total.innerHTML='\uD83C\uDFAE '+t2.vgGrandTotal+': <strong style="color:#51cf66;">'+userWins+' '+t2.vgWins+'</strong> \u00b7 <strong style="color:#ff6b6b;">'+appWins+' '+t2.vgLosses+'</strong> \u00b7 <strong style="color:rgba(255,255,255,0.5);">'+draws+' '+t2.vgDraws+'</strong> \u00b7 '+totalMoves+' '+t2.vgTotal;
+summary.style.display='block';
+}
+
+// ===== TIME MASTER =====
 (function(){
-var tmEndTime=null,tmTotalMs=0,tmRaf=null,tmRunning=false;
-var tmRing=document.getElementById('tm-ring');
-var tmTimeEl=document.getElementById('tm-time');
-var tmLabel=document.getElementById('tm-label');
-var tmDisplay=document.getElementById('tm-display');
-var tmStartBtn=document.getElementById('tm-start');
-var tmResetBtn=document.getElementById('tm-reset');
-var tmInput=document.getElementById('tm-input');
-
-// Preset-Buttons
-document.getElementById('tm-pre-30').addEventListener('click',function(){if(tmRunning)return;tmInput.value='30';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
-document.getElementById('tm-pre-60').addEventListener('click',function(){if(tmRunning)return;tmInput.value='100';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
-document.getElementById('tm-pre-120').addEventListener('click',function(){if(tmRunning)return;tmInput.value='200';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
-document.getElementById('tm-pre-300').addEventListener('click',function(){if(tmRunning)return;tmInput.value='500';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
-
-// Nur Ziffern erlauben
+var tmEndTime=null,tmTotalMs=0,tmRaf=null,tmRunning=false,tmLastSecond=-1,tmNotifiedSeconds={};
+var tmRing=gi('tm-ring'),tmTimeEl=gi('tm-time'),tmLabel=gi('tm-label'),tmDisplay=gi('tm-display');
+var tmStartBtn=gi('tm-start'),tmResetBtn=gi('tm-reset'),tmInput=gi('tm-input');
+gi('tm-pre-30').addEventListener('click',function(){if(tmRunning)return;tmInput.value='30';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+gi('tm-pre-60').addEventListener('click',function(){if(tmRunning)return;tmInput.value='100';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+gi('tm-pre-120').addEventListener('click',function(){if(tmRunning)return;tmInput.value='200';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
+gi('tm-pre-300').addEventListener('click',function(){if(tmRunning)return;tmInput.value='500';tmInput.dispatchEvent(new Event('input'));setTimeout(function(){tmStartBtn.click();},80);});
 tmInput.addEventListener('input',function(){
 this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);
-var val=this.value;
-var hint=document.getElementById('tm-hint');
-var startBtn=document.getElementById('tm-start');
-if(val.length===0){hint.textContent='';hint.style.color='var(--text-light)';startBtn.disabled=false;return;}
+var val=this.value,hint=gi('tm-hint'),startBtn=gi('tm-start');
+if(!val.length){hint.textContent='';startBtn.disabled=false;return;}
 var parsed=tmParse(val);
 if(!parsed){hint.textContent=T[appLang].tmInvalid;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
-if(parsed.s>59){hint.textContent='⚠️ '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' – '+T[appLang].tmSecMax;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+if(parsed.s>59){hint.innerHTML='\u26A0\uFE0F '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' \u2013 '+T[appLang].tmSecMax;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
 var totalSec=parsed.m*60+parsed.s;
-if(totalSec===0){hint.textContent=T[appLang].tmZero;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
-hint.textContent='= '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' ✓';hint.style.color='#51cf66';startBtn.disabled=false;
+if(totalSec===0){hint.innerHTML=T[appLang].tmZero;hint.style.color='#ff6b6b';startBtn.disabled=true;return;}
+hint.textContent='= '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' \u2713';hint.style.color='#51cf66';startBtn.disabled=false;
 });
-
-function tmParse(val){
-val=val.replace(/[^0-9]/g,'');
-if(val.length===0)return null;
-if(val.length<=2){return {m:0,s:parseInt(val,10)};}
-// 3 Ziffern: erste = Minuten, letzte zwei = Sekunden
-var m=parseInt(val[0],10);
-var s=parseInt(val.slice(1),10);
-return {m:m,s:s};
-}
-
-function tmFormat(ms){
-var totalSec=Math.ceil(ms/1000);
-if(totalSec<0)totalSec=0;
-var m=Math.floor(totalSec/60);
-var s=totalSec%60;
-return m+':'+(s<10?'0':'')+s;
-}
-
-function tmFlash(color,shadow){
-tmRing.style.borderColor=color;
-tmRing.style.boxShadow='0 0 32px '+shadow;
-setTimeout(function(){tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';},350);
-}
-
-function tmShowBadge(show){document.getElementById('tm-tab-badge').style.display=show?'inline':'none';}
+function tmParse(val){val=val.replace(/[^0-9]/g,'');if(!val.length)return null;if(val.length<=2)return{m:0,s:parseInt(val,10)};return{m:parseInt(val[0],10),s:parseInt(val.slice(1),10)};}
+function tmFormat(ms){var ts=Math.ceil(ms/1000);if(ts<0)ts=0;var m=Math.floor(ts/60),s=ts%60;return m+':'+(s<10?'0':'')+s;}
+function tmFlash(color,shadow){tmRing.style.borderColor=color;tmRing.style.boxShadow='0 0 32px '+shadow;setTimeout(function(){tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';},350);}
+function tmShowBadge(show){gi('tm-tab-badge').style.display=show?'inline':'none';}
 tmStartBtn.addEventListener('click',function(){
 var parsed=tmParse(tmInput.value);
-if(!parsed||parsed.s>59){alert(T[appLang].tmInvalid+'. '+T[appLang].tmSecMax);return;}
-var totalSec=parsed.m*60+parsed.s;
-if(totalSec<=0){alert(T[appLang].tmZero);return;}
-tmTotalMs=totalSec*1000;
-tmEndTime=performance.now()+tmTotalMs;
-tmRunning=true;
-tmShowBadge(true);
-tmStartBtn.style.display='none';
-tmResetBtn.style.display='block';
-tmInput.disabled=true;
-tmDisplay.style.display='block';
-tmLabel.textContent='';
-tmRing.style.borderColor='rgba(77,171,247,0.3)';
-tmRing.style.boxShadow='none';
-tmTimeEl.style.color='var(--text)';
+if(!parsed||parsed.s>59){alert(T[appLang].tmInvalid);return;}
+var totalSec=parsed.m*60+parsed.s;if(totalSec<=0){alert(T[appLang].tmZero);return;}
+tmTotalMs=totalSec*1000;tmEndTime=performance.now()+tmTotalMs;tmRunning=true;
+tmShowBadge(true);tmStartBtn.style.display='none';tmResetBtn.style.display='block';tmInput.disabled=true;tmDisplay.style.display='block';
+tmLabel.textContent='';tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';tmTimeEl.style.color='var(--text)';
+tmLastSecond=-1;tmNotifiedSeconds={};
 tmTick();
 });
-
-var tmLastSecond=-1;
-var tmNotifiedSeconds={};
-
-function tmTick(){
-if(!tmRunning)return;
-var now=performance.now();
-var remaining=tmEndTime-now;
-if(remaining<=0){remaining=0;}
-// Exakte Sekunden für Benachrichtigungen
-var remSec=Math.ceil(remaining/1000);
-tmTimeEl.textContent=tmFormat(remaining);
-if(remSec!==tmLastSecond){
-tmLastSecond=remSec;
-tmHandleNotification(remSec);
-}
-if(remaining<=0){
-tmDone();
-return;
-}
-tmRaf=requestAnimationFrame(tmTick);
-}
-
-function tmHandleNotification(remSec){
-var key='s'+remSec;
-if(tmNotifiedSeconds[key])return;
-tmNotifiedSeconds[key]=true;
-var totalSec=Math.round(tmTotalMs/1000);
-// Volle Minuten (nur wenn >0 und nicht die Startzeit)
-if(remSec>0&&remSec<totalSec&&remSec%60===0&&remSec>=60){
-var minLeft=remSec/60;
-tmLabel.textContent='\u23f0 '+T[appLang].tmMin1+minLeft+(minLeft>1?T[appLang].tmMinSufP:T[appLang].tmMinSuf)+'!';
-tmFlash('#ff6b6b','rgba(255,107,107,0.6)');
-return;
-}
-// 30 Sekunden
-if(remSec===30){
-tmLabel.textContent=T[appLang].tmSec30;
-tmFlash('#ff6b6b','rgba(255,107,107,0.5)');
-return;
-}
-// 15 Sekunden
-if(remSec===15){
-tmLabel.textContent=T[appLang].tmSec15;
-tmFlash('#ffd43b','rgba(255,212,59,0.6)');
-return;
-}
-// 10–6 Sekunden: rot blinken
-if(remSec>=6&&remSec<=10){
-tmLabel.textContent='🔴 '+remSec+'...';
-tmRing.style.borderColor='#ff6b6b';
-tmRing.style.boxShadow='0 0 28px rgba(255,107,107,0.7)';
-tmTimeEl.style.color='#ff6b6b';
-return;
-}
-// 5 Sekunden: grün
-if(remSec===5){
-tmLabel.textContent='🟢 5...';
-tmRing.style.borderColor='#51cf66';
-tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';
-tmTimeEl.style.color='#51cf66';
-return;
-}
-// 4–1 Sekunden: grün blinken
-if(remSec>=1&&remSec<=4){
-tmLabel.textContent='🟢 '+remSec+'...';
-tmRing.style.borderColor='#51cf66';
-tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';
-tmTimeEl.style.color='#51cf66';
-return;
-}
-}
-
-function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}
-tmShowBadge(false);
-tmRunning=false;
-cancelAnimationFrame(tmRaf);
-tmTimeEl.textContent='0:00';
-tmTimeEl.style.color='var(--text)';
-tmRing.style.borderColor='rgba(81,207,102,0.8)';
-tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';
-tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';
-}
-
-tmResetBtn.addEventListener('click',function(){
-document.getElementById('tm-hint').textContent='';
-document.getElementById('tm-start').disabled=false;
-tmShowBadge(false);
-tmRunning=false;
-cancelAnimationFrame(tmRaf);
-tmEndTime=null;
-tmLastSecond=-1;
-tmNotifiedSeconds={};
-tmStartBtn.style.display='block';
-tmResetBtn.style.display='none';
-tmInput.disabled=false;
-tmInput.value='';
-tmDisplay.style.display='none';
-tmRing.style.borderColor='rgba(77,171,247,0.3)';
-tmRing.style.boxShadow='none';
-tmTimeEl.style.color='var(--text)';
-tmLabel.textContent='';
-});
+function tmTick(){if(!tmRunning)return;var now=performance.now(),remaining=tmEndTime-now;if(remaining<0)remaining=0;var remSec=Math.ceil(remaining/1000);tmTimeEl.textContent=tmFormat(remaining);if(remSec!==tmLastSecond){tmLastSecond=remSec;tmHandleNotification(remSec);}if(remaining<=0){tmDone();return;}tmRaf=requestAnimationFrame(tmTick);}
+function tmHandleNotification(remSec){var key='s'+remSec;if(tmNotifiedSeconds[key])return;tmNotifiedSeconds[key]=true;var totalSec=Math.round(tmTotalMs/1000);if(remSec>0&&remSec<totalSec&&remSec%60===0&&remSec>=60){var minLeft=remSec/60;tmLabel.textContent='\u23f0 '+T[appLang].tmMin1+minLeft+(minLeft>1?T[appLang].tmMinSufP:T[appLang].tmMinSuf)+'!';tmFlash('#ff6b6b','rgba(255,107,107,0.6)');return;}if(remSec===30){tmLabel.innerHTML=T[appLang].tmSec30;tmFlash('#ff6b6b','rgba(255,107,107,0.5)');return;}if(remSec===15){tmLabel.innerHTML=T[appLang].tmSec15;tmFlash('#ffd43b','rgba(255,212,59,0.6)');return;}if(remSec>=6&&remSec<=10){tmLabel.textContent='\uD83D\uDD34 '+remSec+'...';tmRing.style.borderColor='#ff6b6b';tmRing.style.boxShadow='0 0 28px rgba(255,107,107,0.7)';tmTimeEl.style.color='#ff6b6b';return;}if(remSec===5){tmLabel.textContent='\uD83D\uDFE2 5...';tmRing.style.borderColor='#51cf66';tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';tmTimeEl.style.color='#51cf66';return;}if(remSec>=1&&remSec<=4){tmLabel.textContent='\uD83D\uDFE2 '+remSec+'...';tmRing.style.borderColor='#51cf66';tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';tmTimeEl.style.color='#51cf66';}}
+function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}tmShowBadge(false);tmRunning=false;cancelAnimationFrame(tmRaf);tmTimeEl.textContent='0:00';tmTimeEl.style.color='var(--text)';tmRing.style.borderColor='rgba(81,207,102,0.8)';tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';}
+tmResetBtn.addEventListener('click',function(){gi('tm-hint').textContent='';gi('tm-start').disabled=false;tmShowBadge(false);tmRunning=false;cancelAnimationFrame(tmRaf);tmEndTime=null;tmLastSecond=-1;tmNotifiedSeconds={};tmStartBtn.style.display='block';tmResetBtn.style.display='none';tmInput.disabled=false;tmInput.value='';tmDisplay.style.display='none';tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';tmTimeEl.style.color='var(--text)';tmLabel.textContent='';});
 })();
+
 // ===== ORDER EQUATION =====
 (function(){
-var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0;
-var oeRunning=false,oeTimeout=null;
-
-document.getElementById('oe-start').addEventListener('click',function(){
-if(oeRunning)return;
-oeRunning=true;
+var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0,oeRunning=false,oeTimeout=null;
+gi('oe-start').addEventListener('click',function(){
+if(oeRunning)return;oeRunning=true;
 var currentYear=new Date().getFullYear();
-// Geburtsjahr: Person unter 90, also geb zwischen 1936 und 2008
-var _oeAgeMin=parseInt(document.getElementById('oe-age-min').value)||20;var _oeAgeMax=parseInt(document.getElementById('oe-age-max').value)||60;if(_oeAgeMin>_oeAgeMax){var _t=_oeAgeMin;_oeAgeMin=_oeAgeMax;_oeAgeMax=_t;}oeAge=_oeAgeMin+Math.floor(Math.random()*(_oeAgeMax-_oeAgeMin+1));oeYear=currentYear-oeAge;
-
-// A: zufällige zweistellige Alterszahl (10-99)
-oeA=11+Math.floor(Math.random()*50);
-// B: zweite Alterszahl (10-99)
-oeB=11+Math.floor(Math.random()*50);
-// C: dritte Alterszahl (10-99)
-oeC=11+Math.floor(Math.random()*50);
-// Formel: oeYear + (oeA * oeB * oeC) + oeAge  (Punkt vor Strich)
+var ageMin=parseInt(gi('oe-age-min').value)||20,ageMax=parseInt(gi('oe-age-max').value)||60;
+if(ageMin>ageMax){var tmp=ageMin;ageMin=ageMax;ageMax=tmp;}
+oeAge=ageMin+Math.floor(Math.random()*(ageMax-ageMin+1));oeYear=currentYear-oeAge;
+oeA=11+Math.floor(Math.random()*50);oeB=11+Math.floor(Math.random()*50);oeC=11+Math.floor(Math.random()*50);
 oeResult=oeYear+(oeA*oeB*oeC)+oeAge;
-
-document.getElementById('oe-start').style.display='none';
-document.getElementById('oe-sequence').style.display='block';
-document.getElementById('oe-result-area').style.display='none';
-document.getElementById('oe-reveal-box').style.display='none';
-document.getElementById('oe-result-value').textContent='████████';
-document.getElementById('oe-reveal').disabled=false;
-
-var delay=parseFloat(document.getElementById('oe-delay').value)*1000;
-document.getElementById('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> <b style="color:#ffd43b;">'+oeA+'</b> <span style="color:#4dabf7;">×</span> <b style="color:#ffd43b;">'+oeB+'</b> <span style="color:#4dabf7;">×</span> <b style="color:#ffd43b;">'+oeC+'</b> <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
+gi('oe-start').style.display='none';gi('oe-sequence').style.display='block';gi('oe-result-area').style.display='none';gi('oe-reveal-box').style.display='none';gi('oe-result-value').textContent='\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588';gi('oe-reveal').disabled=false;
+var delay=parseFloat(gi('oe-delay').value)*1000;
+gi('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> <b style="color:#ffd43b;">'+oeA+'</b> <span style="color:#4dabf7;">\u00d7</span> <b style="color:#ffd43b;">'+oeB+'</b> <span style="color:#4dabf7;">\u00d7</span> <b style="color:#ffd43b;">'+oeC+'</b> <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
 var steps=[
-{label:T[appLang].oeStep1Label,value:'████',sub:T[appLang].oeStep1Sub,speak:T[appLang].oeStep1Speak},
+{label:T[appLang].oeStep1Label,value:'\u2588\u2588\u2588\u2588',sub:T[appLang].oeStep1Sub,speak:T[appLang].oeStep1Speak},
 {label:T[appLang].oeStep2Label,value:'+ '+oeA,sub:T[appLang].oeStep2Sub,speak:'Plus '+oeA},
-{label:T[appLang].oeStep3Label,value:'× '+oeB,sub:T[appLang].oeStep3Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeB},
-{label:T[appLang].oeStep4Label,value:'× '+oeC,sub:T[appLang].oeStep4Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeC},
-{label:T[appLang].oeStep5Label,value:'+ ████',sub:T[appLang].oeStep5Sub,speak:T[appLang].oeStep5Speak}
+{label:T[appLang].oeStep3Label,value:'\u00d7 '+oeB,sub:T[appLang].oeStep3Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeB},
+{label:T[appLang].oeStep4Label,value:'\u00d7 '+oeC,sub:T[appLang].oeStep4Sub,speak:(appLang==='de'?'Mal ':'Times ')+oeC},
+{label:T[appLang].oeStep5Label,value:'+ \u2588\u2588\u2588\u2588',sub:T[appLang].oeStep5Sub,speak:T[appLang].oeStep5Speak}
 ];
-
 var i=0;
 function runStep(){
-if(i>=steps.length){
-// Ergebnis anzeigen
-var lastDigit=oeResult%10;
-var parity=lastDigit%2===0?T[appLang].oeEven:T[appLang].oeOdd;
-document.getElementById('oe-parity-value').textContent=parity;
-document.getElementById('oe-result-area').style.display='block';
-document.getElementById('oe-step-label').textContent=T[appLang].oeCalcLabel;
-document.getElementById('oe-step-value').textContent=T[appLang].oeCalcSub;
-document.getElementById('oe-step-sub').textContent='';
-speak(T[appLang].oeCalcSpeak);
-oeRunning=false;
-return;
-}
-var s=steps[i];
-document.getElementById('oe-step-label').textContent=s.label;
-document.getElementById('oe-step-value').textContent=s.value;
-document.getElementById('oe-step-sub').textContent=s.sub||'';
-speak(s.speak,function(){
-oeTimeout=setTimeout(function(){i++;runStep();},delay);
+if(i>=steps.length){var lastDigit=oeResult%10,parity=lastDigit%2===0?T[appLang].oeEven:T[appLang].oeOdd;gi('oe-parity-value').textContent=parity;gi('oe-result-area').style.display='block';gi('oe-step-label').textContent=T[appLang].oeCalcLabel;gi('oe-step-value').textContent=T[appLang].oeCalcSub;gi('oe-step-sub').textContent='';speak(T[appLang].oeCalcSpeak);oeRunning=false;return;}
+var s=steps[i];gi('oe-step-label').textContent=s.label;gi('oe-step-value').textContent=s.value;gi('oe-step-sub').textContent=s.sub||'';
+speak(s.speak,function(){oeTimeout=setTimeout(function(){i++;runStep();},delay);});
+}runStep();
 });
-}
-runStep();
-});
-
-document.getElementById('oe-reveal').addEventListener('click',function(){
-document.getElementById('oe-result-value').textContent=oeResult;
-document.getElementById('oe-reveal-year').textContent=oeYear;
-document.getElementById('oe-reveal-age').textContent=oeAge;
-document.getElementById('oe-reveal-result').textContent=oeResult;
-document.getElementById('oe-reveal-box').style.display='block';
-this.disabled=true;
-speak(T[appLang].oeRevealSpeak+oeResult+T[appLang].oeRevealSpeakYear+oeYear+T[appLang].oeRevealSpeakAge+oeAge+'.');
-});
-
-document.getElementById('oe-reset').addEventListener('click',function(){
-oeRunning=false;
-clearTimeout(oeTimeout);
-clearSpeech();
-oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;document.getElementById('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">×</span> B <span style="color:#4dabf7;">×</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
-document.getElementById('oe-start').style.display='block';
-document.getElementById('oe-sequence').style.display='none';
-document.getElementById('oe-step-label').textContent='';
-document.getElementById('oe-step-value').textContent='';
-document.getElementById('oe-step-sub').textContent='';
-document.getElementById('oe-result-value').textContent='████████';
-document.getElementById('oe-reveal-box').style.display='none';
-document.getElementById('oe-reveal').disabled=false;
-});
+gi('oe-reveal').addEventListener('click',function(){gi('oe-result-value').textContent=oeResult;gi('oe-reveal-year').textContent=oeYear;gi('oe-reveal-age').textContent=oeAge;gi('oe-reveal-result').textContent=oeResult;gi('oe-reveal-box').style.display='block';this.disabled=true;speak(T[appLang].oeRevealSpeak+oeResult+T[appLang].oeRevealSpeakYear+oeYear+T[appLang].oeRevealSpeakAge+oeAge+'.');});
+gi('oe-reset').addEventListener('click',function(){oeRunning=false;clearTimeout(oeTimeout);clearSpeech();oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;gi('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">\u00d7</span> B <span style="color:#4dabf7;">\u00d7</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';gi('oe-start').style.display='block';gi('oe-sequence').style.display='none';gi('oe-step-label').textContent='';gi('oe-step-value').textContent='';gi('oe-step-sub').textContent='';gi('oe-result-value').textContent='\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588';gi('oe-reveal-box').style.display='none';gi('oe-reveal').disabled=false;});
 })();
-// ===== KREDITKARTE =====
-var CC_TYPES=[{name:'Visa',prefix:'4',len:16},{name:'Mastercard',prefix:'51',len:16},{name:'Amex',prefix:'34',len:15},{name:'Discover',prefix:'6011',len:16}];
-var ccState='idle',ccFull='',ccMissIdx=-1,ccMissDig='',ccTimeout=null;
-document.getElementById('cc-show-num').addEventListener('change',function(){document.getElementById('cc-number-box').style.display=this.checked?'block':'none';});
-document.getElementById('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate();else if(ccState==='ready')ccRead();else if(ccState==='done')ccShowSolution();});
-document.getElementById('cc-reset').addEventListener('click',ccReset);
-function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
-function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}// Fallback: brute-force last digit via Luhn formula
-var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}var check=(10-(sum%10))%10;return num+check;}
-function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}document.getElementById('cc-number-box').innerHTML=html;document.getElementById('cc-number-box').style.display=document.getElementById('cc-show-num').checked?'block':'none';document.getElementById('cc-answer-box').style.display='none';ccState='ready';document.getElementById('cc-main').innerHTML=T[appLang].ccRead;document.getElementById('cc-main').disabled=false;document.getElementById('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
-function ccRead(){ccState='reading';document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(document.getElementById('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccSolution;document.getElementById('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){document.getElementById('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{document.getElementById('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
-function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
-function ccShowSolution(){document.getElementById('cc-answer').textContent=ccMissDig;document.getElementById('cc-answer-box').style.display='block';document.getElementById('cc-status').textContent=T[appLang].ccShown;document.getElementById('cc-main').disabled=true;document.getElementById('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
-function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';document.getElementById('cc-main').disabled=false;document.getElementById('cc-main').textContent=T[appLang].ccGen;document.getElementById('cc-status').textContent=T[appLang].ccReady;document.getElementById('cc-answer-box').style.display='none';document.getElementById('cc-number-box').style.display='none';document.getElementById('cc-number-box').innerHTML='';document.getElementById('cc-show-num').checked=false;}
+
+// ===== INIT =====
+appApplyLang();
+vgInit();
+
 })();
-// ===== SERVICE WORKER REGISTRIERUNG =====
-if('serviceWorker' in navigator){
-window.addEventListener('load',function(){
-navigator.serviceWorker.register('sw.js')
-.then(function(reg){console.log('[SW] Registriert, Scope:',reg.scope);})
-.catch(function(err){console.warn('[SW] Fehler:',err);});
-});
-}
 </script>
 </body>
 </html>
