@@ -243,6 +243,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <h2>Order Equation</h2>
 <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Denke an dein Geburtsjahr. Gib es in deinen Taschenrechner ein – und folge dann den Anweisungen.</p>
 <div class="input-group">
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px;"><div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-min" id="oe-age-min-label">Alter von</label><input type="number" id="oe-age-min" value="20" min="5" max="90" style="width:80px;"></div><div class="input-group" style="flex:1;min-width:110px;"><label for="oe-age-max" id="oe-age-max-label">Alter bis</label><input type="number" id="oe-age-max" value="60" min="5" max="90" style="width:80px;"></div></div>
   <label for="oe-delay">Pause zwischen Schritten (Sekunden)</label>
   <input type="number" id="oe-delay" value="5" min="1" max="30" style="width:80px;">
 </div>
@@ -418,7 +419,7 @@ de:{
   vgGrandTotal:'Gesamt',
   ccDigits:' Ziffern \u00b7 Bereit',
   cpReady:'Bereit!',cpClickNext:'Klicke auf Nächster Schritt',
-  buyLink:'Synaptic kaufen',oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',
+  buyLink:'Synaptic kaufen',oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',oeAgeMin:'Alter von',oeAgeMax:'Alter bis',
   volLabel:'&#x1F50A; Lautst&auml;rke',langBtn:'&#x1F310; English',
   helpItems:[
     {title:'1 &nbsp;Calendar Prodigy',text:'W&auml;hle ein Start- und Enddatum. Die App generiert ein zuf&auml;lliges Datum aus diesem Zeitraum. Klicke danach Schritt f&uuml;r Schritt auf &bdquo;N&auml;chster Schritt&ldquo;, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen der Person aufzudecken. Mit aktivierter Sprachausgabe werden alle Angaben automatisch vorgelesen &ndash; mit einstellbaren Pausen dazwischen.'},
@@ -488,7 +489,7 @@ en:{
   vgGrandTotal:'Total',
   ccDigits:' digits \u00b7 Ready',
   cpReady:'Ready!',cpClickNext:'Click Next Step',
-  buyLink:'Buy Synaptic',oeFormulaYear:'Birth year',oeFormulaAge:'Age',
+  buyLink:'Buy Synaptic',oeFormulaYear:'Birth year',oeFormulaAge:'Age',oeAgeMin:'Age from',oeAgeMax:'Age to',
   volLabel:'&#x1F50A; Volume',langBtn:'&#x1F310; Deutsch',
   helpItems:[
     {title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date from that range. Then click "Next Step" to reveal the day, month, year, weekday, number of days passed and optionally the zodiac sign. With speech enabled, everything is read aloud with configurable pauses.'},
@@ -592,6 +593,9 @@ function appApplyLang(){
     var oeFormulaAgeEl=document.getElementById('oe-formula-age');
     if(oeFormulaYearEl)oeFormulaYearEl.textContent=t.oeFormulaYear;
     if(oeFormulaAgeEl)oeFormulaAgeEl.textContent=t.oeFormulaAge;
+    // OE age range labels
+    var _oeLblMin=document.getElementById('oe-age-min-label');if(_oeLblMin)_oeLblMin.textContent=t.oeAgeMin;
+    var _oeLblMax=document.getElementById('oe-age-max-label');if(_oeLblMax)_oeLblMax.textContent=t.oeAgeMax;
     // TM input placeholder
     var tmInputEl=document.getElementById('tm-input');
     if(tmInputEl)tmInputEl.placeholder=appLang==='de'?'z.B. 111 oder 45':'e.g. 111 or 45';
@@ -642,7 +646,7 @@ document.getElementById('enable-speech').addEventListener('change',function(){do
 document.getElementById('btn-generate').addEventListener('click',function(){var sVal=document.getElementById('start-date').value;var eVal=document.getElementById('end-date').value;if(!sVal||!eVal){alert('Bitte Start- und Enddatum eingeben.');return;}var s=new Date(sVal),e=new Date(eVal);
 var yesterday=new Date(cpTodayOnly.getTime()-864e5);
 if(e>yesterday){e=yesterday;var yStr=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');document.getElementById('end-date').value=yStr;}
-if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{document.getElementById('display-area').innerHTML='Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">Klicke auf N\u00e4chster Schritt</small>';}});
+if(isNaN(s)||isNaN(e)||s>=e){alert('Startdatum muss vor Enddatum liegen.');return;}cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));cpStep=0;document.getElementById('setup-view').style.display='none';document.getElementById('result-view').style.display='block';document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').innerHTML='N\u00e4chster Schritt';if(document.getElementById('enable-speech').checked){cpRunSpeech();}else{var _cpWd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});document.getElementById('display-area').innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:4px;">'+_cpWd+'<\/div>Bereit!<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'<\/small>';}});
 document.getElementById('btn-next').addEventListener('click',cpNextStep);
 document.getElementById('btn-reset').addEventListener('click',cpReset);
 function cpGetSteps(){var fmt=document.getElementById('date-format').value;var z=document.getElementById('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
@@ -998,8 +1002,8 @@ document.getElementById('oe-start').addEventListener('click',function(){
   oeRunning=true;
   var currentYear=new Date().getFullYear();
   // Geburtsjahr: Person unter 90, also geb zwischen 1936 und 2008
-  oeYear=1936+Math.floor(Math.random()*73);
-  oeAge=currentYear-oeYear;
+  var _oeAgeMin=parseInt(document.getElementById('oe-age-min').value)||20;var _oeAgeMax=parseInt(document.getElementById('oe-age-max').value)||60;if(_oeAgeMin>_oeAgeMax){var _t=_oeAgeMin;_oeAgeMin=_oeAgeMax;_oeAgeMax=_t;}oeAge=_oeAgeMin+Math.floor(Math.random()*(_oeAgeMax-_oeAgeMin+1));oeYear=currentYear-oeAge;var _DUMMY_OLD_LINE=0;
+  
   // A: zufällige zweistellige Alterszahl (10-99)
   oeA=11+Math.floor(Math.random()*50);
   // B: zweite Alterszahl (10-99)
