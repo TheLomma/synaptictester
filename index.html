@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v5.7</title>
+<title>SynaTest v5.8</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.7</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.8</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.7</span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.8</span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -116,7 +116,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 
 <!-- TAB 1: Calendar Prodigy -->
 <div id="date-tab" class="tab-content tab-pane active">
-<h2 id="cp-h2">Zuf&auml;lliges Datum</h2>
+<h2 id="cp-h2">Calendar Prodigy</h2>
 <div id="setup-view">
 <div class="input-group"><label for="start-date" id="lbl-start-date">Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
 <div class="input-group"><label for="end-date" id="lbl-end-date">Enddatum</label><input type="date" id="end-date"></div>
@@ -170,6 +170,11 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="cc-answer-box"><div id="lbl-cc-missing" style="font-size:13px;color:var(--text-light);margin-bottom:6px;">Fehlende Ziffer</div><div id="cc-answer"></div></div>
 <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="cc-show-num"><label for="cc-show-num" id="lbl-cc-show">Nummer anzeigen</label></div>
 <div id="cc-number-box"></div>
+<div id="cc-stats-display" style="font-size:12px;color:var(--text-light);text-align:center;margin-top:10px;"></div>
+<div id="cc-guess-box" style="display:none;margin-top:12px;">
+<div style="font-size:13px;color:var(--text-light);margin-bottom:8px;text-align:center;" id="cc-guess-label">Welche Ziffer fehlt? (0–9)</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;" id="cc-guess-grid"></div>
+</div>
 </div>
 
 <!-- TAB 4: Foursight Guru -->
@@ -298,8 +303,8 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.7',helpClose:'Schlie&szlig;en',
-cpH2:'Zuf&auml;lliges Datum',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.8',helpClose:'Schlie&szlig;en',
+cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
 labelSpeech:'Sprachausgabe aktivieren',speechTitle:'Pausen (Sekunden)',
@@ -363,8 +368,8 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v5.7',helpClose:'Close',
-cpH2:'Random Date',labelStart:'Start date',labelEnd:'End date',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v5.8',helpClose:'Close',
+cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
 labelSpeech:'Enable speech output',speechTitle:'Pauses (seconds)',
@@ -720,6 +725,10 @@ function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-s
 function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
 
 // ===== CARD HACKER =====
+  var ccStats={correct:0,wrong:0};
+  try{var _ccs=JSON.parse(localStorage.getItem('syna_cc_stats')||'{}');if(_ccs.correct)ccStats.correct=_ccs.correct;if(_ccs.wrong)ccStats.wrong=_ccs.wrong;}catch(e){}
+  function ccSaveStats(){try{localStorage.setItem('syna_cc_stats',JSON.stringify(ccStats));}catch(e){}}
+  function ccUpdateStatsDisplay(){var el=gi('cc-stats-display');if(el)el.innerHTML='✅ '+ccStats.correct+' &nbsp;❌ '+ccStats.wrong;}
 var CC_TYPES=[{name:'Visa',prefix:'4',len:16},{name:'Mastercard',prefix:'51',len:16},{name:'Amex',prefix:'34',len:15},{name:'Discover',prefix:'6011',len:16}];
 gi('cc-show-num').addEventListener('change',function(){gi('cc-number-box').style.display=this.checked?'block':'none';});
 gi('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate();else if(ccState==='ready')ccRead();else if(ccState==='done')ccShowSolution();});
@@ -729,10 +738,40 @@ function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=pr
 function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
 function ccRead(){ccState='reading';gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(gi('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccSolution;gi('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){gi('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{gi('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
-function ccShowSolution(){gi('cc-answer').textContent=ccMissDig;gi('cc-answer-box').style.display='block';gi('cc-status').textContent=T[appLang].ccShown;gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccFinished;speak(ccMissDig);}
-function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccGen;gi('cc-status').textContent=T[appLang].ccReady;gi('cc-answer-box').style.display='none';gi('cc-number-box').style.display='none';gi('cc-number-box').innerHTML='';gi('cc-show-num').checked=false;}
+function ccShowSolution(){
+  gi('cc-answer').textContent=ccMissDig;
+  gi('cc-answer-box').style.display='block';
+  gi('cc-status').textContent=T[appLang].ccShown;
+  gi('cc-main').disabled=true;
+  gi('cc-main').textContent=T[appLang].ccFinished;
+  speak(ccMissDig);
+  // Show guess buttons
+  var grid=gi('cc-guess-grid');
+  grid.innerHTML='';
+  gi('cc-guess-box').style.display='block';
+  for(var d=0;d<=9;d++){
+    (function(digit){
+      var b=document.createElement('button');
+      b.className='btn-dark';
+      b.style.cssText='font-size:18px;font-weight:800;padding:10px 4px;border-radius:14px;';
+      b.textContent=digit;
+      b.addEventListener('click',function(){
+        var ok=(String(digit)===ccMissDig);
+        if(ok)ccStats.correct++;else ccStats.wrong++;
+        ccSaveStats();ccUpdateStatsDisplay();
+        grid.querySelectorAll('button').forEach(function(btn){btn.disabled=true;});
+        b.style.background=ok?'rgba(81,207,102,0.35)':'rgba(255,107,107,0.35)';
+        b.style.borderColor=ok?'#51cf66':'#ff6b6b';
+        gi('cc-status').textContent=ok?(appLang==='de'?'✅ Richtig!':'✅ Correct!'):(appLang==='de'?'❌ Falsch! Richtig: '+ccMissDig:'❌ Wrong! Correct: '+ccMissDig);
+      });
+      grid.appendChild(b);
+    })(d);
+  }
+}
+function ccReset(){clearTimeout(ccTimeout);clearSpeech();ccState='idle';ccFull='';ccMissIdx=-1;ccMissDig='';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccGen;gi('cc-status').textContent=T[appLang].ccReady;gi('cc-answer-box').style.display='none';gi('cc-number-box').style.display='none';gi('cc-number-box').innerHTML='';gi('cc-show-num').checked=false;gi('cc-guess-box').style.display='none';gi('cc-guess-grid').innerHTML='';ccUpdateStatsDisplay();}
 
-// ===== FOURSIGHT GURU =====
+ccUpdateStatsDisplay();
+  // ===== FOURSIGHT GURU =====
 gi('vg-reset').addEventListener('click',vgInit);
 gi('vg-show-board').addEventListener('change',function(){vgGames.forEach(function(g){g.boardEl.style.display=gi('vg-show-board').checked?'grid':'none';});});
 function vgInit(){
