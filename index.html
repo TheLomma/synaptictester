@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v5.8</title>
+<title>SynaTest v5.9</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.8</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.9</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.8</span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.9</span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -156,11 +156,12 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <button id="pi-start" class="btn-primary" style="width:100%;">Starten</button>
 <button id="pi-stop" class="btn-dark" style="width:100%;margin-top:10px;display:none;">Stoppen</button>
 <div id="pi-status">Bereit.</div>
+  <div id="pi-progress" style="display:none;font-size:12px;font-weight:600;color:var(--text-light);text-align:center;margin-top:-8px;margin-bottom:4px;"></div>
 <div class="checkbox-group" style="margin-top:10px;"><input type="checkbox" id="pi-show-ctx"><label for="pi-show-ctx" id="lbl-pi-show">Zahlen anzeigen</label></div>
 <div id="pi-context-box"></div>
 </div>
 
-<!-- TAB 3: Card Hacker -->
+<!-- TAB 3: Card Hacker CC_MARKER -->
 <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
 <h2 id="cc-h2">Card Hacker</h2>
 <div class="input-group"><label for="cc-delay" id="lbl-cc-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
@@ -243,7 +244,8 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="oe-formula-line" style="font-size:14px;color:var(--text);font-weight:600;"><span id="oe-formula-year">Geburtsjahr</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">&times;</span> B <span style="color:#4dabf7;">&times;</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">Alter</span></div>
 <div id="lbl-oe-formula-sub" style="font-size:12px;color:var(--text-light);margin-top:6px;">A, B, C = zuf&auml;llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten</div>
 </div>
-<button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
+<div id="oe-age-warn" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-bottom:10px;">&#x26A0;&#xFE0F; Min &gt; Max &ndash; Werte werden automatisch getauscht.</div>
+  <button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
 <div id="oe-sequence" style="display:none;margin-top:18px;">
 <div id="oe-step-box" style="margin-bottom:14px;padding:22px 18px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;">
 <div id="oe-step-label" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;"></div>
@@ -303,7 +305,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.8',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.9',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -353,12 +355,12 @@ oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCa
 oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
 volLabel:'&#x1F50A; Lautst\u00e4rke',buyLink:'Synaptic kaufen',
 helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'W\u00e4hle ein Start- und Enddatum. Die App generiert ein zuf\u00e4lliges Datum aus diesem Zeitraum. Klicke danach Schritt f\u00fcr Schritt auf \u201eN\u00e4chster Schritt\u201c, um Tag, Monat, Jahr, Wochentag, Anzahl vergangener Tage und optional das Sternzeichen aufzudecken.'},
-{title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f\u00fcr Ziffer aus der Kreiszahl Pi an und liest jede Ziffer vor. W\u00e4hle die Leserichtung und stelle die Pause ein.'},
-{title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g\u00fcltige Kreditkartennummer (Luhn-gepr\u00fcft) und l\u00e4sst eine zuf\u00e4llige Ziffer weg. Die fehlende Stelle wird als Frage pr\u00e4sentiert.'},
+{title:'1 &nbsp;Calendar Prodigy',text:'W\u00e4hle ein Start- und Enddatum. Die App generiert ein zuf\u00e4lliges Datum und zeigt es Schritt f\u00fcr Schritt auf. Im Wochentag-Modus wird das vollst\u00e4ndige Datum angezeigt \u2013 du r\u00e4tst den Wochentag.'},
+{title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f\u00fcr Ziffer aus der Kreiszahl Pi an. W\u00e4hle die Leserichtung (vorw\u00e4rts / r\u00fcckw\u00e4rts / zuf\u00e4llig) und stelle die Pause ein. Eine Fortschrittsanzeige zeigt, bei welcher Stelle du dich befindest.'},
+{title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g\u00fcltige Kreditkartennummer (Luhn-gepr\u00fcft) mit einer fehlenden Ziffer. W\u00e4hle optional einen Kartentyp (Visa, Mastercard, Amex, Discover). Rate die fehlende Ziffer!'},
 {title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent und blockiert deine Gewinnz\u00fcge.'},
-{title:'5 &nbsp;Time Master',text:'Ein pr\u00e4ziser Countdown-Timer. 2 Ziffern = Sekunden, 3 Ziffern = Minuten+Sekunden.'},
-{title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr. Die App zeigt Schritt f\u00fcr Schritt eine Rechnung. Das Ergebnis enth\u00fcllt das Geburtsjahr und Alter.'},
+{title:'5 &nbsp;Time Master',text:'Ein pr\u00e4ziser Countdown-Timer. 2 Ziffern = Sekunden, 3 Ziffern = Minuten+Sekunden. Schnellauswahl: 30s, 1 Min, 2 Min, 5 Min.'},
+{title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr. Gib den Altersbereich ein \u2013 die App zeigt Schritt f\u00fcr Schritt eine Rechnung. Das Ergebnis enth\u00fcllt Geburtsjahr und Alter. Bei Min > Max erscheint eine Warnung.'},
 {title:'&#x1F310; &nbsp;Sprachumschalter',text:'Wechselt die gesamte App zwischen Deutsch und Englisch.'},
 {title:'&#x1F50A; &nbsp;Lautst\u00e4rke &amp; Stumm',text:'Lautst\u00e4rke-Schieberegler und Stumm-Knopf steuern die Sprachausgabe.'},
 {title:'\u263D &nbsp;Hell / Dunkel',text:'Wechselt zwischen Hell- und Dunkel-Modus.'}
@@ -368,7 +370,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v5.8',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v5.9',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -418,12 +420,12 @@ oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCal
 oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
 volLabel:'&#x1F50A; Volume',buyLink:'Buy Synaptic',
 helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date. Click Next Step to reveal day, month, year, weekday, days passed and optionally the zodiac sign.'},
-{title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit. Choose direction and set the pause between digits.'},
-{title:'3 &nbsp;Card Hacker',text:'Generates a valid credit card number (Luhn-checked) with one digit missing. The missing digit is revealed at the end.'},
+{title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date and reveals it step by step. In Weekday Mode the full date is shown \u2013 you guess the weekday.'},
+{title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit. Choose direction (forward / backward / random) and set the pause. A progress indicator shows your current position.'},
+{title:'3 &nbsp;Card Hacker',text:'Generates a valid credit card number (Luhn-checked) with one digit missing. Optionally filter by card type (Visa, Mastercard, Amex, Discover). Guess the missing digit!'},
 {title:'4 &nbsp;Foursight Guru',text:'Connect Four against up to 4 app players. The app plays intelligently and blocks your winning moves.'},
-{title:'5 &nbsp;Time Master',text:'Precise countdown timer. 2 digits = seconds, 3 digits = minutes+seconds.'},
-{title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year. The app shows a step-by-step calculation that reveals year and age.'},
+{title:'5 &nbsp;Time Master',text:'Precise countdown timer. 2 digits = seconds, 3 digits = minutes+seconds. Quick presets: 30s, 1 min, 2 min, 5 min.'},
+{title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year. Set the age range \u2013 the app walks through a step-by-step calculation that reveals the birth year and age. A warning appears if Min > Max.'},
 {title:'&#x1F310; &nbsp;Language Switch',text:'Switches the entire app between German and English instantly.'},
 {title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Volume slider and mute button control speech output.'},
 {title:'\u263D &nbsp;Light / Dark',text:'Switches between light and dark mode.'}
@@ -543,7 +545,9 @@ gi('lbl-pi-show').innerHTML=t.piShow;
 if(!piRunning)gi('pi-status').textContent=t.piReady;
 // CC
 gi('cc-h2').innerHTML=t.ccH2;
-gi('lbl-cc-delay').innerHTML=t.ccDelay;
+if(gi('lbl-cc-type'))gi('lbl-cc-type').textContent=(appLang==='de'?'Kartentyp':'Card type');
+  if(gi('cc-type'))gi('cc-type').options[0].textContent=(appLang==='de'?'Beliebig':'Any');
+  gi('lbl-cc-delay').innerHTML=t.ccDelay;
 gi('cc-main').innerHTML=ccState==='idle'?t.ccGen:ccState==='ready'?t.ccRead:ccState==='done'?t.ccSolution:t.ccFinished;
 gi('cc-reset-btn').innerHTML=t.ccReset;
 gi('lbl-cc-missing').innerHTML=t.ccMissing;
@@ -720,8 +724,9 @@ if(gi('pi-show-ctx').checked)piUpdateCtx();piStep();
 });
 gi('pi-stop').addEventListener('click',piStop);
 gi('pi-show-ctx').addEventListener('change',function(){gi('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
-function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];gi('pi-status').textContent=digit;if(gi('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(gi('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
-function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-start').style.display='block';gi('pi-stop').style.display='none';gi('pi-status').textContent=T[appLang].piStopped;}
+function piProgressText(){var cur=piDir==='forward'?(piCur-piStart+1):(piStart+SEQ-piCur);return 'Stelle '+cur+' von '+SEQ+(piDir==='backward'?' (←)':'');}
+  function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];gi('pi-status').textContent=digit;gi('pi-progress').style.display='block';gi('pi-progress').textContent=piProgressText();if(gi('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(gi('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
+function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-start').style.display='block';gi('pi-stop').style.display='none';gi('pi-status').textContent=T[appLang].piStopped;gi('pi-progress').style.display='none';}
 function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
 
 // ===== CARD HACKER =====
@@ -735,7 +740,7 @@ gi('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate
 gi('cc-reset-btn').addEventListener('click',ccReset);
 function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
 function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}var num2=prefix;while(num2.length<length-1)num2+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num2.length-1;i>=0;i--){var n=parseInt(num2[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return num2+((10-(sum%10))%10);}
-function ccGenerate(){var t=CC_TYPES[Math.floor(Math.random()*CC_TYPES.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
+function ccGenerate(){var sel=gi('cc-type').value;var pool=sel==='any'?CC_TYPES:CC_TYPES.filter(function(x){return x.name===sel;});if(!pool.length)pool=CC_TYPES;var t=pool[Math.floor(Math.random()*pool.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
 function ccRead(){ccState='reading';gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(gi('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccSolution;gi('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){gi('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{gi('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
 function ccShowSolution(){
@@ -929,7 +934,7 @@ gi('oe-start').addEventListener('click',function(){
 if(oeRunning)return;oeRunning=true;
 var currentYear=new Date().getFullYear();
 var ageMin=parseInt(gi('oe-age-min').value)||20,ageMax=parseInt(gi('oe-age-max').value)||60;
-if(ageMin>ageMax){var tmp=ageMin;ageMin=ageMax;ageMax=tmp;}
+if(ageMin>ageMax){gi('oe-age-warn').style.display='block';var tmp=ageMin;ageMin=ageMax;ageMax=tmp;}else{gi('oe-age-warn').style.display='none';}
 oeAge=ageMin+Math.floor(Math.random()*(ageMax-ageMin+1));oeYear=currentYear-oeAge;
 oeA=11+Math.floor(Math.random()*50);oeB=11+Math.floor(Math.random()*50);oeC=11+Math.floor(Math.random()*50);
 oeResult=oeYear+(oeA*oeB*oeC)+oeAge;
