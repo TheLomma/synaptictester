@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v5.9</title>
+<title>SynaTest v6.1</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v5.9</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.1</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v5.9</span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.1</span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -164,7 +164,8 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <!-- TAB 3: Card Hacker CC_MARKER -->
 <div id="cc-tab" class="tab-content tab-pane" style="display:none;">
 <h2 id="cc-h2">Card Hacker</h2>
-<div class="input-group"><label for="cc-delay" id="lbl-cc-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
+<div class="input-group"><label for="cc-type" id="lbl-cc-type">Kartentyp</label><select id="cc-type" style="width:100%;"><option value="any">Beliebig</option><option value="Visa">Visa</option><option value="Mastercard">Mastercard</option><option value="Amex">Amex</option><option value="Discover">Discover</option></select></div>
+  <div class="input-group"><label for="cc-delay" id="lbl-cc-delay">Pause zwischen Ziffern (Sekunden)</label><input type="number" id="cc-delay" value="3" min="1" max="15" style="width:80px;"></div>
 <button id="cc-main" class="btn-primary" style="width:100%;">Karte generieren</button>
 <button id="cc-reset-btn" class="btn-dark" style="width:100%;margin-top:10px;">Neu starten</button>
 <div id="cc-status">Bereit.</div>
@@ -245,12 +246,16 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="lbl-oe-formula-sub" style="font-size:12px;color:var(--text-light);margin-top:6px;">A, B, C = zuf&auml;llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten</div>
 </div>
 <div id="oe-age-warn" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-bottom:10px;">&#x26A0;&#xFE0F; Min &gt; Max &ndash; Werte werden automatisch getauscht.</div>
+  <div class="checkbox-group" style="margin-top:4px;margin-bottom:12px;"><input type="checkbox" id="oe-manual-mode"><label for="oe-manual-mode" id="lbl-oe-manual">Manueller Schritt-Modus</label></div>
   <button id="oe-start" class="btn-primary" style="width:100%;">Starten</button>
 <div id="oe-sequence" style="display:none;margin-top:18px;">
 <div id="oe-step-box" style="margin-bottom:14px;padding:22px 18px;background:var(--glass-display);border:1px solid rgba(255,255,255,0.1);border-radius:18px;text-align:center;">
 <div id="oe-step-label" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;"></div>
 <div id="oe-step-value" style="font-size:42px;font-weight:800;color:var(--text);letter-spacing:-1px;"></div>
 <div id="oe-step-sub" style="font-size:13px;color:var(--text-light);margin-top:6px;"></div>
+  </div>
+  <button id="oe-next-step" class="btn-primary" style="width:100%;margin-bottom:10px;display:none;">Weiter &#x25B6;</button>
+  <div style="display:none"><!-- placeholder -->
 </div>
 <div id="oe-result-area" style="display:none;">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
@@ -305,7 +310,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v5.9',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.1',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -315,7 +320,7 @@ btnGenerate:'Zuf&auml;lliges Datum generieren',btnNext:'N&auml;chster Schritt',b
 cpReady:'Bereit!',seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Zur&uuml;cksetzen.',
 speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fertig',
 alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
-cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone_DISABLED:'Wochentag aufgedeckt.',
+cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
 cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
 cpDateWarn:'&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.',
 piH2:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf\u00e4llig',piForward:'Vorw\u00e4rts',piBackward:'R\u00fcckw\u00e4rts',
@@ -345,7 +350,7 @@ oeFormulaTitle:'&#x1F9EE; Rechenweg f\u00fcr die Person',
 oeFormulaSub:'A, B, C = zuf\u00e4llige zweistellige Zahlen &nbsp;|&nbsp; Punkt vor Strich beachten',
 oeResult:'Ergebnis',oeLastDigit:'Letzte Ziffer',oeEven:'Gerade \u2713',oeOdd:'Ungerade \u2713',
 oeReveal:'Anzeigen',oeRevealTitle:'Aufl\u00f6sung',oeYear:'Dein Geburtsjahr',oeAge:'Dein Alter',oeFullResult:'Vollst. Ergebnis',
-oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',oeAgeMin:'Alter von',oeAgeMax:'Alter bis',
+oeFormulaYear:'Geburtsjahr',oeFormulaAge:'Alter',oeAgeMin:'Alter von',oeAgeMax:'Alter bis',oeNextStep:'Weiter ▶',oeManualMode:'Manueller Schritt-Modus',
 oeStep1Label:'Schritt 1 \u2013 Gib ein (zensiert)',oeStep1Sub:'Dein Geburtsjahr (4-stellig) \u2192 Taschenrechner',oeStep1Speak:'Gib jetzt dein vierstelliges Geburtsjahr in den Taschenrechner ein.',
 oeStep2Label:'Schritt 2 \u2013 Plus',oeStep2Sub:'Addiere diese zweistellige Zahl',
 oeStep3Label:'Schritt 3 \u2013 Mal',oeStep3Sub:'Multipliziere mit dieser Zahl',
@@ -370,7 +375,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v5.9',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.1',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -410,7 +415,7 @@ oeFormulaTitle:'&#x1F9EE; Calculation for the person',
 oeFormulaSub:'A, B, C = random two-digit numbers &nbsp;|&nbsp; mind operator precedence',
 oeResult:'Result',oeLastDigit:'Last digit',oeEven:'Even \u2713',oeOdd:'Odd \u2713',
 oeReveal:'Reveal',oeRevealTitle:'Solution',oeYear:'Your birth year',oeAge:'Your age',oeFullResult:'Full result',
-oeFormulaYear:'Birth year',oeFormulaAge:'Age',oeAgeMin:'Age from',oeAgeMax:'Age to',
+oeFormulaYear:'Birth year',oeFormulaAge:'Age',oeAgeMin:'Age from',oeAgeMax:'Age to',oeNextStep:'Next ▶',oeManualMode:'Manual step mode',
 oeStep1Label:'Step 1 \u2013 Enter (hidden)',oeStep1Sub:'Your birth year (4 digits) \u2192 calculator',oeStep1Speak:'Enter your four-digit birth year into the calculator.',
 oeStep2Label:'Step 2 \u2013 Plus',oeStep2Sub:'Add this two-digit number',
 oeStep3Label:'Step 3 \u2013 Times',oeStep3Sub:'Multiply by this number',
@@ -552,6 +557,7 @@ gi('cc-main').innerHTML=ccState==='idle'?t.ccGen:ccState==='ready'?t.ccRead:ccSt
 gi('cc-reset-btn').innerHTML=t.ccReset;
 gi('lbl-cc-missing').innerHTML=t.ccMissing;
 gi('lbl-cc-show').innerHTML=t.ccShow;
+  gi('cc-guess-label').textContent=t.ccGuessLabel;
 if(ccState==='idle')gi('cc-status').textContent=t.ccReady;
 // VG
 gi('vg-h2').innerHTML=t.vgH2;
@@ -592,6 +598,8 @@ gi('lbl-oe-reveal-title').innerHTML=t.oeRevealTitle;
 gi('lbl-oe-year').textContent=t.oeYear;
 gi('lbl-oe-age').textContent=t.oeAge;
 gi('lbl-oe-full-result').textContent=t.oeFullResult;
+  gi('lbl-oe-manual').textContent=t.oeManualMode;
+  gi('oe-next-step').textContent=t.oeNextStep;
 // Vol / Buy
 gi('lbl-volume').innerHTML=t.volLabel;
 gi('buy-link-text').textContent=t.buyLink;
@@ -727,7 +735,7 @@ gi('pi-show-ctx').addEventListener('change',function(){gi('pi-context-box').styl
 function piProgressText(){var cur=piDir==='forward'?(piCur-piStart+1):(piStart+SEQ-piCur);return 'Stelle '+cur+' von '+SEQ+(piDir==='backward'?' (←)':'');}
   function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];gi('pi-status').textContent=digit;gi('pi-progress').style.display='block';gi('pi-progress').textContent=piProgressText();if(gi('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(gi('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
 function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-start').style.display='block';gi('pi-stop').style.display='none';gi('pi-status').textContent=T[appLang].piStopped;gi('pi-progress').style.display='none';}
-function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'\u2013'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
+function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'–'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
 
 // ===== CARD HACKER =====
   var ccStats={correct:0,wrong:0};
@@ -740,7 +748,7 @@ gi('cc-main').addEventListener('click',function(){if(ccState==='idle')ccGenerate
 gi('cc-reset-btn').addEventListener('click',ccReset);
 function ccLuhn(num){var sum=0,alt=false;for(var i=num.length-1;i>=0;i--){var n=parseInt(num[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return sum%10===0;}
 function ccMakeLuhn(prefix,length){var attempts=0;while(attempts<100){var num=prefix;while(num.length<length-1)num+=Math.floor(Math.random()*10);for(var ch=0;ch<=9;ch++){var candidate=num+ch;if(ccLuhn(candidate))return candidate;}attempts++;}var num2=prefix;while(num2.length<length-1)num2+=Math.floor(Math.random()*10);var sum=0,alt=false;for(var i=num2.length-1;i>=0;i--){var n=parseInt(num2[i]);if(alt){n*=2;if(n>9)n-=9;}sum+=n;alt=!alt;}return num2+((10-(sum%10))%10);}
-function ccGenerate(){var sel=gi('cc-type').value;var pool=sel==='any'?CC_TYPES:CC_TYPES.filter(function(x){return x.name===sel;});if(!pool.length)pool=CC_TYPES;var t=pool[Math.floor(Math.random()*pool.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+'\u00b7'+t.len+T[appLang].ccDigits;}
+function ccGenerate(){var sel=gi('cc-type').value;var pool=sel==='any'?CC_TYPES:CC_TYPES.filter(function(x){return x.name===sel;});if(!pool.length)pool=CC_TYPES;var t=pool[Math.floor(Math.random()*pool.length)];ccFull=ccMakeLuhn(t.prefix,t.len);ccMissIdx=1+Math.floor(Math.random()*(ccFull.length-2));ccMissDig=ccFull[ccMissIdx];var html='';for(var i=0;i<ccFull.length;i++){if(i>0&&i%4===0)html+=' ';html+=i===ccMissIdx?'<span style="color:var(--red);font-weight:900;">?</span>':ccFull[i];}gi('cc-number-box').innerHTML=html;gi('cc-number-box').style.display=gi('cc-show-num').checked?'block':'none';gi('cc-answer-box').style.display='none';ccState='ready';gi('cc-main').innerHTML=T[appLang].ccRead;gi('cc-main').disabled=false;gi('cc-status').textContent=t.name+' · '+t.len+T[appLang].ccDigits;}
 function ccRead(){ccState='reading';gi('cc-main').disabled=true;gi('cc-main').textContent=T[appLang].ccReading;clearSpeech();var delay=parseFloat(gi('cc-delay').value)*1000;var digits=ccFull.split('');var i=0;function next(){if(i>=digits.length){ccState='done';gi('cc-main').disabled=false;gi('cc-main').textContent=T[appLang].ccSolution;gi('cc-status').textContent=T[appLang].ccDone;return;}if(i===ccMissIdx){gi('cc-status').textContent='?';ccBeep();ccTimeout=setTimeout(function(){i++;next();},delay);}else{gi('cc-status').textContent=digits[i];speakPause(digits[i],delay,function(){i++;next();});}}next();}
 function ccBeep(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=880;gain.gain.setValueAtTime(globalVolume*0.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){}}
 function ccShowSolution(){
@@ -767,7 +775,7 @@ function ccShowSolution(){
         grid.querySelectorAll('button').forEach(function(btn){btn.disabled=true;});
         b.style.background=ok?'rgba(81,207,102,0.35)':'rgba(255,107,107,0.35)';
         b.style.borderColor=ok?'#51cf66':'#ff6b6b';
-        gi('cc-status').textContent=ok?(appLang==='de'?'✅ Richtig!':'✅ Correct!'):(appLang==='de'?'❌ Falsch! Richtig: '+ccMissDig:'❌ Wrong! Correct: '+ccMissDig);
+        gi('cc-status').textContent=ok?T[appLang].ccCorrect:(T[appLang].ccWrong+ccMissDig);
       });
       grid.appendChild(b);
     })(d);
@@ -929,7 +937,8 @@ tmResetBtn.addEventListener('click',function(){gi('tm-hint').textContent='';gi('
 
 // ===== ORDER EQUATION =====
 (function(){
-var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0,oeRunning=false,oeTimeout=null;
+var oeYear=0,oeAge=0,oeA=0,oeB=0,oeC=0,oeResult=0,oeRunning=false,oeTimeout=null,oeManualNext=null;
+var oeNxtBtn=gi('oe-next-step');
 gi('oe-start').addEventListener('click',function(){
 if(oeRunning)return;oeRunning=true;
 var currentYear=new Date().getFullYear();
@@ -938,6 +947,7 @@ if(ageMin>ageMax){gi('oe-age-warn').style.display='block';var tmp=ageMin;ageMin=
 oeAge=ageMin+Math.floor(Math.random()*(ageMax-ageMin+1));oeYear=currentYear-oeAge;
 oeA=11+Math.floor(Math.random()*50);oeB=11+Math.floor(Math.random()*50);oeC=11+Math.floor(Math.random()*50);
 oeResult=oeYear+(oeA*oeB*oeC)+oeAge;
+  var oeIsManual=gi('oe-manual-mode').checked;oeNxtBtn.style.display=oeIsManual?'block':'none';oeNxtBtn.disabled=true;
 gi('oe-start').style.display='none';gi('oe-sequence').style.display='block';gi('oe-result-area').style.display='none';gi('oe-reveal-box').style.display='none';gi('oe-result-value').textContent='\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588';gi('oe-reveal').disabled=false;
 var delay=parseFloat(gi('oe-delay').value)*1000;
 gi('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> <b style="color:#ffd43b;">'+oeA+'</b> <span style="color:#4dabf7;">\u00d7</span> <b style="color:#ffd43b;">'+oeB+'</b> <span style="color:#4dabf7;">\u00d7</span> <b style="color:#ffd43b;">'+oeC+'</b> <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';
@@ -949,14 +959,15 @@ var steps=[
 {label:T[appLang].oeStep5Label,value:'+ \u2588\u2588\u2588\u2588',sub:T[appLang].oeStep5Sub,speak:T[appLang].oeStep5Speak}
 ];
 var i=0;
-function runStep(){
-if(i>=steps.length){var lastDigit=oeResult%10,parity=lastDigit%2===0?T[appLang].oeEven:T[appLang].oeOdd;gi('oe-parity-value').textContent=parity;gi('oe-result-area').style.display='block';gi('oe-step-label').textContent=T[appLang].oeCalcLabel;gi('oe-step-value').textContent=T[appLang].oeCalcSub;gi('oe-step-sub').textContent='';speak(T[appLang].oeCalcSpeak);oeRunning=false;return;}
-var s=steps[i];gi('oe-step-label').textContent=s.label;gi('oe-step-value').textContent=s.value;gi('oe-step-sub').textContent=s.sub||'';
-speak(s.speak,function(){oeTimeout=setTimeout(function(){i++;runStep();},delay);});
-}runStep();
+function showStep(idx){
+if(idx>=steps.length){var lastDigit=oeResult%10,parity=lastDigit%2===0?T[appLang].oeEven:T[appLang].oeOdd;gi('oe-parity-value').textContent=parity;gi('oe-result-area').style.display='block';gi('oe-step-label').textContent=T[appLang].oeCalcLabel;gi('oe-step-value').textContent=T[appLang].oeCalcSub;gi('oe-step-sub').textContent='';speak(T[appLang].oeCalcSpeak);oeRunning=false;if(oeIsManual)oeNxtBtn.style.display='none';return;}
+var s=steps[idx];gi('oe-step-label').textContent=s.label;gi('oe-step-value').textContent=s.value;gi('oe-step-sub').textContent=s.sub||'';
+if(oeIsManual){speak(s.speak);oeNxtBtn.disabled=false;oeManualNext=function(){i++;showStep(i);};}else{speak(s.speak,function(){oeTimeout=setTimeout(function(){i++;showStep(i);},delay);});}
+}showStep(i);
 });
-gi('oe-reveal').addEventListener('click',function(){gi('oe-result-value').textContent=oeResult;gi('oe-reveal-year').textContent=oeYear;gi('oe-reveal-age').textContent=oeAge;gi('oe-reveal-result').textContent=oeResult;gi('oe-reveal-box').style.display='block';this.disabled=true;speak(T[appLang].oeRevealSpeak+oeResult+T[appLang].oeRevealSpeakYear+oeYear+T[appLang].oeRevealSpeakAge+oeAge+'.');});
-gi('oe-reset').addEventListener('click',function(){oeRunning=false;clearTimeout(oeTimeout);clearSpeech();oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;gi('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">\u00d7</span> B <span style="color:#4dabf7;">\u00d7</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';gi('oe-start').style.display='block';gi('oe-sequence').style.display='none';gi('oe-step-label').textContent='';gi('oe-step-value').textContent='';gi('oe-step-sub').textContent='';gi('oe-result-value').textContent='\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588';gi('oe-reveal-box').style.display='none';gi('oe-reveal').disabled=false;});
+gi('oe-next-step').addEventListener('click',function(){if(oeManualNext){var fn=oeManualNext;oeManualNext=null;oeNxtBtn.disabled=true;fn();}});
+  gi('oe-reveal').addEventListener('click',function(){gi('oe-result-value').textContent=oeResult;gi('oe-reveal-year').textContent=oeYear;gi('oe-reveal-age').textContent=oeAge;gi('oe-reveal-result').textContent=oeResult;gi('oe-reveal-box').style.display='block';this.disabled=true;speak(T[appLang].oeRevealSpeak+oeResult+T[appLang].oeRevealSpeakYear+oeYear+T[appLang].oeRevealSpeakAge+oeAge+'.');});
+gi('oe-reset').addEventListener('click',function(){oeRunning=false;oeManualNext=null;clearTimeout(oeTimeout);clearSpeech();gi('oe-next-step').style.display='none';oeYear=0;oeAge=0;oeA=0;oeB=0;oeC=0;oeResult=0;gi('oe-formula-line').innerHTML='<span id="oe-formula-year">'+T[appLang].oeFormulaYear+'</span> <span style="color:#4dabf7;">+</span> A <span style="color:#4dabf7;">\u00d7</span> B <span style="color:#4dabf7;">\u00d7</span> C <span style="color:#4dabf7;">+</span> <span id="oe-formula-age">'+T[appLang].oeFormulaAge+'</span>';gi('oe-start').style.display='block';gi('oe-sequence').style.display='none';gi('oe-step-label').textContent='';gi('oe-step-value').textContent='';gi('oe-step-sub').textContent='';gi('oe-result-value').textContent='\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588';gi('oe-reveal-box').style.display='none';gi('oe-reveal').disabled=false;});
 })();
 
 // ===== INIT =====
