@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.2</title>
+<title>SynaTest v6.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.2</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.3</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.2</span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.3</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -310,7 +310,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.2',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.3',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -321,7 +321,7 @@ cpReady:'Bereit!',seqDone:'Sequenz beendet.',seqHint:'N&auml;chstes Datum oder Z
 speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fertig',
 alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
 cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
-cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
+cpWdReset:'Statistik zurücksetzen',cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
 cpDateWarn:'&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.',
 piH2:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf\u00e4llig',piForward:'Vorw\u00e4rts',piBackward:'R\u00fcckw\u00e4rts',
 piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',piProgress:'Stelle',piProgressOf:'von',piProgressBack:'(←)',
@@ -376,7 +376,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.2',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.3',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -387,7 +387,7 @@ cpReady:'Ready!',seqDone:'Sequence complete.',seqHint:'Next date or reset.',
 speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
 alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
 cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
-cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
+cpWdReset:'Reset statistics',cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
 cpDateWarn:'&#x26A0;&#xFE0F; End date is in the future \u2013 automatically corrected to yesterday.',
 piH2:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
 piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',piProgress:'Digit',piProgressOf:'of',piProgressBack:'(←)',
@@ -483,7 +483,7 @@ container.addEventListener('touchend',function(e){
 if(swipeLocked)return;
 var dx=e.changedTouches[0].clientX-touchStartX;
 var dy=e.changedTouches[0].clientY-touchStartY;
-if(Math.abs(dx)<50||Math.abs(dy)>Math.abs(dx)*0.8)return;
+if(Math.abs(dx)<65||Math.abs(dy)>Math.abs(dx)*0.8)return;
 var activePane=document.querySelector('.tab-pane.active');
 var curIdx=tabIds.indexOf(activePane?activePane.id:'');
 if(curIdx===-1)return;
@@ -692,10 +692,11 @@ var correctWd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
   var wdList=appLang==='de'?['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag']:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   var wdBtns='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:12px;">';
   wdList.forEach(function(w){wdBtns+='<button class="btn-dark" style="font-size:13px;font-weight:600;padding:10px 6px;border-radius:14px;" data-wd="'+w+'">'+w+'<\/button>';});
-  wdBtns+='<\/div><div style="font-size:11px;color:var(--text-light);margin-top:8px;text-align:center;">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/div>';
+  wdBtns+='<\/div><div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;"><span style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/span><button class="btn-dark" id="cp-wd-reset-btn" style="font-size:11px;padding:4px 10px;border-radius:10px;min-height:0;">'+T[appLang].cpWdReset+'<\/button><\/div>';
   gi('display-area').innerHTML+= wdBtns;
   gi('btn-next').style.display='none';
-  gi('display-area').querySelectorAll('[data-wd]').forEach(function(b){b.addEventListener('click',function(){var chosen=b.getAttribute('data-wd'),ok=(chosen===correctWd);if(ok)cpWdStats.correct++;else cpWdStats.wrong++;cpSaveWdStats();var col=ok?'#51cf66':'#ff6b6b',icon=ok?'✅':'❌';var msg=ok?(appLang==='de'?'Richtig!':'Correct!'):(appLang==='de'?'Falsch! Richtig: ':'Wrong! Correct: ')+correctWd;gi('display-area').innerHTML='<div style="font-size:32px;font-weight:800;color:'+col+';margin-bottom:6px;">'+icon+' '+correctWd+'<\/div><div style="font-size:14px;color:'+col+';font-weight:600;margin-bottom:8px;">'+msg+'<\/div><div style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/div>';gi('btn-next').style.display='block';gi('btn-next').disabled=true;gi('btn-next-date').style.display='block';if(gi('enable-speech').checked)speak(correctWd);});});
+  var wdResetBtn=gi('cp-wd-reset-btn');if(wdResetBtn){wdResetBtn.addEventListener('click',function(e){e.stopPropagation();cpWdStats.correct=0;cpWdStats.wrong=0;cpSaveWdStats();cpShowWeekdayMode();});}
+    gi('display-area').querySelectorAll('[data-wd]').forEach(function(b){b.addEventListener('click',function(){var chosen=b.getAttribute('data-wd'),ok=(chosen===correctWd);if(ok)cpWdStats.correct++;else cpWdStats.wrong++;cpSaveWdStats();var col=ok?'#51cf66':'#ff6b6b',icon=ok?'✅':'❌';var msg=ok?(appLang==='de'?'Richtig!':'Correct!'):(appLang==='de'?'Falsch! Richtig: ':'Wrong! Correct: ')+correctWd;gi('display-area').innerHTML='<div style="font-size:32px;font-weight:800;color:'+col+';margin-bottom:6px;">'+icon+' '+correctWd+'<\/div><div style="font-size:14px;color:'+col+';font-weight:600;margin-bottom:8px;">'+msg+'<\/div><div style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/div>';gi('btn-next').style.display='block';gi('btn-next').disabled=true;gi('btn-next-date').style.display='block';if(gi('enable-speech').checked)speak(correctWd);});});
   gi('btn-next').onclick=null;
   //REMOVED
 gi('btn-next').onclick=function(){
@@ -919,7 +920,8 @@ hint.textContent='= '+parsed.m+T[appLang].tmMin+parsed.s+T[appLang].tmSec+' \u27
 function tmParse(val){val=val.replace(/[^0-9]/g,'');if(!val.length)return null;if(val.length<=2)return{m:0,s:parseInt(val,10)};return{m:parseInt(val[0],10),s:parseInt(val.slice(1),10)};}
 function tmFormat(ms){var ts=Math.ceil(ms/1000);if(ts<0)ts=0;var m=Math.floor(ts/60),s=ts%60;return m+':'+(s<10?'0':'')+s;}
 function tmFlash(color,shadow){tmRing.style.borderColor=color;tmRing.style.boxShadow='0 0 32px '+shadow;setTimeout(function(){tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';},350);}
-function tmShowBadge(show){gi('tm-tab-badge').style.display=show?'inline':'none';}
+function tmShowBadge(show){gi('tm-tab-badge').style.display=show?'inline':'none';gi('tm-header-badge').style.display=show?'inline':'none';}
+function tmUpdateHeaderBadge(){if(!tmRunning)return;var remaining=tmEndTime-performance.now();if(remaining<0)remaining=0;gi('tm-header-badge').textContent='⏱ '+tmFormat(remaining);}
 tmStartBtn.addEventListener('click',function(){
 var parsed=tmParse(tmInput.value);
 if(!parsed||parsed.s>59){alert(T[appLang].tmInvalid);return;}
@@ -930,10 +932,10 @@ tmLabel.textContent='';tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.st
 tmLastSecond=-1;tmNotifiedSeconds={};
 tmTick();
 });
-function tmTick(ts){if(!tmRunning)return;var now=performance.now(),remaining=tmEndTime-now;if(remaining<0)remaining=0;var remSec=Math.ceil(remaining/1000);tmTimeEl.textContent=tmFormat(remaining);if(remSec!==tmLastSecond){tmLastSecond=remSec;tmHandleNotification(remSec);}if(remaining<=0){tmDone();return;}tmRaf=requestAnimationFrame(tmTick);}
+function tmTick(ts){if(!tmRunning)return;var now=performance.now(),remaining=tmEndTime-now;if(remaining<0)remaining=0;var remSec=Math.ceil(remaining/1000);tmTimeEl.textContent=tmFormat(remaining);tmUpdateHeaderBadge();if(remSec!==tmLastSecond){tmLastSecond=remSec;tmHandleNotification(remSec);}if(remaining<=0){tmDone();return;}tmRaf=requestAnimationFrame(tmTick);}
   document.addEventListener('visibilitychange',function(){if(!tmRunning)return;if(document.hidden){cancelAnimationFrame(tmRaf);}else{tmEndTime=performance.now()+(tmEndTime-performance.now());tmRaf=requestAnimationFrame(tmTick);}});
 function tmHandleNotification(remSec){var key='s'+remSec;if(tmNotifiedSeconds[key])return;tmNotifiedSeconds[key]=true;var totalSec=Math.round(tmTotalMs/1000);if(remSec>0&&remSec<totalSec&&remSec%60===0&&remSec>=60){var minLeft=remSec/60;tmLabel.textContent='\u23f0 '+T[appLang].tmMin1+minLeft+(minLeft>1?T[appLang].tmMinSufP:T[appLang].tmMinSuf)+'!';tmFlash('#ff6b6b','rgba(255,107,107,0.6)');return;}if(remSec===30){tmLabel.innerHTML=T[appLang].tmSec30;tmFlash('#ff6b6b','rgba(255,107,107,0.5)');return;}if(remSec===15){tmLabel.innerHTML=T[appLang].tmSec15;tmFlash('#ffd43b','rgba(255,212,59,0.6)');return;}if(remSec>=6&&remSec<=10){tmLabel.textContent='\uD83D\uDD34 '+remSec+'...';tmRing.style.borderColor='#ff6b6b';tmRing.style.boxShadow='0 0 28px rgba(255,107,107,0.7)';tmTimeEl.style.color='#ff6b6b';return;}if(remSec===5){tmLabel.textContent='\uD83D\uDFE2 5...';tmRing.style.borderColor='#51cf66';tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';tmTimeEl.style.color='#51cf66';return;}if(remSec>=1&&remSec<=4){tmLabel.textContent='\uD83D\uDFE2 '+remSec+'...';tmRing.style.borderColor='#51cf66';tmRing.style.boxShadow='0 0 28px rgba(81,207,102,0.7)';tmTimeEl.style.color='#51cf66';}}
-function tmDone(){try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}tmShowBadge(false);tmRunning=false;cancelAnimationFrame(tmRaf);tmTimeEl.textContent='0:00';tmTimeEl.style.color='var(--text)';tmRing.style.borderColor='rgba(81,207,102,0.8)';tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';}
+function tmDone(){gi('tm-header-badge').textContent='';try{if(navigator.vibrate)navigator.vibrate([200,100,200,100,200]);}catch(e){}tmShowBadge(false);tmRunning=false;cancelAnimationFrame(tmRaf);tmTimeEl.textContent='0:00';tmTimeEl.style.color='var(--text)';tmRing.style.borderColor='rgba(81,207,102,0.8)';tmRing.style.boxShadow='0 0 48px rgba(81,207,102,0.5)';tmLabel.innerHTML='<span style="font-size:28px;font-weight:900;color:#51cf66;letter-spacing:-1px;">'+T[appLang].tmEnd+'</span>';}
 tmResetBtn.addEventListener('click',function(){gi('tm-hint').textContent='';gi('tm-start').disabled=false;tmShowBadge(false);tmRunning=false;cancelAnimationFrame(tmRaf);tmEndTime=null;tmLastSecond=-1;tmNotifiedSeconds={};tmStartBtn.style.display='block';tmResetBtn.style.display='none';tmInput.disabled=false;tmInput.value='';tmDisplay.style.display='none';tmRing.style.borderColor='rgba(77,171,247,0.3)';tmRing.style.boxShadow='none';tmTimeEl.style.color='var(--text)';tmLabel.textContent='';});
 })();
 
