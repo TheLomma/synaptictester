@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.3</title>
+<title>SynaTest v6.4</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.3</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.4</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.3</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.4</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -292,6 +292,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div style="text-align:center;padding:16px 24px 20px;width:100%;max-width:580px;">
 <a href="https://conjuringlab.com/product/synaptic" target="_blank" style="display:inline-block;padding:9px 22px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:500;text-decoration:none;"><span id="buy-link-text">Synaptic kaufen</span></a>
 </div>
+<div id="vol-hint" style="width:100%;max-width:580px;text-align:center;font-size:12px;color:rgba(255,160,80,0.85);font-weight:500;margin-top:-4px;margin-bottom:8px;display:none;"></div>
 
 <script>
 (function(){
@@ -310,7 +311,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.3',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.4',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -359,7 +360,7 @@ oeStep4Label:'Schritt 4 \u2013 Mal',oeStep4Sub:'Multipliziere erneut mit dieser 
 oeStep5Label:'Schritt 5 \u2013 Plus (zensiert)',oeStep5Sub:'Addiere dein aktuelles Alter',oeStep5Speak:'Addiere jetzt dein aktuelles Alter \u2013 diese Zahl bleibt geheim.',
 oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCalcSub:'Berechne & zeige mir das Ergebnis!',
 oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
-volLabel:'&#x1F50A; Lautst\u00e4rke',buyLink:'Synaptic kaufen',
+volLabel:'&#x1F50A; Lautst\u00e4rke',volHint:'&#x1F509; Lautst\u00e4rke erh\u00f6hen um Sprachausgabe zu aktivieren',buyLink:'Synaptic kaufen',
 helpItems:[
 {title:'1 &nbsp;Calendar Prodigy',text:'W\u00e4hle ein Start- und Enddatum. Die App generiert ein zuf\u00e4lliges Datum und zeigt es Schritt f\u00fcr Schritt auf. Im Wochentag-Modus wird das vollst\u00e4ndige Datum angezeigt \u2013 du r\u00e4tst den Wochentag.'},
 {title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f\u00fcr Ziffer aus der Kreiszahl Pi an. W\u00e4hle die Leserichtung (vorw\u00e4rts / r\u00fcckw\u00e4rts / zuf\u00e4llig) und stelle die Pause ein. Eine Fortschrittsanzeige zeigt, bei welcher Stelle du dich befindest.'},
@@ -376,7 +377,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.3',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.4',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -425,7 +426,7 @@ oeStep4Label:'Step 4 \u2013 Times',oeStep4Sub:'Multiply again by this number',
 oeStep5Label:'Step 5 \u2013 Plus (hidden)',oeStep5Sub:'Add your current age',oeStep5Speak:'Now add your current age \u2013 this number stays secret.',
 oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCalcSub:'Calculate & show me the result!',
 oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
-volLabel:'&#x1F50A; Volume',buyLink:'Buy Synaptic',
+volLabel:'&#x1F50A; Volume',volHint:'&#x1F509; Increase volume to enable speech output',buyLink:'Buy Synaptic',
 helpItems:[
 {title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date and reveals it step by step. In Weekday Mode the full date is shown \u2013 you guess the weekday.'},
 {title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit. Choose direction (forward / backward / random) and set the pause. A progress indicator shows your current position.'},
@@ -495,7 +496,7 @@ openTab(tabIds[nextIdx]);
 })();
 
 // ===== SETTINGS =====
-function saveSettings(){try{localStorage.setItem('syna_lang',appLang);localStorage.setItem('syna_theme',isLight?'light':'dark');localStorage.setItem('syna_vol',gi('vol-slider').value);localStorage.setItem('syna_muted',isMuted?'1':'0');}catch(e){}}
+var _saveTimer=null;function saveSettings(){if(_saveTimer)clearTimeout(_saveTimer);_saveTimer=setTimeout(function(){try{localStorage.setItem('syna_lang',appLang);localStorage.setItem('syna_theme',isLight?'light':'dark');localStorage.setItem('syna_vol',gi('vol-slider').value);localStorage.setItem('syna_muted',isMuted?'1':'0');}catch(e){}}},200);}
 function loadSettings(){try{var lang=localStorage.getItem('syna_lang');if(lang&&(lang==='de'||lang==='en'))appLang=lang;var theme=localStorage.getItem('syna_theme');if(theme)isLight=(theme==='light');var vol=localStorage.getItem('syna_vol');if(vol!==null){gi('vol-slider').value=vol;globalVolume=parseFloat(vol);}var muted=localStorage.getItem('syna_muted');if(muted!==null)isMuted=(muted==='1');}catch(e){}}
 
 // Detect system theme
@@ -506,6 +507,8 @@ gi('mute-toggle').textContent=isMuted?'\uD83D\uDD07':'\uD83D\uDD0A';
 gi('mute-toggle').style.color=isMuted?'#ff6b6b':'var(--text)';
 if(isMuted){globalVolume=0;gi('vol-slider').value=0;gi('vol-label').textContent='0%';}
 else{gi('vol-label').textContent=Math.round(parseFloat(gi('vol-slider').value)*100)+'%';}
+// Vol hint on first visit
+(function(){try{var seen=localStorage.getItem('syna_vol_seen');}catch(e){var seen=null;}if(!seen&&globalVolume===0){var h=gi('vol-hint');if(h){h.innerHTML=T[appLang].volHint;h.style.display='block';}}})();
 
 // ===== APPLY LANG =====
 function appApplyLang(){
@@ -603,7 +606,7 @@ gi('lbl-oe-full-result').textContent=t.oeFullResult;
   gi('lbl-oe-manual').textContent=t.oeManualMode;
   gi('oe-next-step').textContent=t.oeNextStep;
 // Vol / Buy
-gi('lbl-volume').innerHTML=t.volLabel;
+gi('lbl-volume').innerHTML=t.volLabel;var vh=gi('vol-hint');if(vh&&vh.style.display!=='none')vh.innerHTML=t.volHint;
 gi('buy-link-text').textContent=t.buyLink;
 }
 
@@ -622,8 +625,8 @@ saveSettings();
 gi('help-toggle').addEventListener('click',function(){gi('help-modal').classList.add('open');});
 gi('help-close').addEventListener('click',function(){gi('help-modal').classList.remove('open');});
 gi('help-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
-gi('vol-slider').addEventListener('input',function(){globalVolume=parseFloat(this.value);gi('vol-label').textContent=Math.round(globalVolume*100)+'%';if(globalVolume>0&&isMuted){isMuted=false;gi('mute-toggle').textContent='\uD83D\uDD0A';gi('mute-toggle').style.color='var(--text)';}});
-gi('vol-slider').addEventListener('change',function(){saveSettings();});
+gi('vol-slider').addEventListener('input',function(){globalVolume=parseFloat(this.value);gi('vol-label').textContent=Math.round(globalVolume*100)+'%';gi('vol-hint').style.display='none';if(globalVolume>0&&isMuted){isMuted=false;gi('mute-toggle').textContent='\uD83D\uDD0A';gi('mute-toggle').style.color='var(--text)';}});
+gi('vol-slider').addEventListener('change',function(){saveSettings();try{localStorage.setItem('syna_vol_seen','1');}catch(e){}});
 
 // Haptic
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});try{if(navigator.vibrate)navigator.vibrate(18);}catch(ex){}}});
