@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.1</title>
+<title>SynaTest v6.2</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.1</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.2</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.1</span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.2</span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle">&#x1F310; English</button>
 <button id="mute-toggle">&#x1F507;</button>
@@ -310,7 +310,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.1',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.2',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -324,10 +324,11 @@ cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?'
 cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
 cpDateWarn:'&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.',
 piH2:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf\u00e4llig',piForward:'Vorw\u00e4rts',piBackward:'R\u00fcckw\u00e4rts',
-piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',
+piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',piProgress:'Stelle',piProgressOf:'von',piProgressBack:'(←)',
 ccH2:'Card Hacker',ccDelay:'Pause zwischen Ziffern (Sekunden)',ccGen:'Karte generieren',ccReset:'Neu starten',ccReady:'Bereit.',
 ccMissing:'Fehlende Ziffer',ccRead:'Vorlesen',ccReading:'Liest vor...',ccSolution:'L\u00f6sung anzeigen',
 ccDone:'Vorlesen beendet.',ccShown:'L\u00f6sung angezeigt.',ccFinished:'Fertig',ccShow:'Nummer anzeigen',
+ccGuessLabel:'Welche Ziffer fehlt? (0–9)',ccCorrect:'✅ Richtig!',ccWrong:'❌ Falsch! Richtig war: ',
 ccDigits:' Ziffern \u00b7 Bereit',
 vgH2:'Foursight Guru',vgWho:'Wer beginnt?',vgUser:'Benutzer',vgApp:'App',
 vgPlayers:'Anzahl App-Spieler',vgShowBoard:'Spielfelder anzeigen',vgSpeech:'Sprachausgabe f\u00fcr App',
@@ -375,7 +376,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.1',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.2',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -389,10 +390,11 @@ cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekday
 cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
 cpDateWarn:'&#x26A0;&#xFE0F; End date is in the future \u2013 automatically corrected to yesterday.',
 piH2:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
-piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',
+piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',piProgress:'Digit',piProgressOf:'of',piProgressBack:'(←)',
 ccH2:'Card Hacker',ccDelay:'Pause between digits (seconds)',ccGen:'Generate card',ccReset:'Restart',ccReady:'Ready.',
 ccMissing:'Missing digit',ccRead:'Read aloud',ccReading:'Reading...',ccSolution:'Show solution',
 ccDone:'Reading complete.',ccShown:'Solution shown.',ccFinished:'Done',ccShow:'Show number',
+ccGuessLabel:'Which digit is missing? (0–9)',ccCorrect:'✅ Correct!',ccWrong:'❌ Wrong! Correct was: ',
 ccDigits:' digits \u00b7 Ready',
 vgH2:'Foursight Guru',vgWho:'Who starts?',vgUser:'User',vgApp:'App',
 vgPlayers:'Number of app players',vgShowBoard:'Show boards',vgSpeech:'Speech for app',
@@ -732,7 +734,7 @@ if(gi('pi-show-ctx').checked)piUpdateCtx();piStep();
 });
 gi('pi-stop').addEventListener('click',piStop);
 gi('pi-show-ctx').addEventListener('change',function(){gi('pi-context-box').style.display=this.checked?'block':'none';if(this.checked)piUpdateCtx();});
-function piProgressText(){var cur=piDir==='forward'?(piCur-piStart+1):(piStart+SEQ-piCur);return 'Stelle '+cur+' von '+SEQ+(piDir==='backward'?' (←)':'');}
+function piProgressText(){var cur=piDir==='forward'?(piCur-piStart+1):(piStart+SEQ-piCur);var t=T[appLang];return t.piProgress+' '+cur+' '+t.piProgressOf+' '+SEQ+(piDir==='backward'?' '+t.piProgressBack:'');}
   function piStep(){if(!piRunning)return;if(piCur<0||piCur>=PI.length){piStop();return;}var digit=PI[piCur];gi('pi-status').textContent=digit;gi('pi-progress').style.display='block';gi('pi-progress').textContent=piProgressText();if(gi('pi-show-ctx').checked)piUpdateCtx();speak(digit,function(){if(!piRunning)return;var ms=parseFloat(gi('pi-delay').value)*1000;piTimeout=setTimeout(function(){piCur+=piDir==='forward'?1:-1;piStep();},ms);});}
 function piStop(){piRunning=false;clearTimeout(piTimeout);clearSpeech();gi('pi-start').style.display='block';gi('pi-stop').style.display='none';gi('pi-status').textContent=T[appLang].piStopped;gi('pi-progress').style.display='none';}
 function piUpdateCtx(){var from=Math.max(0,piStart-10),to=Math.min(PI.length,piStart+SEQ+10),chunk=PI.slice(from,to);var html='<div style="font-size:11px;color:var(--text-light);margin-bottom:6px;">Position '+(piStart+1)+'–'+(piStart+SEQ)+'</div>';for(var i=0;i<chunk.length;i++){var abs=from+i,inSeq=abs>=piStart&&abs<piStart+SEQ,isCur=abs===piCur;if(isCur)html+='<span style="background:var(--accent);color:#000;border-radius:4px;padding:0 2px;">'+chunk[i]+'</span>';else if(inSeq)html+='<span style="color:var(--accent);">'+chunk[i]+'</span>';else html+='<span style="color:var(--text-light);">'+chunk[i]+'</span>';}gi('pi-context-box').innerHTML=html;}
@@ -821,7 +823,7 @@ setTimeout(function(){vgAppMove(game);},900);
 }else{
 game.statusEl.innerHTML=T[appLang].vgYourTurn;game.statusEl.style.color='#4dabf7';
 vgDisable(game,false);
-vgGames.forEach(function(g,gi2){if(!g.over&&gi2!==turn.gameIdx){g.statusEl.innerHTML=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;g.statusEl.style.color='rgba(255,200,80,0.8)';vgSetWrongClick(g,turn.gameIdx);}});
+vgGames.forEach(function(g,gIdx){if(!g.over&&gIdx!==turn.gameIdx){g.statusEl.innerHTML=T[appLang].vgWait+vgGames[turn.gameIdx].ac.name+T[appLang].vgWaitPlay;g.statusEl.style.color='rgba(255,200,80,0.8)';vgSetWrongClick(g,turn.gameIdx);}});
 }
 }
 function vgSetWrongClick(game,correctIdx){game.colBtns.querySelectorAll('button').forEach(function(b){b.disabled=false;b.style.opacity='0.35';b.style.cursor='not-allowed';b.onclick=function(){var box=gi('vg-last-move-box'),txt=gi('vg-last-move-text');txt.innerHTML=T[appLang].vgWrong+'<strong>'+vgGames[correctIdx].ac.name+'</strong>'+T[appLang].vgWrongAt;box.style.display='block';setTimeout(function(){box.style.display='none';},3000);};});}
