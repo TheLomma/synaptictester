@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.4</title>
+<title>SynaTest v6.6</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,18 +82,18 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.4</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.6</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.4</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.6</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
-<button id="lang-toggle">&#x1F310; English</button>
-<button id="mute-toggle">&#x1F507;</button>
-<button id="help-toggle">&#x2753;</button>
+<button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
+<button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
+<button id="help-toggle" aria-label="Hilfe">&#x2753;</button>
 <button id="theme-toggle">Dunkel</button>
 </div>
 </div>
@@ -120,6 +120,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="setup-view">
 <div class="input-group"><label for="start-date" id="lbl-start-date">Anfangsdatum</label><input type="date" id="start-date" value="1950-01-01"></div>
 <div class="input-group"><label for="end-date" id="lbl-end-date">Enddatum</label><input type="date" id="end-date"></div>
+<div id="cp-ios-hint" style="display:none;font-size:12px;color:rgba(90,200,250,0.8);font-weight:500;margin-top:-10px;margin-bottom:10px;"></div>
 <div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:600;margin-top:-10px;margin-bottom:10px;">&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft – wird automatisch auf gestern korrigiert.</div>
 <div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac" id="lbl-zodiac">Sternzeichen anzeigen</label></div>
 <div class="checkbox-group"><input type="checkbox" id="cp-weekday-mode"><label for="cp-weekday-mode" id="lbl-cp-weekday-mode">Wochentag-Modus</label></div>
@@ -311,7 +312,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.4',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.6',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -323,6 +324,7 @@ speechStarting:'Sprachausgabe startet...',daysPassed:'Tage vergangen',done:'Fert
 alertDates:'Bitte Start- und Enddatum eingeben.',alertOrder:'Startdatum muss vor Enddatum liegen.',
 cpWeekdayReveal:'Wochentag aufdecken',cpWeekdayHint:'Welcher Wochentag ist das?',cpWeekdayDone:'Wochentag aufgedeckt.',
 cpWdReset:'Statistik zurücksetzen',cpWeekdayModeHelp:'Das vollst\u00e4ndige Datum wird angezeigt \u2013 rate den Wochentag!',
+cpIosHint:'&#x1F4F1; iOS: Datum im Format TT.MM.JJJJ eingeben.',
 cpDateWarn:'&#x26A0;&#xFE0F; Enddatum liegt in der Zukunft \u2013 wird automatisch auf gestern korrigiert.',
 piH2:'Full Circle Master',piDir:'Leserichtung',piRandom:'Zuf\u00e4llig',piForward:'Vorw\u00e4rts',piBackward:'R\u00fcckw\u00e4rts',
 piDelay:'Pause zwischen Ziffern (Sekunden)',piStart:'Starten',piStop:'Stoppen',piShow:'Zahlen anzeigen',piStopped:'Gestoppt.',piReady:'Bereit.',piProgress:'Stelle',piProgressOf:'von',piProgressBack:'(←)',
@@ -377,7 +379,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.4',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.6',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -389,6 +391,7 @@ speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
 alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
 cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
 cpWdReset:'Reset statistics',cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
+cpIosHint:'&#x1F4F1; iOS: Enter date as MM/DD/YYYY.',
 cpDateWarn:'&#x26A0;&#xFE0F; End date is in the future \u2013 automatically corrected to yesterday.',
 piH2:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
 piDelay:'Pause between digits (seconds)',piStart:'Start',piStop:'Stop',piShow:'Show digits',piStopped:'Stopped.',piReady:'Ready.',piProgress:'Digit',piProgressOf:'of',piProgressBack:'(←)',
@@ -446,7 +449,7 @@ locale:'en-US'
 // ===== HELPERS =====
 var speechQueue=[],isSpeaking=false;
 function speak(text,onDone){if(isMuted){if(onDone)onDone();return;}speechQueue.push({text:text,onDone:onDone});if(!isSpeaking)processQueue();}
-function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();processQueue();return;}window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){if(item.onDone)item.onDone();processQueue();};u.onerror=function(){if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
+function processQueue(){if(!speechQueue.length){isSpeaking=false;return;}isSpeaking=true;var item=speechQueue.shift();if(!window.speechSynthesis){if(item.onDone)item.onDone();isSpeaking=false;processQueue();return;}var u=new SpeechSynthesisUtterance(item.text);u.lang=T[appLang].locale;u.volume=globalVolume;u.onend=function(){isSpeaking=false;if(item.onDone)item.onDone();processQueue();};u.onerror=function(){isSpeaking=false;if(item.onDone)item.onDone();processQueue();};window.speechSynthesis.speak(u);}
 function clearSpeech(){speechQueue=[];isSpeaking=false;if(window.speechSynthesis)window.speechSynthesis.cancel();}
 function speakPause(text,ms,cb){speak(text,function(){setTimeout(cb,ms);});}
 function gi(id){return document.getElementById(id);}
@@ -456,6 +459,7 @@ function qs(sel){return document.querySelector(sel);}
 function updateDots(idx){
   document.querySelectorAll('.tab-dot').forEach(function(d,i){d.classList.toggle('active',i===idx);});
 }
+function focusFirstInTab(id){setTimeout(function(){var pane=gi(id);if(pane){var focusable=pane.querySelector('button:not(:disabled),input:not(:disabled),select:not(:disabled)');if(focusable)focusable.focus();}},160);}
 function openTab(id){
 var panes=document.querySelectorAll('.tab-pane');
 panes.forEach(function(p){p.style.display='none';p.classList.remove('active');});
@@ -490,13 +494,13 @@ var curIdx=tabIds.indexOf(activePane?activePane.id:'');
 if(curIdx===-1)return;
 var nextIdx=dx<0?Math.min(curIdx+1,tabIds.length-1):Math.max(curIdx-1,0);
 if(nextIdx===curIdx)return;
-swipeLocked=true;
+swipeLocked=true;focusFirstInTab(tabIds[nextIdx]);
 openTab(tabIds[nextIdx]);
 },{passive:true});
 })();
 
 // ===== SETTINGS =====
-var _saveTimer=null;function saveSettings(){if(_saveTimer)clearTimeout(_saveTimer);_saveTimer=setTimeout(function(){try{localStorage.setItem('syna_lang',appLang);localStorage.setItem('syna_theme',isLight?'light':'dark');localStorage.setItem('syna_vol',gi('vol-slider').value);localStorage.setItem('syna_muted',isMuted?'1':'0');}catch(e){}}},200);}
+var _saveTimer=null;function saveSettings(){if(_saveTimer)clearTimeout(_saveTimer);_saveTimer=setTimeout(function(){try{localStorage.setItem('syna_lang',appLang);localStorage.setItem('syna_theme',isLight?'light':'dark');localStorage.setItem('syna_vol',gi('vol-slider').value);localStorage.setItem('syna_muted',isMuted?'1':'0');}catch(e){}},200);}
 function loadSettings(){try{var lang=localStorage.getItem('syna_lang');if(lang&&(lang==='de'||lang==='en'))appLang=lang;var theme=localStorage.getItem('syna_theme');if(theme)isLight=(theme==='light');var vol=localStorage.getItem('syna_vol');if(vol!==null){gi('vol-slider').value=vol;globalVolume=parseFloat(vol);}var muted=localStorage.getItem('syna_muted');if(muted!==null)isMuted=(muted==='1');}catch(e){}}
 
 // Detect system theme
@@ -513,7 +517,7 @@ else{gi('vol-label').textContent=Math.round(parseFloat(gi('vol-slider').value)*1
 // ===== APPLY LANG =====
 function appApplyLang(){
 var t=T[appLang];
-gi('lang-toggle').innerHTML=t.langBtn;
+gi('lang-toggle').innerHTML=t.langBtn;gi('lang-toggle').setAttribute('aria-label',appLang==='de'?'Sprache wechseln':'Switch language');gi('mute-toggle').setAttribute('aria-label',isMuted?(appLang==='de'?'Ton einschalten':'Unmute'):(appLang==='de'?'Stummschalten':'Mute'));gi('help-toggle').setAttribute('aria-label',appLang==='de'?'Hilfe':'Help');gi('theme-toggle').setAttribute('aria-label',appLang==='de'?(isLight?'Dunkel-Modus aktivieren':'Hell-Modus aktivieren'):(isLight?'Switch to dark mode':'Switch to light mode'));
 gi('theme-toggle').textContent=isLight?t.themeLight:t.themeDark;
 gi('help-title').innerHTML=t.helpTitle;
 gi('help-close').innerHTML=t.helpClose;
@@ -542,6 +546,7 @@ gi('btn-next').innerHTML=t.btnNext;
 gi('btn-reset').innerHTML=t.btnReset;
 gi('btn-next-date').innerHTML=t.btnNextDate;
 gi('cp-date-warning').innerHTML=t.cpDateWarn;
+var iosHint=gi('cp-ios-hint');if(iosHint)iosHint.textContent=t.cpIosHint;
 // Pi
 gi('pi-h2').innerHTML=t.piH2;
 gi('lbl-pi-dir').innerHTML=t.piDir;
@@ -632,6 +637,9 @@ gi('vol-slider').addEventListener('change',function(){saveSettings();try{localSt
 document.addEventListener('click',function(e){var btn=e.target.closest('button');if(btn&&!btn.disabled){btn.classList.remove('haptic');void btn.offsetWidth;btn.classList.add('haptic');btn.addEventListener('animationend',function(){btn.classList.remove('haptic');},{once:true});try{if(navigator.vibrate)navigator.vibrate(18);}catch(ex){}}});
 
 if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){try{var saved=localStorage.getItem('syna_theme');}catch(ex){var saved=null;}if(!saved){isLight=!e.matches;document.body.classList.toggle('light-mode',isLight);gi('theme-toggle').textContent=isLight?T[appLang].themeLight:T[appLang].themeDark;}});}
+
+// ===== iOS DATE HINT =====
+(function(){var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);if(isIOS||isSafari){var h=gi('cp-ios-hint');if(h){h.textContent=T[appLang].cpIosHint;h.style.display='block';}}})();
 
 // ===== CALENDAR PRODIGY =====
 var cpStep=0,cpDate=null;
