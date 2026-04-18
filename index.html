@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v7.2</title>
+<title>SynaTest v7.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.2</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.3</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.2</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.3</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
 <button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
@@ -119,7 +119,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <h2 id="cp-h2">Calendar Prodigy</h2>
 <div id="setup-view">
 <div class="input-group"><label for="start-date" id="lbl-start-date">Anfangsdatum von</label><input type="date" id="start-date" value="1950-01-01"></div>
-<div class="input-group"><label for="end-date" id="lbl-end-date">Anfangsdatum bis</label><input type="date" id="end-date" value="2000-01-01"></div>
+<div class="input-group"><label for="end-date" id="lbl-end-date">Anfangsdatum bis</label><input type="date" id="end-date" value="2000-01-01" style="pointer-events:auto;opacity:1;"></div>
 <div id="cp-ios-hint" style="display:none;font-size:12px;color:rgba(90,200,250,0.8);font-weight:500;margin-top:-10px;margin-bottom:10px;"></div>
 <div class="checkbox-group"><input type="checkbox" id="show-zodiac"><label for="show-zodiac" id="lbl-zodiac">Sternzeichen anzeigen</label></div>
 <div class="checkbox-group"><input type="checkbox" id="cp-weekday-mode"><label for="cp-weekday-mode" id="lbl-cp-weekday-mode">Wochentag-Modus</label></div>
@@ -311,7 +311,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.2',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.3',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum von',labelEnd:'Anfangsdatum bis',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',cpToday:'Heute',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -378,7 +378,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v7.2',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v7.3',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date from',labelEnd:'Start date to',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',cpToday:'Today',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -809,7 +809,7 @@ function cpShowWeekdayMode(){
     if(this.checked){
       var now=new Date();
       var yy=now.getFullYear(),mm=String(now.getMonth()+1).padStart(2,'0'),dd=String(now.getDate()).padStart(2,'0');
-      eInput.value=yy+'-'+mm+'-'+dd;
+      // eInput.value not overwritten — keeps HTML default 2000-01-01
       // end-date stays enabled and editable
     } else {
       eInput.disabled=false;
@@ -822,8 +822,8 @@ function cpShowWeekdayMode(){
     var now=new Date();
     var yy=now.getFullYear(),mm=String(now.getMonth()+1).padStart(2,'0'),dd=String(now.getDate()).padStart(2,'0');
     eInput.value=yy+'-'+mm+'-'+dd;
-    eInput.disabled=true;
-    eInput.style.opacity='0.45';
+    eInput.disabled=false;eInput.style.opacity='1';eInput.style.pointerEvents='auto';
+    // opacity and disabled cleared above
   })();
 
   gi('btn-generate').addEventListener('click',function(){
