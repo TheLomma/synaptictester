@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.6</title>
+<title>SynaTest v6.7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.6</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.7</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.6</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.7</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
 <button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
@@ -312,7 +312,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.6',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.7',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -379,7 +379,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.6',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.7',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -642,96 +642,188 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 (function(){var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);if(isIOS||isSafari){var h=gi('cp-ios-hint');if(h){h.textContent=T[appLang].cpIosHint;h.style.display='block';}}})();
 
 // ===== CALENDAR PRODIGY =====
-var cpStep=0,cpDate=null;
+// ===== CALENDAR PRODIGY =====
+var cpStep=0,cpDate=null,cpEndDate=null;
 var cpToday=new Date();
 var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
-(function(){var t=new Date(),y=new Date(t.getFullYear(),t.getMonth(),t.getDate()-1);gi('end-date').value=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');})();
-gi('enable-speech').addEventListener('change',function(){gi('speech-settings').style.display=this.checked?'block':'none';});
-gi('btn-generate').addEventListener('click',function(){
-var sVal=gi('start-date').value,eVal=gi('end-date').value;
-if(!sVal||!eVal){alert(T[appLang].alertDates);return;}
-var s=new Date(sVal),e=new Date(eVal);
 var yesterday=new Date(cpTodayOnly.getTime()-864e5);
-if(e>yesterday){e=yesterday;gi('end-date').value=e.getFullYear()+'-'+String(e.getMonth()+1).padStart(2,'0')+'-'+String(e.getDate()).padStart(2,'0');}
-if(isNaN(s)||isNaN(e)||s>=e){alert(T[appLang].alertOrder);return;}
-cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));
-cpStep=0;gi('setup-view').style.display='none';gi('result-view').style.display='block';
-gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;
-gi('btn-next-date').style.display='none';
-if(gi('cp-weekday-mode').checked){cpShowWeekdayMode();}
-else if(gi('enable-speech').checked){cpRunSpeech();}
-else{gi('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'</small>';}
+
+function cpDateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
+
+function cpGetSteps(){
+  var base=['day','month','year'];
+  if(gi('cp-weekday-mode').checked)base.push('weekday');
+  base.push('days');
+  if(gi('show-zodiac').checked)base.push('zodiac');
+  return base;
+}
+
+function cpShowStep(name){
+  var area=gi('display-area');
+  var d=cpDate;
+  switch(name){
+    case 'day':
+      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+d.getDate()+'</div>';
+      break;
+    case 'month':
+      area.innerHTML='<div style="font-size:36px;font-weight:800;">'+d.toLocaleString(T[appLang].locale,{month:'long'})+'</div>';
+      break;
+    case 'year':
+      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+d.getFullYear()+'</div>';
+      break;
+    case 'weekday':
+      if(gi('cp-weekday-mode').checked){
+        cpShowWeekdayMode();
+        return;
+      }
+      area.innerHTML='<div style="font-size:36px;font-weight:800;">'+d.toLocaleString(T[appLang].locale,{weekday:'long'})+'</div>';
+      break;
+    case 'days':
+      var endOnly=cpEndDate?cpDateOnly(cpEndDate):yesterday;
+      var diff=Math.floor((endOnly-cpDateOnly(d))/864e5);
+      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+diff+'</div><div style="font-size:14px;color:var(--text-light);margin-top:4px;">'+T[appLang].daysPassed+'</div>';
+      break;
+    case 'zodiac':
+      area.innerHTML='<div style="font-size:36px;font-weight:800;">'+cpZodiac(d)+'</div>';
+      break;
+  }
+}
+
+function cpNextStep(){
+  if(!cpDate)return;
+  var steps=cpGetSteps();
+  if(cpStep>=steps.length){cpEndSeq();return;}
+  var name=steps[cpStep];
+  cpStep++;
+  cpShowStep(name);
+  if(cpStep>=steps.length){
+    gi('btn-next').disabled=true;
+    gi('btn-next').innerHTML=T[appLang].done;
+    gi('btn-next-date').style.display='block';
+  }
+}
+
+function cpEndSeq(){
+  gi('display-area').innerHTML=T[appLang].seqDone+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].seqHint+'</small>';
+  gi('btn-next').disabled=true;
+  gi('btn-next').innerHTML=T[appLang].btnNext;
+  gi('btn-next-date').style.display='block';
+}
+
+function cpReset(){
+  clearSpeech();
+  cpStep=0;
+  cpDate=null;
+  cpEndDate=null;
+  gi('setup-view').style.display='block';
+  gi('result-view').style.display='none';
+  gi('btn-next').disabled=false;
+  gi('btn-next').innerHTML=T[appLang].btnNext;
+  gi('btn-next-date').style.display='none';
+}
+
+function cpStartSession(sVal,eVal){
+  // Parse start
+  var sParts=sVal.split('-');
+  var s=new Date(parseInt(sParts[0]),parseInt(sParts[1])-1,parseInt(sParts[2]));
+  // Parse end
+  var eParts=eVal.split('-');
+  var e=new Date(parseInt(eParts[0]),parseInt(eParts[1])-1,parseInt(eParts[2]));
+  // Clamp end to yesterday
+  if(e>=cpTodayOnly)e=yesterday;
+  cpEndDate=e;
+  // Generate random date between s and e (date-only, no time)
+  var sTime=s.getTime();
+  var eTime=e.getTime();
+  var range=eTime-sTime;
+  var randMs=Math.floor(Math.random()*(range+864e5));
+  var randD=new Date(sTime+randMs);
+  cpDate=new Date(randD.getFullYear(),randD.getMonth(),randD.getDate());
+  if(cpDateOnly(cpDate)>e)cpDate=e;
+  // Reset step
+  cpStep=0;
+  // Switch view
+  gi('setup-view').style.display='none';
+  gi('result-view').style.display='block';
+  gi('btn-next').disabled=false;
+  gi('btn-next').innerHTML=T[appLang].btnNext;
+  gi('btn-next-date').style.display='none';
+  gi('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'</small>';
+  // Speech mode auto-start skipped — user presses Next Step
+}
+
+// Wochentag-Modus
+var cpWdStats={correct:0,wrong:0};
+try{var _wds=JSON.parse(localStorage.getItem('syna_wd_stats')||'{}');if(_wds.correct)cpWdStats.correct=_wds.correct;if(_wds.wrong)cpWdStats.wrong=_wds.wrong;}catch(e){}
+function cpSaveWdStats(){try{localStorage.setItem('syna_wd_stats',JSON.stringify(cpWdStats));}catch(e){}}
+
+function cpShowWeekdayMode(){
+  var d=cpDate;
+  var day=d.getDate();
+  var month=d.toLocaleString(T[appLang].locale,{month:'long'});
+  var year=d.getFullYear();
+  var fmt=gi('date-format').value;
+  var dateStr=fmt==='YMD'?(year+' / '+month+' / '+day):(day+' / '+month+' / '+year);
+  var correctWd=d.toLocaleString(T[appLang].locale,{weekday:'long'});
+  var weekdays=[];
+  for(var wi=0;wi<7;wi++){var tmp=new Date(2024,0,wi);weekdays.push(tmp.toLocaleString(T[appLang].locale,{weekday:'long'}));}
+  weekdays.sort(function(){return Math.random()-0.5;});
+  var wdBtns='';
+  weekdays.forEach(function(wd){
+    wdBtns+='<button data-wd="'+wd+'" style="padding:8px 10px;font-size:13px;font-weight:600;border-radius:14px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:var(--text);cursor:pointer;touch-action:manipulation;">'+wd+'</button>';
+  });
+  gi('display-area').innerHTML=
+    '<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayHint+'</div>'+
+    '<div style="font-size:22px;font-weight:700;margin-bottom:8px;">'+dateStr+'</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:8px;">'+wdBtns+'</div>'+
+    '<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;">'+
+    '<span style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'</span>'+
+    '<button id="cp-wd-reset-btn" style="font-size:11px;padding:4px 10px;border-radius:10px;min-height:0;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:var(--text);cursor:pointer;">'+T[appLang].cpWdReset+'</button>'+
+    '</div>';
+  var wdResetBtn=gi('cp-wd-reset-btn');
+  if(wdResetBtn){wdResetBtn.addEventListener('click',function(ev){ev.stopPropagation();cpWdStats.correct=0;cpWdStats.wrong=0;cpSaveWdStats();cpShowWeekdayMode();});}
+  gi('display-area').querySelectorAll('[data-wd]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var chosen=btn.getAttribute('data-wd');
+      var ok=(chosen===correctWd);
+      if(ok)cpWdStats.correct++;else cpWdStats.wrong++;
+      cpSaveWdStats();
+      var col=ok?'#51cf66':'#ff6b6b';
+      var icon=ok?'✅':'❌';
+      var msg=ok?(appLang==='de'?'Richtig!':'Correct!'):(appLang==='de'?'Falsch! Richtig: ':'Wrong! Correct: ')+correctWd;
+      gi('display-area').innerHTML=
+        '<div style="font-size:32px;font-weight:800;color:'+col+';margin-bottom:6px;">'+icon+' '+correctWd+'</div>'+
+        '<div style="font-size:14px;color:'+col+';font-weight:600;margin-bottom:8px;">'+msg+'</div>'+
+        '<div style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'</div>';
+      gi('btn-next').style.display='block';
+      gi('btn-next').disabled=true;
+      gi('btn-next-date').style.display='block';
+      if(gi('enable-speech').checked&&!isMuted)speak(correctWd);
+    });
+  });
+  gi('btn-next').disabled=true;
+}
+
+// Button-Bindings
+gi('btn-generate').addEventListener('click',function(){
+  var sVal=gi('start-date').value;
+  var eVal=gi('end-date').value;
+  if(!sVal||!eVal){alert(T[appLang].alertDates);return;}
+  var sParts=sVal.split('-'),eParts=eVal.split('-');
+  var s=new Date(parseInt(sParts[0]),parseInt(sParts[1])-1,parseInt(sParts[2]));
+  var e=new Date(parseInt(eParts[0]),parseInt(eParts[1])-1,parseInt(eParts[2]));
+  if(s>e){alert(T[appLang].alertOrder);return;}
+  cpStartSession(sVal,eVal);
 });
 gi('btn-next').addEventListener('click',cpNextStep);
 gi('btn-reset').addEventListener('click',cpReset);
 gi('btn-next-date').addEventListener('click',function(){
-var s=new Date(gi('start-date').value),e=new Date(gi('end-date').value);
-cpDate=new Date(s.getTime()+Math.random()*(e.getTime()-s.getTime()));
-cpStep=0;gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;gi('btn-next-date').style.display='none';
-if(gi('cp-weekday-mode').checked){cpShowWeekdayMode();}
-else if(gi('enable-speech').checked){cpRunSpeech();}
-else{gi('display-area').innerHTML=T[appLang].cpReady+'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+T[appLang].btnNext+'</small>';}
+  var sVal=gi('start-date').value;
+  var eVal=gi('end-date').value;
+  if(!sVal||!eVal)return;
+  cpStartSession(sVal,eVal);
 });
-function cpGetSteps(){var fmt=gi('date-format').value,z=gi('show-zodiac').checked;var base=fmt==='YMD'?['year','month','day','weekday','days']:['day','month','year','weekday','days'];if(z)base.push('zodiac');return base;}
-function cpNextStep(){
-if(!cpDate)return;
-cpStep++;
-var steps=cpGetSteps();
-if(cpStep>steps.length){cpEndSeq();return;}
-var name=steps[cpStep-1],content='',sub='';
-switch(name){
-case 'year':content=cpDate.getFullYear();break;
-case 'month':content=cpDate.toLocaleString(T[appLang].locale,{month:'long'});break;
-case 'day':content=cpDate.getDate();break;
-case 'weekday':content=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});break;
-case 'days':var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));content=diff;sub=T[appLang].daysPassed;break;
-case 'zodiac':content=cpZodiac(cpDate);break;
-default:cpEndSeq();return;
-}
-gi('display-area').innerHTML=content+(sub?'<br><small style="font-size:14px;font-weight:normal;color:var(--text-light);">'+sub+'</small>':'');
-if(cpStep>=steps.length){gi('btn-next').innerHTML=T[appLang].done;gi('btn-next').disabled=true;}
-}
-function cpEndSeq(){gi('display-area').innerHTML=T[appLang].seqDone+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].seqHint+'</small>';gi('btn-next').disabled=true;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next-date').style.display='block';}
-var cpWdStats={correct:0,wrong:0};
-  try{var _wds=JSON.parse(localStorage.getItem('syna_wd_stats')||'{}');if(_wds.correct)cpWdStats.correct=_wds.correct;if(_wds.wrong)cpWdStats.wrong=_wds.wrong;}catch(e){}
-  function cpSaveWdStats(){try{localStorage.setItem('syna_wd_stats',JSON.stringify(cpWdStats));}catch(e){}}
-  function cpShowWeekdayMode(){
-var fmt=gi('date-format').value,d=cpDate,day=d.getDate(),month=d.toLocaleString(T[appLang].locale,{month:'long'}),year=d.getFullYear();
-var dateStr=fmt==='YMD'?(year+' \u00b7 '+month+' \u00b7 '+day):(day+' \u00b7 '+month+' \u00b7 '+year);
-gi('display-area').innerHTML='<div style="font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayHint+'</div><div style="font-size:22px;font-weight:700;margin-bottom:4px;">'+dateStr+'</div><small style="font-size:13px;color:var(--text-light);">'+T[appLang].cpWeekdayModeHelp+'</small>';
-var correctWd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
-  var wdList=appLang==='de'?['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag']:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  var wdBtns='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:12px;">';
-  wdList.forEach(function(w){wdBtns+='<button class="btn-dark" style="font-size:13px;font-weight:600;padding:10px 6px;border-radius:14px;" data-wd="'+w+'">'+w+'<\/button>';});
-  wdBtns+='<\/div><div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;"><span style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/span><button class="btn-dark" id="cp-wd-reset-btn" style="font-size:11px;padding:4px 10px;border-radius:10px;min-height:0;">'+T[appLang].cpWdReset+'<\/button><\/div>';
-  gi('display-area').innerHTML+= wdBtns;
-  gi('btn-next').style.display='none';
-  var wdResetBtn=gi('cp-wd-reset-btn');if(wdResetBtn){wdResetBtn.addEventListener('click',function(e){e.stopPropagation();cpWdStats.correct=0;cpWdStats.wrong=0;cpSaveWdStats();cpShowWeekdayMode();});}
-    gi('display-area').querySelectorAll('[data-wd]').forEach(function(b){b.addEventListener('click',function(){var chosen=b.getAttribute('data-wd'),ok=(chosen===correctWd);if(ok)cpWdStats.correct++;else cpWdStats.wrong++;cpSaveWdStats();var col=ok?'#51cf66':'#ff6b6b',icon=ok?'✅':'❌';var msg=ok?(appLang==='de'?'Richtig!':'Correct!'):(appLang==='de'?'Falsch! Richtig: ':'Wrong! Correct: ')+correctWd;gi('display-area').innerHTML='<div style="font-size:32px;font-weight:800;color:'+col+';margin-bottom:6px;">'+icon+' '+correctWd+'<\/div><div style="font-size:14px;color:'+col+';font-weight:600;margin-bottom:8px;">'+msg+'<\/div><div style="font-size:11px;color:var(--text-light);">✅ '+cpWdStats.correct+' ❌ '+cpWdStats.wrong+'<\/div>';gi('btn-next').style.display='block';gi('btn-next').disabled=true;gi('btn-next-date').style.display='block';if(gi('enable-speech').checked)speak(correctWd);});});
-  gi('btn-next').onclick=null;
-  //REMOVED
-gi('btn-next').onclick=function(){
-var wd=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
-gi('display-area').innerHTML='<div style="font-size:13px;color:var(--accent);margin-bottom:6px;">'+T[appLang].cpWeekdayDone+'</div><div style="font-size:32px;font-weight:800;">'+wd+'</div>';
-gi('btn-next').disabled=true;gi('btn-next-date').style.display='block';
-if(gi('enable-speech').checked)speak(wd);
-};
-}
-function cpReset(){clearSpeech();cpStep=0;cpDate=null;gi('setup-view').style.display='block';gi('result-view').style.display='none';gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next').onclick=cpNextStep;gi('btn-next-date').style.display='none';}
-function cpRunSpeech(){
-gi('btn-next').disabled=true;gi('display-area').textContent=T[appLang].speechStarting;clearSpeech();
-var d={initial:parseInt(gi('delay-initial').value)*1000,ym:parseInt(gi('delay-year-month').value)*1000,md:parseInt(gi('delay-month-day').value)*1000,dw:parseInt(gi('delay-day-weekday').value)*1000,wd:parseInt(gi('delay-weekday-days').value)*1000,digit:parseInt(gi('delay-digit').value)*1000};
-var fmt=gi('date-format').value;
-var year=cpDate.getFullYear().toString(),month=cpDate.toLocaleString(T[appLang].locale,{month:'long'}),day=cpDate.getDate().toString(),weekday=cpDate.toLocaleString(T[appLang].locale,{weekday:'long'});
-var diff=Math.floor((cpTodayOnly-new Date(cpDate.getFullYear(),cpDate.getMonth(),cpDate.getDate()))/(864e5));
-var diffDigits=diff.toString().split('');
-var showZ=gi('show-zodiac').checked;
-var dateSteps=fmt==='YMD'?[[year,d.initial],[month,d.ym],[day,d.md]]:[[day,d.initial],[month,d.ym],[year,d.md]];
-var area=gi('display-area');
-function runSteps(arr,i,done){if(i>=arr.length){done();return;}area.textContent=arr[i][0];cpStep++;speakPause(arr[i][0],arr[i][1],function(){runSteps(arr,i+1,done);});}
-setTimeout(function(){runSteps(dateSteps,0,function(){cpStep++;area.textContent=weekday;speakPause(weekday,d.dw,function(){cpStep++;area.innerHTML=diff+'<br><small style="font-size:14px;color:var(--text-light);">'+T[appLang].daysPassed+'</small>';function spDigit(i){if(i>=diffDigits.length){if(showZ){setTimeout(function(){cpStep++;var z=cpZodiac(cpDate);area.textContent=z;speakPause(z,1000,cpEndSeq);},d.wd);}else{setTimeout(cpEndSeq,d.wd);}return;}speakPause(diffDigits[i],d.digit,function(){spDigit(i+1);});}spDigit(0);});});},d.initial);
-}
-function cpZodiac(date){var d=date.getDate(),m=date.getMonth()+1;return T[appLang].zodiac(d,m);}
 
 // ===== PI =====
 var PI='14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912983367336244065664308602139494639522473719070217986094370277053921717629317675238467481846766940513200056812714526356082778577134275778960917363717872146844090122495343014654958537105079227968925892354201995611212902196086403441815981362977477130996051870721134999999837297804995105973173281609631859502445945534690830264252230825334468503526193118817101000313783875288658753320838142061717766914730359825349042875546873115956286388235378759375195778185778053217122680661300192787661119590921642019893809525720106548586327886593615338182796823030195203530185296899577362259941389124972177528347913151557485724245415069595082953311686172785588907509838175463746493931925506040092770167113900984882401285836160356370766010471018194295559619894676783744944825537977472684710404753464620804668425906949129331367702898915210475216205696602405803815019351125338243003558764024749647326391419927260426992279678235478163600934172164121992458631503028618297455570674983850549458858692699569092721079750930295532116534498720275596023648066549911988183479775356636980742654252786255181841757467289097777279380008164706001614524919217321721477235014144197356854816136115735255213347574184946843852332390739414333454776241686251898356948556209921922218427255025425688767179049460165346680498862723279178608578438382796797668145410095388378636095068006422512520511739298489608412848862694560424196528502221066118630674427862203919494504712371378696095176237';
