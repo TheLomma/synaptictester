@@ -681,7 +681,7 @@ function cpShowStep(name){
     case 'days':
       var refEnd=cpEndDate?cpDateOnly(cpEndDate):cpTodayOnly;
       var startOnly2=cpDateOnly(d); var diff=Math.round((refEnd.getTime()-startOnly2.getTime())/864e5);
-      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+diff+'</div><div style="font-size:14px;color:var(--text-light);margin-top:4px;">'+T[appLang].daysPassed+'</div>'+'<div style="font-size:12px;color:var(--text-light);margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.12);line-height:2;"><span style="color:var(--accent);">'+startOnly2.toLocaleDateString(T[appLang].locale,{day:\'numeric\',month:\'long\',year:\'numeric\'})+'</span><br>↓<br><span style="color:var(--accent);">'+refEnd.toLocaleDateString(T[appLang].locale,{day:\'numeric\',month:\'long\',year:\'numeric\'})+'</span></div>';
+      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+diff+'</div><div style="font-size:14px;color:var(--text-light);margin-top:4px;">'+T[appLang].daysPassed+'</div>'+'<div style="font-size:12px;color:var(--text-light);margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.12);line-height:2;"><span style="color:var(--accent);">'+startOnly2.toLocaleDateString(T[appLang].locale,{day:'numeric',month:'long',year:'numeric'})+'</span><br>↓<br><span style="color:var(--accent);">'+refEnd.toLocaleDateString(T[appLang].locale,{day:'numeric',month:'long',year:'numeric'})+'</span></div>';
       break;
     case 'zodiac':
       area.innerHTML='<div style="font-size:36px;font-weight:800;">'+cpZodiac(d)+'</div>';
