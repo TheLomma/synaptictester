@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v6.8</title>
+<title>SynaTest v6.9</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -82,14 +82,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.8</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v6.9</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.8</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v6.9</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
 <button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
@@ -312,7 +312,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.8',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v6.9',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum',labelEnd:'Enddatum',
 labelZodiac:'Sternzeichen anzeigen',cpWeekdayMode:'Wochentag-Modus',cpToday:'Heute',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -379,7 +379,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v6.8',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v6.9',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date',labelEnd:'End date',
 labelZodiac:'Show zodiac sign',cpWeekdayMode:'Weekday mode',cpToday:'Today',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -680,8 +680,8 @@ function cpShowStep(name){
       break;
     case 'days':
       var refEnd=cpEndDate?cpDateOnly(cpEndDate):cpTodayOnly;
-      var diff=Math.floor((refEnd-cpDateOnly(d))/864e5);
-      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+diff+'</div><div style="font-size:14px;color:var(--text-light);margin-top:4px;">'+T[appLang].daysPassed+'</div>';
+      var startOnly2=cpDateOnly(d); var diff=Math.round((refEnd.getTime()-startOnly2.getTime())/864e5);
+      area.innerHTML='<div style="font-size:52px;font-weight:800;">'+diff+'</div><div style="font-size:14px;color:var(--text-light);margin-top:4px;">'+T[appLang].daysPassed+'</div>'+'<div style="font-size:12px;color:var(--text-light);margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.12);line-height:2;"><span style="color:var(--accent);">'+startOnly2.toLocaleDateString(T[appLang].locale,{day:\'numeric\',month:\'long\',year:\'numeric\'})+'</span><br>↓<br><span style="color:var(--accent);">'+refEnd.toLocaleDateString(T[appLang].locale,{day:\'numeric\',month:\'long\',year:\'numeric\'})+'</span></div>';
       break;
     case 'zodiac':
       area.innerHTML='<div style="font-size:36px;font-weight:800;">'+cpZodiac(d)+'</div>';
