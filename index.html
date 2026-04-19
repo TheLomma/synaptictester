@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v7.8</title>
+<title>SynaTest v7.9</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -83,14 +83,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.8</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.9</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.8</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.9</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
 <button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
@@ -316,7 +316,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.8',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.9',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum von',labelEnd:'Anfangsdatum bis',
 cpWeekdayMode:'Wochentag-Modus',cpToday:'Heute',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -368,22 +368,22 @@ oeCalcSpeak:'Berechne das Ergebnis und zeig es mir.',oeCalcLabel:'Ergebnis',oeCa
 oeRevealSpeak:'Das Ergebnis ist ',oeRevealSpeakYear:'. Geburtsjahr: ',oeRevealSpeakAge:'. Alter: ',
 volLabel:'&#x1F50A; Lautst\u00e4rke',volHint:'&#x1F509; Lautst\u00e4rke erh\u00f6hen um Sprachausgabe zu aktivieren',buyLink:'Synaptic kaufen',
 helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'W\u00e4hle ein Start- und Enddatum. Die App generiert ein zuf\u00e4lliges Datum und zeigt es Schritt f\u00fcr Schritt auf. Im Wochentag-Modus wird das vollst\u00e4ndige Datum angezeigt \u2013 du r\u00e4tst den Wochentag.'},
-{title:'2 &nbsp;Full Circle Master',text:'Die App zeigt dir Ziffer f\u00fcr Ziffer aus der Kreiszahl Pi an. W\u00e4hle die Leserichtung (vorw\u00e4rts / r\u00fcckw\u00e4rts / zuf\u00e4llig) und stelle die Pause ein. Eine Fortschrittsanzeige zeigt, bei welcher Stelle du dich befindest.'},
-{title:'3 &nbsp;Card Hacker',text:'Die App generiert eine g\u00fcltige Kreditkartennummer (Luhn-gepr\u00fcft) mit einer fehlenden Ziffer. W\u00e4hle optional einen Kartentyp (Visa, Mastercard, Amex, Discover). Rate die fehlende Ziffer!'},
-{title:'4 &nbsp;Foursight Guru',text:'Ein Vier-Gewinnt-Spiel gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent und blockiert deine Gewinnz\u00fcge.'},
-{title:'5 &nbsp;Time Master',text:'Ein pr\u00e4ziser Countdown-Timer. 2 Ziffern = Sekunden, 3 Ziffern = Minuten+Sekunden. Schnellauswahl: 30s, 1 Min, 2 Min, 5 Min.'},
-{title:'6 &nbsp;Order Equation',text:'Die Person denkt an ihr Geburtsjahr. Gib den Altersbereich ein \u2013 die App zeigt Schritt f\u00fcr Schritt eine Rechnung. Das Ergebnis enth\u00fcllt Geburtsjahr und Alter. Bei Min > Max erscheint eine Warnung.'},
-{title:'&#x1F310; &nbsp;Sprachumschalter',text:'Wechselt die gesamte App sofort zwischen Deutsch und Englisch \u2013 alle Texte, Labels und Sprachausgaben werden umgestellt.'},
-{title:'&#x1F50A; &nbsp;Lautst\u00e4rke &amp; Stumm',text:'Lautst\u00e4rke-Schieberegler und Stumm-Knopf steuern die Sprachausgabe.'},
-{title:'\u263D &nbsp;Hell / Dunkel',text:'Wechselt zwischen Hell- und Dunkel-Modus. Die Einstellung wird gespeichert.'}
+{title:'1  Calendar Prodigy',text:'Wähle ein Start- und Enddatum. Die App generiert ein zufälliges Datum und zeigt es Schritt für Schritt auf: Tag → Monat → Jahr → Wochentag → vergangene Tage & Sternzeichen. Im Wochentag-Modus wird das vollständige Datum angezeigt – du rätst den Wochentag. Automatikmodus: nächstes Datum erscheint automatisch nach einstellbarem Intervall.'},
+{title:'2  Full Circle Master',text:'Die App zeigt dir Ziffer für Ziffer aus der Kreiszahl Pi an (20 Stellen pro Runde). Wähle die Leserichtung (vorwärts / rückwärts / zufällig) und stelle die Pause ein. Eine Fortschrittsanzeige zeigt, bei welcher Stelle du dich befindest. Optional: Zahlen anzeigen mit farbiger Kontextanzeige.'},
+{title:'3  Card Hacker',text:'Die App generiert eine gültige Kreditkartennummer (Luhn-geprüft) mit einer fehlenden Ziffer. Wähle optional einen Kartentyp (Visa, Mastercard, Amex, Discover). Die Nummer wird Ziffer für Ziffer vorgelesen – die fehlende Stelle als Ton. Tippe auf eine der Zifferntasten (0–9), um deine Antwort einzugeben. Statistik wird gespeichert.'},
+{title:'4  Foursight Guru',text:'Vier-Gewinnt gegen bis zu 4 App-Spieler gleichzeitig. Die App spielt intelligent, blockiert deine Gewinnzüge und greift aktiv an. Spielfelder können ein- oder ausgeblendet werden. Eine Spielzusammenfassung zeigt Siege, Niederlagen und Züge.'},
+{title:'5  Time Master',text:'Präziser Countdown-Timer. 2 Ziffern = Sekunden, 3 Ziffern = 1. Ziffer Minuten + 2 Ziffern Sekunden. Schnellauswahl: 30s, 1 Min, 2 Min, 5 Min. Visuelle und akustische Hinweise bei 30s, 15s und den letzten 10 Sekunden.'},
+{title:'6  Order Equation',text:'Die Person denkt an ihr Geburtsjahr und gibt es in den Taschenrechner ein. Die App führt Schritt für Schritt durch eine Rechnung mit zufälligen zweistelligen Zahlen. Das Ergebnis enthüllt Geburtsjahr und Alter. Manueller Schritt-Modus möglich. Bei Min > Max erscheint eine Warnung.'},
+{title:'🌐  Sprachumschalter',text:'Wechselt die gesamte App sofort zwischen Deutsch und Englisch – alle Texte, Labels und Sprachausgaben werden umgestellt.'},
+{title:'🔊  Lautstärke &amp; Stumm',text:'Lautstärke-Schieberegler und Stumm-Knopf steuern die Sprachausgabe. Bei Lautstärke 0 ist die App automatisch stummgeschaltet.'},
+{title:'☽  Hell / Dunkel',text:'Wechselt zwischen Hell- und Dunkel-Modus. Die Einstellung wird gespeichert.'}
 ],
 zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Wassermann';if((m==2&&d>=20)||(m==3&&d<=20))return'Fische';if((m==3&&d>=21)||(m==4&&d<=20))return'Widder';if((m==4&&d>=21)||(m==5&&d<=20))return'Stier';if((m==5&&d>=21)||(m==6&&d<=21))return'Zwillinge';if((m==6&&d>=22)||(m==7&&d<=22))return'Krebs';if((m==7&&d>=23)||(m==8&&d<=23))return'L\u00f6we';if((m==8&&d>=24)||(m==9&&d<=23))return'Jungfrau';if((m==9&&d>=24)||(m==10&&d<=23))return'Waage';if((m==10&&d>=24)||(m==11&&d<=22))return'Skorpion';if((m==11&&d>=23)||(m==12&&d<=21))return'Sch\u00fctze';return'Steinbock';},
 locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v7.8',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v7.9',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date from',labelEnd:'Start date to',
 cpWeekdayMode:'Weekday mode',cpToday:'Today',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -435,15 +435,15 @@ oeCalcSpeak:'Calculate the result and show it to me.',oeCalcLabel:'Result',oeCal
 oeRevealSpeak:'The result is ',oeRevealSpeakYear:'. Birth year: ',oeRevealSpeakAge:'. Age: ',
 volLabel:'&#x1F50A; Volume',volHint:'&#x1F509; Increase volume to enable speech output',buyLink:'Buy Synaptic',
 helpItems:[
-{title:'1 &nbsp;Calendar Prodigy',text:'Choose a start and end date. The app generates a random date and reveals it step by step. In Weekday Mode the full date is shown \u2013 you guess the weekday.'},
-{title:'2 &nbsp;Full Circle Master',text:'The app reveals Pi digit by digit. Choose direction (forward / backward / random) and set the pause. A progress indicator shows your current position.'},
-{title:'3 &nbsp;Card Hacker',text:'Generates a valid credit card number (Luhn-checked) with one digit missing. Optionally filter by card type (Visa, Mastercard, Amex, Discover). Guess the missing digit \u2013 tap buttons (0\u20139) to submit your answer.'},
-{title:'4 &nbsp;Foursight Guru',text:'Connect Four against up to 4 app players simultaneously. The app plays intelligently and blocks your winning moves. A game summary shows wins, losses and move counts.'},
-{title:'5 &nbsp;Time Master',text:'Precise countdown timer. 2 digits = seconds, 3 digits = minutes+seconds. Quick presets: 30s, 1 min, 2 min, 5 min. Visual and audio alerts at 30s, 15s and the final 10 seconds.'},
-{title:'6 &nbsp;Order Equation',text:'The person thinks of their birth year. Set the age range \u2013 the app walks through a step-by-step calculation that reveals the birth year and age. A warning appears if Min > Max.'},
-{title:'&#x1F310; &nbsp;Language Switch',text:'Switches the entire app between German and English instantly \u2013 all texts, labels and speech output update immediately.'},
-{title:'&#x1F50A; &nbsp;Volume &amp; Mute',text:'Volume slider and mute button control speech output. At volume 0 the app is automatically muted.'},
-{title:'\u263D &nbsp;Light / Dark',text:'Switches between light and dark mode. The setting is saved automatically.'}
+{title:'1  Calendar Prodigy',text:'Choose a start and end date. The app generates a random date and reveals it step by step: day → month → year → weekday → days passed &amp; star sign. In Weekday Mode the full date is shown – you guess the weekday. Auto mode: next date appears automatically after a configurable interval.'},
+{title:'2  Full Circle Master',text:'The app reveals Pi digit by digit (20 digits per round). Choose direction (forward / backward / random) and set the pause. A progress indicator shows your current position. Optional: show digits with colour-coded context display.'},
+{title:'3  Card Hacker',text:'Generates a valid credit card number (Luhn-checked) with one digit missing. Optionally filter by card type (Visa, Mastercard, Amex, Discover). The number is read digit by digit – the missing digit plays as a tone. Tap a digit button (0–9) to submit your answer. Stats are saved.'},
+{title:'4  Foursight Guru',text:'Connect Four against up to 4 app players simultaneously. The app plays intelligently, blocks your winning moves and attacks actively. Boards can be shown or hidden. A game summary shows wins, losses and move counts.'},
+{title:'5  Time Master',text:'Precise countdown timer. 2 digits = seconds, 3 digits = 1st digit minutes + 2 digits seconds. Quick presets: 30s, 1 min, 2 min, 5 min. Visual and audio alerts at 30s, 15s and the final 10 seconds.'},
+{title:'6  Order Equation',text:'The person thinks of their birth year and enters it into a calculator. The app walks step by step through a calculation using random two-digit numbers. The result reveals the birth year and age. Manual step mode available. A warning appears if Min &gt; Max.'},
+{title:'🌐  Language Switch',text:'Switches the entire app between German and English instantly – all texts, labels and speech output update immediately.'},
+{title:'🔊  Volume &amp; Mute',text:'Volume slider and mute button control speech output. At volume 0 the app is automatically muted.'},
+{title:'☽  Light / Dark',text:'Switches between light and dark mode. The setting is saved automatically.'}
 ],
 zodiac:function(d,m){if((m==1&&d>=21)||(m==2&&d<=19))return'Aquarius';if((m==2&&d>=20)||(m==3&&d<=20))return'Pisces';if((m==3&&d>=21)||(m==4&&d<=20))return'Aries';if((m==4&&d>=21)||(m==5&&d<=20))return'Taurus';if((m==5&&d>=21)||(m==6&&d<=21))return'Gemini';if((m==6&&d>=22)||(m==7&&d<=22))return'Cancer';if((m==7&&d>=23)||(m==8&&d<=23))return'Leo';if((m==8&&d>=24)||(m==9&&d<=23))return'Virgo';if((m==9&&d>=24)||(m==10&&d<=23))return'Libra';if((m==10&&d>=24)||(m==11&&d<=22))return'Scorpio';if((m==11&&d>=23)||(m==12&&d<=21))return'Sagittarius';return'Capricorn';},
 locale:'en-US'
@@ -647,7 +647,6 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 // ===== iOS DATE HINT =====
 (function(){var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);if(isIOS||isSafari){var h=gi('cp-ios-hint');if(h){h.textContent=T[appLang].cpIosHint;h.style.display='block';}}})();
 
-// ===== CALENDAR PRODIGY =====
 // ===== CALENDAR PRODIGY =====
 var cpStep=0,cpDate=null,cpEndDate=null,cpAutoTimer=null,cpAutoCountdown=null,cpAutoRunning=false;
 var cpToday=new Date();
