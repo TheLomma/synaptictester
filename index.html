@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SynaTest v7.7</title>
+<title>SynaTest v7.8</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SynaTest">
@@ -58,6 +58,7 @@ button:active:not(:disabled){transform:scale(0.97);}
 @keyframes tmBadgePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 @keyframes haptic-pulse{0%{box-shadow:0 0 0 0 rgba(77,171,247,0.55)}50%{box-shadow:0 0 0 10px rgba(77,171,247,0)}100%{box-shadow:0 0 0 0 rgba(77,171,247,0)}}
 button.haptic{animation:haptic-pulse 0.35s ease-out;}
+  #btn-back-setup{cursor:pointer;}
 .btn-primary{background:linear-gradient(145deg,rgba(90,200,250,0.55),rgba(90,200,250,0.25));border-color:rgba(90,200,250,0.35);border-top-color:rgba(90,200,250,0.55);box-shadow:0 4px 20px rgba(90,200,250,0.2),inset 0 1px 0 rgba(255,255,255,0.2);}
 .btn-dark{background:rgba(0,0,0,0.32);border-color:rgba(255,255,255,0.12);border-top-color:rgba(255,255,255,0.22);color:white;}
 #btn-generate,#btn-next,#btn-next-date{background:linear-gradient(145deg,rgba(90,200,250,0.55),rgba(90,200,250,0.25));border-color:rgba(90,200,250,0.35);border-top-color:rgba(90,200,250,0.55);}
@@ -82,14 +83,14 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <body>
 <div id="help-modal">
 <div id="help-modal-inner">
-<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.7</h3>
+<h3 id="help-title">&#x2753; Anleitung &ndash; SynaTest v7.8</h3>
 <div id="help-items-container"></div>
 <button id="help-close">Schlie&szlig;en</button>
 </div>
 </div>
 <div class="app-container">
 <div class="app-header">
-<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.7</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
+<div class="app-header-row1"><span style="display:flex;align-items:center;gap:9px;"><span id="app-name-label" style="font-size:17px;font-weight:600;color:var(--text);">SynaTest v7.8</span><span id="tm-header-badge" style="display:none;font-size:12px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.35);border-radius:10px;padding:2px 8px;margin-left:6px;letter-spacing:0.5px;"></span></span></div>
 <div class="app-header-row2">
 <button id="lang-toggle" aria-label="Sprache wechseln">&#x1F310; English</button>
 <button id="mute-toggle" aria-label="Stummschalten">&#x1F507;</button>
@@ -126,6 +127,7 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <select id="date-format"><option value="DMY" selected>TT / MM / JJJJ</option><option value="YMD">JJJJ / MM / TT</option></select></div>
 <div class="checkbox-group" style="margin-top:20px;"><input type="checkbox" id="enable-speech"><label for="enable-speech" id="lbl-enable-speech">Sprachausgabe aktivieren</label></div>
 <div class="checkbox-group"><input type="checkbox" id="cp-auto-mode"><label for="cp-auto-mode" id="lbl-cp-auto-mode">Automatikmodus</label></div>
+  <div id="cp-auto-interval-group" style="display:none;margin-top:-8px;margin-bottom:14px;"><label for="cp-auto-interval" id="lbl-cp-auto-interval" style="display:block;margin-bottom:7px;font-size:13px;font-weight:500;color:var(--text-light);">Zeitabstand zwischen Daten</label><select id="cp-auto-interval" style="width:100%;padding:11px 14px;background:var(--glass-input);border:1px solid rgba(255,255,255,0.12);border-top:1px solid rgba(255,255,255,0.22);border-radius:16px;color:var(--text);font-size:15px;font-family:inherit;-webkit-appearance:none;appearance:none;"><option value="3">3 Sekunden</option><option value="5" selected>5 Sekunden</option><option value="10">10 Sekunden</option><option value="15">15 Sekunden</option></select></div>
 <div id="speech-settings">
 <h4 id="lbl-speech-title">Pausen (Sekunden)</h4>
 <div class="grid">
@@ -140,12 +142,13 @@ button.haptic{animation:haptic-pulse 0.35s ease-out;}
 <div id="cp-date-warning" style="display:none;font-size:12px;color:#ff6b6b;font-weight:500;margin-top:8px;"></div>
 </div>
 <div id="result-view" style="display:none;">
-<button id="btn-back-setup" style="background:none;border:none;box-shadow:none;color:var(--text-light);font-size:13px;font-weight:600;padding:0 0 10px 0;cursor:pointer;display:flex;align-items:center;gap:5px;min-height:0;">&#x276E; <span id="lbl-btn-back">Einstellungen</span></button>
+
 <div id="display-area">Bereit!</div>
 <div class="button-group">
 <button id="btn-next">N&auml;chster Schritt</button>
 <button id="btn-reset">Zur&uuml;cksetzen</button>
 <button id="btn-next-date" style="display:none;grid-column:1/-1;">&#x1F4C5; N&auml;chstes Datum</button>
+<button id="btn-back-setup" type="button" style="grid-column:1/-1;margin-top:4px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:var(--text-light);font-size:13px;">&#x276E; <span id="lbl-btn-back">Einstellungen</span></button>
 </div></div>
 </div>
 
@@ -313,7 +316,7 @@ var APP_COLORS=[{name:'App 1',label:'#ff6b6b'},{name:'App 2',label:'#a9e34b'},{n
 var T={
 de:{
 themeLight:'Hell',themeDark:'Dunkel',langBtn:'&#x1F310; English',
-helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.7',helpClose:'Schlie&szlig;en',
+helpTitle:'&#x2753; Anleitung &ndash; SynaTest v7.8',helpClose:'Schlie&szlig;en',
 cpH2:'Calendar Prodigy',labelStart:'Anfangsdatum von',labelEnd:'Anfangsdatum bis',
 cpWeekdayMode:'Wochentag-Modus',cpToday:'Heute',
 labelFormat:'Datumsformat',fmtDMY:'TT / MM / JJJJ',fmtYMD:'JJJJ / MM / TT',
@@ -380,7 +383,7 @@ locale:'de-DE'
 },
 en:{
 themeLight:'Light',themeDark:'Dark',langBtn:'&#x1F310; Deutsch',
-helpTitle:'&#x2753; Guide &ndash; SynaTest v7.7',helpClose:'Close',
+helpTitle:'&#x2753; Guide &ndash; SynaTest v7.8',helpClose:'Close',
 cpH2:'Calendar Prodigy',labelStart:'Start date from',labelEnd:'Start date to',
 cpWeekdayMode:'Weekday mode',cpToday:'Today',
 labelFormat:'Date format',fmtDMY:'DD / MM / YYYY',fmtYMD:'YYYY / MM / DD',
@@ -391,7 +394,7 @@ cpReady:'Ready!',seqDone:'Sequence complete.',seqHint:'Next date or reset.',
 speechStarting:'Speech starting...',daysPassed:'days passed',done:'Done',
 alertDates:'Please enter start and end date.',alertOrder:'Start date must be before end date.',
 cpWeekdayReveal:'Reveal weekday',cpWeekdayHint:'What weekday is this?',cpWeekdayDone:'Weekday revealed.',
-cpWdReset:'Reset statistics',cpAutoMode:'Auto mode',cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
+cpWdReset:'Reset statistics',cpAutoMode:'Auto mode',cpAutoInterval:'Interval between dates',cpAutoIntervalOpts:['3 seconds','5 seconds','10 seconds','15 seconds'],cpAutoCountdownLabel:'Next date in',cpWeekdayModeHelp:'The full date is shown \u2013 guess the weekday!',
 cpIosHint:'&#x1F4F1; iOS: Enter date as MM/DD/YYYY.',
 cpDateWarn:'&#x26A0;&#xFE0F; End date is in the future \u2013 automatically corrected to yesterday.',
 piH2:'Full Circle Master',piDir:'Direction',piRandom:'Random',piForward:'Forward',piBackward:'Backward',
@@ -535,6 +538,8 @@ gi('lbl-date-format').textContent=t.labelFormat;
 qs('#date-format option[value="DMY"]').textContent=t.fmtDMY;
 qs('#date-format option[value="YMD"]').textContent=t.fmtYMD;
 gi('lbl-enable-speech').innerHTML=t.labelSpeech;
+  var _lbl_ai=gi('lbl-cp-auto-interval');if(_lbl_ai)_lbl_ai.textContent=appLang==='de'?'Zeitabstand zwischen Daten':'Interval between dates';
+  var _sel_ai=gi('cp-auto-interval');if(_sel_ai){var _opts_de=['3 Sekunden','5 Sekunden','10 Sekunden','15 Sekunden'],_opts_en=['3 seconds','5 seconds','10 seconds','15 seconds'],_opts_cur=appLang==='de'?_opts_de:_opts_en;[3,5,10,15].forEach(function(v,ii){var o=_sel_ai.querySelector('option[value="'+v+'"]');if(o)o.textContent=_opts_cur[ii];});}
 gi('lbl-speech-title').innerHTML=t.speechTitle;
 gi('lbl-delay-initial').textContent=t.dStart;
 gi('lbl-delay-ym').textContent=t.dYM;
@@ -644,7 +649,7 @@ if(window.matchMedia){window.matchMedia('(prefers-color-scheme: dark)').addEvent
 
 // ===== CALENDAR PRODIGY =====
 // ===== CALENDAR PRODIGY =====
-var cpStep=0,cpDate=null,cpEndDate=null;
+var cpStep=0,cpDate=null,cpEndDate=null,cpAutoTimer=null,cpAutoCountdown=null,cpAutoRunning=false;
 var cpToday=new Date();
 var cpTodayOnly=new Date(cpToday.getFullYear(),cpToday.getMonth(),cpToday.getDate());
 // yesterday removed — not needed
@@ -714,7 +719,7 @@ function cpEndSeq(){
   gi('btn-next-date').style.display='block';
 }
 
-function cpGoBack(){clearSpeech();cpStep=0;cpDate=null;cpEndDate=null;gi('setup-view').style.display='block';gi('result-view').style.display='none';gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next-date').style.display='none';}
+function cpGoBack(){cpStopAuto();clearSpeech();cpStep=0;cpDate=null;cpEndDate=null;gi('setup-view').style.display='block';gi('result-view').style.display='none';gi('btn-next').disabled=false;gi('btn-next').innerHTML=T[appLang].btnNext;gi('btn-next-date').style.display='none';}
 
   function cpReset(){
   clearSpeech();
@@ -833,6 +838,47 @@ function cpShowWeekdayMode(){
     // opacity and disabled cleared above
   })();
 
+  // Auto-mode checkbox toggle
+  gi('cp-auto-mode').addEventListener('change',function(){
+    gi('cp-auto-interval-group').style.display=this.checked?'block':'none';
+  });
+
+  function cpStopAuto(){
+    if(cpAutoTimer)clearTimeout(cpAutoTimer);
+    if(cpAutoCountdown)clearInterval(cpAutoCountdown);
+    cpAutoTimer=null;cpAutoCountdown=null;cpAutoRunning=false;
+  }
+
+  function cpStartAutoCountdown(sVal,eVal,todayStr){
+    var interval=parseInt(gi('cp-auto-interval').value)||5;
+    var remaining=interval;
+    var area=gi('display-area');
+    function renderCountdown(){
+      area.innerHTML='<div style="font-size:52px;font-weight:800;color:var(--accent);">'+remaining+'</div>'+
+        '<div style="font-size:13px;color:var(--text-light);margin-top:6px;">'+(appLang==='de'?'N\u00e4chstes Datum in...':'Next date in...')+'</div>';
+    }
+    renderCountdown();
+    gi('btn-next').disabled=true;
+    gi('btn-next-date').style.display='none';
+    cpAutoCountdown=setInterval(function(){
+      remaining--;
+      if(remaining<=0){
+        clearInterval(cpAutoCountdown);cpAutoCountdown=null;
+        cpStartSession(sVal,eVal,todayStr);
+        gi('btn-next').disabled=false;
+        gi('btn-next').innerHTML=T[appLang].btnNext;
+        // schedule next auto-round after sequence ends
+        cpAutoTimer=setInterval(function(){
+          var today2=new Date();
+          var ts2=today2.getFullYear()+'-'+String(today2.getMonth()+1).padStart(2,'0')+'-'+String(today2.getDate()).padStart(2,'0');
+          cpStartSession(sVal,eVal,ts2);
+        },interval*1000);
+      } else {
+        renderCountdown();
+      }
+    },1000);
+  }
+
   gi('btn-generate').addEventListener('click',function(){
       var sVal=gi('start-date').value;
       var eVal=gi('end-date').value;
@@ -846,7 +892,13 @@ function cpShowWeekdayMode(){
     cpStartSession(sVal,eVal,todayStr);
   });
 gi('btn-next').addEventListener('click',cpNextStep);
-gi('btn-back-setup').addEventListener('click',cpGoBack);
+(function(){
+    var bbs=gi('btn-back-setup');
+    if(bbs){
+      bbs.addEventListener('click',function(){cpGoBack();});bbs.onclick=null;bbs.style.pointerEvents='auto';bbs.style.zIndex='10';
+      bbs.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();cpGoBack();}};
+    }
+  })();
 gi('btn-reset').addEventListener('click',cpReset);
 gi('btn-next-date').addEventListener('click',function(){
     var sVal=gi('start-date').value;
